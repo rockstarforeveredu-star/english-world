@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>English World</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1d4ed8);
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 30px 15px;
+}
+
+header h1 {
+    font-size: 38px;
+}
+
+header p {
+    margin-top: 8px;
+    color: #dbeafe;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+}
+
+nav button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.container {
+    width: 92%;
+    max-width: 700px;
+    margin: auto;
+}
+
+.section {
+    display: none;
+    background: rgba(255,255,255,0.1);
+    padding: 25px;
+    margin: 20px 0;
+    border-radius: 20px;
+}
+
+.active {
+    display: block;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.word {
+    background: rgba(0,0,0,0.25);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 12px;
+}
+
+.english {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.spanish {
+    color: #bfdbfe;
+    margin-top: 5px;
+}
+
+.question {
+    text-align: center;
+    font-size: 23px;
+    margin: 25px 0;
+}
+
+.answers {
+    display: grid;
+    gap: 12px;
+}
+
+.answer {
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    background: #334155;
+    color: white;
+    font-size: 17px;
+}
+
+.correct {
+    background: #16a34a !important;
+}
+
+.wrong {
+    background: #dc2626 !important;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.points {
+    color: #facc15;
+    font-weight: bold;
+}
+
+.lives {
+    color: #f87171;
+}
+
+.next {
+    display: none;
+    margin: 20px auto;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 12px;
+    background: #f59e0b;
+    color: white;
+    font-size: 17px;
+}
+
+.result {
+    text-align: center;
+    font-size: 25px;
+    line-height: 1.7;
+}
+
+.restart {
+    display: block;
+    margin: 20px auto;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 12px;
+    background: #2563eb;
+    color: white;
+    font-size: 17px;
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #bfdbfe;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>🇺🇸 English World</h1>
+
+<p>Aprende inglés jugando</p>
+
+</header>
+
+<nav>
+
+<button onclick="mostrar('inicio')">🏠 Inicio</button>
+
+<button onclick="mostrar('vocabulario')">
+📚 Vocabulario
+</button>
+
+<button onclick="mostrar('quiz')">
+🎯 Quiz
+</button>
+
+<button onclick="mostrar('puntos')">
+⭐ Puntos
+</button>
+
+</nav>
+
+<div class="container">
+
+<!-- INICIO -->
+
+<section id="inicio" class="section active">
+
+<h2>👋 Bienvenido</h2>
+
+<p style="text-align:center; line-height:1.7;">
+
+Aprende palabras nuevas,
+responde preguntas y consigue puntos.
+
+<br><br>
+
+📚 Estudia
+
+<br>
+
+🎯 Responde
+
+<br>
+
+⭐ Gana puntos
+
+</p>
+
+</section>
+
+
+<!-- VOCABULARIO -->
+
+<section id="vocabulario" class="section">
+
+<h2>📚 Vocabulario</h2>
+
+<div class="word">
+<div class="english">Hello</div>
+<div class="spanish">Hola</div>
+</div>
+
+<div class="word">
+<div class="english">Goodbye</div>
+<div class="spanish">Adiós</div>
+</div>
+
+<div class="word">
+<div class="english">House</div>
+<div class="spanish">Casa</div>
+</div>
+
+<div class="word">
+<div class="english">Water</div>
+<div class="spanish">Agua</div>
+</div>
+
+<div class="word">
+<div class="english">Food</div>
+<div class="spanish">Comida</div>
+</div>
+
+<div class="word">
+<div class="english">Friend</div>
+<div class="spanish">Amigo / Amiga</div>
+</div>
+
+<div class="word">
+<div class="english">School</div>
+<div class="spanish">Escuela</div>
+</div>
+
+<div class="word">
+<div class="english">Book</div>
+<div class="spanish">Libro</div>
+</div>
+
+<div class="word">
+<div class="english">Car</div>
+<div class="spanish">Carro</div>
+</div>
+
+<div class="word">
+<div class="english">Dog</div>
+<div class="spanish">Perro</div>
+</div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section id="quiz" class="section">
+
+<h2>🎯 Quiz de inglés</h2>
+
+<div class="info">
+
+<span>
+⭐ <span class="points" id="score">0</span>
+</span>
+
+<span>
+❤️ <span class="lives" id="lives">3</span>
+</span>
+
+</div>
+
+<p id="progress" style="text-align:center;">
+Pregunta 1 de 10
+</p>
+
+<div class="question" id="question"></div>
+
+<div class="answers" id="answers"></div>
+
+<button class="next" id="next" onclick="siguientePregunta()">
+Siguiente ➡️
+</button>
+
+</section>
+
+
+<!-- PUNTOS -->
+
+<section id="puntos" class="section">
+
+<h2>⭐ Mis puntos</h2>
+
+<div class="result">
+
+<p>
+Puntos guardados:
+</p>
+
+<p class="points" id="savedScore">
+0
+</p>
+
+</div>
+
+</section>
+
+</div>
+
+
+<footer>
+
+English World 📚
+
+</footer>
+
+
+<script>
+
+let preguntas = [
+
+{
+pregunta: '¿Qué significa "Hello"?',
+respuestas: ['Hola', 'Adiós', 'Casa'],
+correcta: 0
+},
+
+{
+pregunta: '¿Qué significa "House"?',
+respuestas: ['Agua', 'Casa', 'Perro'],
+correcta: 1
+},
+
+{
+pregunta: '¿Qué significa "Water"?',
+respuestas: ['Comida', 'Agua', 'Libro'],
+correcta: 1
+},
+
+{
+pregunta: '¿Qué significa "Dog"?',
+respuestas: ['Perro', 'Carro', 'Amigo'],
+correcta: 0
+},
+
+{
+pregunta: '¿Qué significa "Book"?',
+respuestas: ['Escuela', 'Libro', 'Casa'],
+correcta: 1
+},
+
+{
+pregunta: '¿Qué significa "Friend"?',
+respuestas: ['Amigo', 'Agua', 'Adiós'],
+correcta: 0
+},
+
+{
+pregunta: '¿Qué significa "School"?',
+respuestas: ['Comida', 'Escuela', 'Carro'],
+correcta: 1
+},
+
+{
+pregunta: '¿Qué significa "Food"?',
+respuestas: ['Comida', 'Perro', 'Libro'],
+correcta: 0
+},
+
+{
+pregunta: '¿Qué significa "Car"?',
+respuestas: ['Casa', 'Carro', 'Agua'],
+correcta: 1
+},
+
+{
+pregunta: '¿Qué significa "Goodbye"?',
+respuestas: ['Hola', 'Amigo', 'Adiós'],
+correcta: 2
+}
+
+];
+
+
+let preguntaActual = 0;
+
+let puntos = 0;
+
+let vidas = 3;
+
+let respondido = false;
+
+
+function mostrar(seccion) {
+
+let secciones =
+document.querySelectorAll(".section");
+
+secciones.forEach(function(s) {
+
+s.classList.remove("active");
+
+});
+
+document
+.getElementById(seccion)
+.classList.add("active");
+
+}
+
+
+function cargarPregunta() {
+
+respondido = false;
+
+let pregunta = preguntas[preguntaActual];
+
+document.getElementById("question").innerText =
+pregunta.pregunta;
+
+document.getElementById("progress").innerText =
+"Pregunta " + (preguntaActual + 1) + " de " + preguntas.length;
+
+document.getElementById("lives").innerText =
+vidas;
+
+let contenedor =
+document.getElementById("answers");
+
+contenedor.innerHTML = "";
+
+document.getElementById("next").style.display =
+"none";
+
+
+pregunta.respuestas.forEach(function(respuesta, indice) {
+
+let boton =
+document.createElement("button");
+
+boton.className = "answer";
+
+boton.innerText = respuesta;
+
+boton.onclick = function() {
+
+comprobar(boton, indice);
+
+};
+
+contenedor.appendChild(boton);
+
+});
+
+}
+
+
+function comprobar(boton, indice) {
+
+if (respondido) return;
+
+respondido = true;
+
+let pregunta = preguntas[preguntaActual];
+
+let botones =
+document.querySelectorAll(".answer");
+
+botones.forEach(function(b) {
+
+b.disabled = true;
+
+});
+
+
+if (indice === pregunta.correcta) {
+
+boton.classList.add("correct");
+
+puntos += 10;
+
+document.getElementById("score").innerText =
+puntos;
+
+localStorage.setItem("puntos", puntos);
+
+} else {
+
+boton.classList.add("wrong");
+
+vidas--;
+
+document.getElementById("lives").innerText =
+vidas;
+
+botones[pregunta.correcta]
+.classList.add("correct");
+
+}
+
+
+if (vidas <= 0) {
+
+setTimeout(finalizarQuiz, 800);
+
+return;
+
+}
+
+
+document.getElementById("next").style.display =
+"block";
+
+}
+
+
+function siguientePregunta() {
+
+preguntaActual++;
+
+if (preguntaActual >= preguntas.length) {
+
+finalizarQuiz();
+
+} else {
+
+cargarPregunta();
+
+}
+
+}
+
+
+function finalizarQuiz() {
+
+document.getElementById("question").innerText =
+"🏆 ¡Quiz terminado!";
+
+document.getElementById("progress").innerText =
+"Resultado final";
+
+document.getElementById("answers").innerHTML =
+"<div class='result'>⭐ " +
+puntos +
+" puntos<br>❤️ " +
+vidas +
+" vidas restantes</div>";
+
+document.getElementById("next").style.display =
+"none";
+
+}
+
+
+function iniciarQuiz() {
+
+preguntaActual = 0;
+
+puntos = 0;
+
+vidas = 3;
+
+document.getElementById("score").innerText = 0;
+
+document.getElementById("lives").innerText = 3;
+
+cargarPregunta();
+
+}
+
+
+document.getElementById("savedScore").innerText =
+localStorage.getItem("puntos") || 0;
+
+
+iniciarQuiz();
+
+</script>
+
+</body>
+</html>
