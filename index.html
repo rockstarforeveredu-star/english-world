@@ -627,7 +627,7 @@ body.dark .feedback.bad{
       <h3>📚 Lecciones</h3>
       <p>Avanza por las lecciones de inglés.</p>
       <br>
-      <strong id="homeLessons">0 / 10</strong>
+      <strong id="homeLessons">0 / 20</strong>
     </div>
 
   </div>
@@ -1083,7 +1083,7 @@ function lessonProgress(index){
 function countCompletedLessons(){
   let total=0;
 
-  for(let i=0;i<10;i++){
+  for(let i=0;i<20;i++){
     if(isLessonComplete(i)) total++;
   }
 
@@ -1251,7 +1251,157 @@ const lessons=[
       ["listen","escuchar"],
       ["learn","aprender"]
     ]
-  }
+  },
+  {
+    title:"Presentaciones",
+    words:[
+      ["name","nombre"],
+      ["first","primero"],
+      ["last","último"],
+      ["call","llamar"],
+      ["meet","conocer"],
+      ["people","personas"],
+      ["hello","hola"],
+      ["introduce","presentar"],
+      ["live","vivir"],
+      ["from","de"]
+    ]
+  },
+  {
+    title:"Objetos de la casa",
+    words:[
+      ["phone","teléfono"],
+      ["computer","computadora"],
+      ["book","libro"],
+      ["bag","bolsa"],
+      ["box","caja"],
+      ["key","llave"],
+      ["cup","taza"],
+      ["plate","plato"],
+      ["glass","vaso"],
+      ["lamp","lámpara"]
+    ]
+  },
+  {
+    title:"Personas",
+    words:[
+      ["boy","niño"],
+      ["girl","niña"],
+      ["baby","bebé"],
+      ["parent","padre"],
+      ["teacher","maestro"],
+      ["student","estudiante"],
+      ["friend","amigo"],
+      ["neighbor","vecino"],
+      ["person","persona"],
+      ["people","personas"]
+    ]
+  },
+  {
+    title:"Más comida",
+    words:[
+      ["orange","naranja"],
+      ["egg","huevo"],
+      ["cheese","queso"],
+      ["chicken","pollo"],
+      ["fish","pescado"],
+      ["soup","sopa"],
+      ["cake","pastel"],
+      ["sugar","azúcar"],
+      ["salt","sal"],
+      ["juice","jugo"]
+    ]
+  },
+  {
+    title:"Escuela y estudio",
+    words:[
+      ["desk","escritorio"],
+      ["classroom","salón"],
+      ["test","examen"],
+      ["homework","tarea"],
+      ["schoolbag","mochila"],
+      ["page","página"],
+      ["word","palabra"],
+      ["sentence","oración"],
+      ["read","leer"],
+      ["study","estudiar"]
+    ]
+  },
+  {
+    title:"Viajes y transporte",
+    words:[
+      ["plane","avión"],
+      ["airport","aeropuerto"],
+      ["hotel","hotel"],
+      ["trip","viaje"],
+      ["travel","viajar"],
+      ["map","mapa"],
+      ["train","tren"],
+      ["bus","autobús"],
+      ["driver","conductor"],
+      ["car","carro"]
+    ]
+  },
+  {
+    title:"Compras",
+    words:[
+      ["store","tienda"],
+      ["price","precio"],
+      ["cheap","barato"],
+      ["expensive","caro"],
+      ["buy","comprar"],
+      ["sell","vender"],
+      ["pay","pagar"],
+      ["cash","efectivo"],
+      ["card","tarjeta"],
+      ["size","talla"]
+    ]
+  },
+  {
+    title:"Emociones",
+    words:[
+      ["love","amor"],
+      ["like","gustar"],
+      ["want","querer"],
+      ["need","necesitar"],
+      ["feel","sentir"],
+      ["angry","enojado"],
+      ["afraid","asustado"],
+      ["tired","cansado"],
+      ["excited","emocionado"],
+      ["okay","bien"]
+    ]
+  },
+  {
+    title:"Rutinas diarias",
+    words:[
+      ["wake","despertar"],
+      ["wash","lavar"],
+      ["dress","vestir"],
+      ["work","trabajar"],
+      ["cook","cocinar"],
+      ["walk","caminar"],
+      ["run","correr"],
+      ["play","jugar"],
+      ["watch","mirar"],
+      ["rest","descansar"]
+    ]
+  },
+  {
+    title:"Conversación básica",
+    words:[
+      ["what","qué"],
+      ["where","dónde"],
+      ["when","cuándo"],
+      ["who","quién"],
+      ["why","por qué"],
+      ["how","cómo"],
+      ["here","aquí"],
+      ["there","allí"],
+      ["now","ahora"],
+      ["later","después"]
+    ]
+  },
 ];
 
 /* =========================
@@ -1576,6 +1726,8 @@ function renderLessons(){
 }
 
 let currentLesson=0;
+let lessonCorrectCount=0;
+let lessonFirstAttemptCount=0;
 let currentQuestion=0;
 let lessonMistakes=[];
 let lessonQueue=[];
@@ -1591,6 +1743,8 @@ function openLesson(index){
   }
 
   currentLesson=index;
+  lessonCorrectCount=0;
+  lessonFirstAttemptCount=0;
   currentQuestion=0;
   lessonReviewIndex=0;
   lessonReviewRound=false;
@@ -1824,6 +1978,9 @@ function answerLesson(encoded){
 
   if(isCorrect){
 
+    lessonFirstAttemptCount++;
+    lessonCorrectCount++;
+
     registerWordCorrect(correct[0]);
 
     document.getElementById("lessonFeedback").innerHTML=`
@@ -1845,6 +2002,8 @@ function answerLesson(encoded){
     `;
 
   }else{
+
+    lessonFirstAttemptCount++;
 
     registerWordWrong(correct[0]);
 
@@ -2123,12 +2282,43 @@ function finishLesson(){
 
   const key=lessonKey(currentLesson);
 
+  const total=lessonFirstAttemptCount || 10;
+  const percentage=Math.round(
+    (lessonCorrectCount/total)*100
+  );
+
+  let stars="";
+  let rating="";
+  let bonusXP=10;
+
+  if(percentage===100){
+    stars="⭐⭐⭐⭐⭐";
+    rating="¡Excelente!";
+    bonusXP=30;
+  }else if(percentage>=90){
+    stars="⭐⭐⭐⭐";
+    rating="¡Muy bien!";
+    bonusXP=25;
+  }else if(percentage>=70){
+    stars="⭐⭐⭐";
+    rating="¡Bien!";
+    bonusXP=20;
+  }else if(percentage>=50){
+    stars="⭐⭐";
+    rating="Sigue practicando";
+    bonusXP=15;
+  }else{
+    stars="⭐";
+    rating="Necesita repaso";
+    bonusXP=10;
+  }
+
   state.lessonProgress[key]=100;
 
   delete state.lessonPosition[key];
   delete state.lessonMistakes[key];
 
-  state.xp+=25;
+  state.xp+=bonusXP;
   state.coins+=10;
 
   registerStudyDay();
@@ -2140,28 +2330,24 @@ function finishLesson(){
 
   let nextButton="";
 
-  if(currentLesson<9){
+  if(currentLesson<19){
 
     nextButton=`
-
       <button
         class="btn success"
         onclick="goNextLesson()">
         Siguiente lección →
       </button>
-
     `;
 
   }else{
 
     nextButton=`
-
       <button
         class="btn gold"
         onclick="startA1Exam()">
         🏆 Ir al examen A1
       </button>
-
     `;
 
   }
@@ -2169,18 +2355,24 @@ function finishLesson(){
   showModal(
     "🎉 ¡Lección completada!",
     `
-
       <div style="text-align:center">
 
-        <h2>Excelente trabajo</h2>
+        <h2>${rating}</h2>
+
+        <div style="font-size:32px;margin:12px 0">
+          ${stars}
+        </div>
+
+        <p style="font-size:22px;font-weight:bold">
+          ${percentage}%
+        </p>
 
         <p style="margin:12px 0;color:var(--muted)">
-          Has completado la lección
-          ${currentLesson+1}.
+          Aciertos: ${lessonCorrectCount}/${total}
         </p>
 
         <p>
-          ⭐ +25 XP
+          ⭐ +${bonusXP} XP
           &nbsp;&nbsp;
           🪙 +10 monedas
         </p>
@@ -2196,7 +2388,6 @@ function finishLesson(){
         </button>
 
       </div>
-
     `
   );
 
@@ -3365,11 +3556,20 @@ function equipItem(id){
 
   state.equippedItem=id;
 
+  // Si es un avatar, también lo convertimos en avatar activo
+  const avatar=shopItems.find(item=>item[0]===id);
+
+  if(avatar && id.startsWith("avatar_")){
+    state.equippedAvatar=avatar[1].split(" ")[0];
+  }
+
   saveState();
 
   toast("✨ Objeto equipado.");
 
   renderInventory();
+  renderProfile();
+  updateStats();
 
 }
 
