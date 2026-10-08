@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -692,11 +692,34 @@ body.dark .feedback.bad{
 
 <section id="lessons" class="page">
 
-  <h1>🎓 Lecciones A1</h1>
+  <h1>🎓 Lecciones</h1>
 
   <p style="color:var(--muted);margin:8px 0 20px">
     Completa las lecciones en orden.
   </p>
+
+  <div style="
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+  ">
+
+    <button
+      id="levelLessonsA1"
+      class="btn"
+      onclick="selectLessonLevel('A1')">
+      📘 A1
+    </button>
+
+    <button
+      id="levelLessonsA2"
+      class="btn secondary"
+      onclick="selectLessonLevel('A2')">
+      📗 A2 🔒
+    </button>
+
+  </div>
 
   <div id="lessonsList" class="grid"></div>
 
@@ -779,74 +802,71 @@ body.dark .feedback.bad{
 
 </section>
 
-<!-- CAMERA -->
+<!-- CAMERA: TRADUCTOR INTEGRADO EN LA PESTAÑA EXISTENTE -->
 <section id="camera" class="page">
+  <div id="ewCam" style="max-width:850px;margin:0 auto;padding:18px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;font-family:Arial,sans-serif;box-sizing:border-box">
 
-  <h1>📷 Traductor con cámara</h1>
+  <h2 style="margin-top:0">📸 Traductor con cámara</h2>
+  <p>Lee textos en inglés y descubre su significado en español.</p>
 
-  <p style="color:var(--muted);margin:8px 0 20px">
-    Apunta la cámara hacia un texto para intentar reconocerlo.
-  </p>
-
-  <div class="card">
-
-    <video
-      id="cameraVideo"
-      autoplay
-      playsinline
-      muted
-      style="
-        width:100%;
-        max-width:600px;
-        display:block;
-        margin:auto;
-        border-radius:18px;
-        background:#000;
-      "
-    ></video>
-
-    <canvas
-      id="cameraCanvas"
-      style="display:none"
-    ></canvas>
-
-    <div style="text-align:center;margin-top:15px">
-
-      <button
-        class="btn"
-        onclick="startLiveCamera()"
-      >
-        📷 Encender cámara
-      </button>
-
-      <button
-        class="btn secondary"
-        onclick="stopLiveCamera()"
-        style="margin-left:8px"
-      >
-        ⏹️ Detener
-      </button>
-
-    </div>
-
-    <div
-      id="cameraStatus"
-      style="
-        text-align:center;
-        margin-top:15px;
-        color:var(--muted);
-      "
-    >
-      Cámara apagada
-    </div>
-
-    <div
-      id="cameraTextResult"
-      style="margin-top:18px"
-    ></div>
-
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
+    <button id="ewPhotoTab" type="button">📷 Traducir foto</button>
+    <button id="ewLiveTab" type="button">🎥 Cámara en vivo</button>
   </div>
 
+  <div id="ewPhotoPanel">
+    <label for="ewFile">Elige una foto o toma una fotografía:</label>
+    <input id="ewFile" type="file" accept="image/*" capture="environment"
+      style="display:block;width:100%;margin:12px 0">
+
+    <img id="ewPreview" alt="Foto seleccionada"
+      style="display:none;width:100%;max-height:350px;object-fit:contain;border-radius:12px">
+
+    <button id="ewReadPhoto" type="button">🔎 Leer y traducir foto</button>
+  </div>
+
+  <div id="ewLivePanel" style="display:none">
+    <video id="ewVideo" autoplay playsinline muted
+      style="width:100%;max-height:350px;background:#000;border-radius:12px"></video>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button id="ewStartCamera" type="button">▶️ Encender cámara</button>
+      <button id="ewStopCamera" type="button">⏹️ Apagar cámara</button>
+    </div>
+
+    <p style="font-size:13px">Mantén el texto quieto, enfocado y bien iluminado.</p>
+  </div>
+
+  <p id="ewStatus" role="status" aria-live="polite">Listo para comenzar.</p>
+
+  <div style="margin-top:15px">
+    <h3>Texto en inglés</h3>
+    <textarea id="ewEnglish" rows="4" placeholder="Aquí aparecerá el texto reconocido..."
+      style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px"></textarea>
+  </div>
+
+  <button id="ewTranslate" type="button" style="margin-top:10px">🌎 Traducir al español</button>
+
+  <div style="margin-top:15px">
+    <h3>Traducción al español</h3>
+    <div id="ewSpanish" aria-live="polite"
+      style="min-height:55px;padding:12px;background:#fff;color:#17251f;border-radius:10px;white-space:pre-wrap">Tu traducción aparecerá aquí.</div>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+    <button id="ewSpeakEnglish" type="button">🔊 Escuchar inglés</button>
+    <button id="ewSpeakSpanish" type="button">🔊 Escuchar español</button>
+    <button id="ewCopy" type="button">📋 Copiar texto</button>
+  </div>
+
+  <canvas id="ewCanvas" style="display:none"></canvas>
+
+  <p style="font-size:12px;opacity:.8;margin-bottom:0">
+    Necesitas Internet para el reconocimiento inicial y la traducción.
+    Las traducciones pueden contener errores; revisa los textos importantes.
+  </p>
+
+  </div>
 </section>
 
 <!-- ACHIEVEMENTS -->
@@ -1551,6 +1571,174 @@ const lessons=[
 ];
 
 /* =========================
+   LECCIONES A2
+========================= */
+
+const lessonsA2=[
+
+  {
+    title:"Conversaciones avanzadas",
+    words:[
+      ["How was your day?","¿Cómo estuvo tu día?"],
+      ["It was pretty good.","Estuvo bastante bien."],
+      ["What did you do today?","¿Qué hiciste hoy?"],
+      ["I went to work early.","Fui al trabajo temprano."],
+      ["I was very tired.","Estaba muy cansado."],
+      ["What are you doing later?","¿Qué vas a hacer después?"],
+      ["I am going to meet a friend.","Voy a encontrarme con un amigo."],
+      ["That sounds interesting.","Eso suena interesante."],
+      ["I don't agree with you.","No estoy de acuerdo contigo."],
+      ["Let me think about it.","Déjame pensarlo."]
+    ]
+  },
+
+  {
+    title:"Viajes y transporte",
+    words:[
+      ["Where is the nearest station?","¿Dónde está la estación más cercana?"],
+      ["How long does the trip take?","¿Cuánto dura el viaje?"],
+      ["I need a ticket to London.","Necesito un boleto a Londres."],
+      ["What time does the bus leave?","¿A qué hora sale el autobús?"],
+      ["The train was delayed.","El tren se retrasó."],
+      ["We arrived late at night.","Llegamos tarde por la noche."],
+      ["I have never been there before.","Nunca he estado allí antes."],
+      ["Can you show me the way?","¿Puedes mostrarme el camino?"],
+      ["I think we are lost.","Creo que estamos perdidos."],
+      ["How much is a return ticket?","¿Cuánto cuesta un boleto de ida y vuelta?"]
+    ]
+  },
+
+  {
+    title:"Compras y servicios",
+    words:[
+      ["How much does this cost?","¿Cuánto cuesta esto?"],
+      ["Do you have a larger size?","¿Tiene una talla más grande?"],
+      ["Can I try it on?","¿Puedo probármelo?"],
+      ["I am looking for a jacket.","Estoy buscando una chaqueta."],
+      ["This one is too expensive.","Este es demasiado caro."],
+      ["Do you accept credit cards?","¿Aceptan tarjetas de crédito?"],
+      ["I would like to return this.","Me gustaría devolver esto."],
+      ["There is a problem with the product.","Hay un problema con el producto."],
+      ["Can I get a refund?","¿Puedo obtener un reembolso?"],
+      ["I bought it yesterday.","Lo compré ayer."]
+    ]
+  },
+
+  {
+    title:"Restaurante y comida",
+    words:[
+      ["Could I see the menu, please?","¿Podría ver el menú, por favor?"],
+      ["What do you recommend?","¿Qué recomienda?"],
+      ["I would like a glass of water.","Me gustaría un vaso de agua."],
+      ["Can I have the chicken, please?","¿Me puede dar el pollo, por favor?"],
+      ["I don't eat meat.","No como carne."],
+      ["This food is delicious.","Esta comida está deliciosa."],
+      ["Could we have the bill, please?","¿Podríamos tener la cuenta, por favor?"],
+      ["Is service included?","¿Está incluido el servicio?"],
+      ["I ordered something different.","Pedí algo diferente."],
+      ["There is a mistake with my order.","Hay un error con mi pedido."]
+    ]
+  },
+
+  {
+    title:"Trabajo y profesiones",
+    words:[
+      ["What do you do for a living?","¿A qué te dedicas?"],
+      ["I work in an office.","Trabajo en una oficina."],
+      ["I have been working here for two years.","He estado trabajando aquí durante dos años."],
+      ["I usually start at eight.","Normalmente empiezo a las ocho."],
+      ["I have an important meeting today.","Tengo una reunión importante hoy."],
+      ["My boss asked me a question.","Mi jefe me hizo una pregunta."],
+      ["I need to finish this project.","Necesito terminar este proyecto."],
+      ["I am looking for a new job.","Estoy buscando un nuevo trabajo."],
+      ["I sent my application yesterday.","Envié mi solicitud ayer."],
+      ["I would like to learn new skills.","Me gustaría aprender nuevas habilidades."]
+    ]
+  },
+
+  {
+    title:"Tecnología e internet",
+    words:[
+      ["I forgot my password.","Olvidé mi contraseña."],
+      ["My phone is not working.","Mi teléfono no funciona."],
+      ["The internet is very slow.","El internet está muy lento."],
+      ["Can you send me the file?","¿Puedes enviarme el archivo?"],
+      ["I downloaded the application.","Descargué la aplicación."],
+      ["I need to update my computer.","Necesito actualizar mi computadora."],
+      ["I received an important message.","Recibí un mensaje importante."],
+      ["Can you help me with this problem?","¿Puedes ayudarme con este problema?"],
+      ["I use my phone every day.","Uso mi teléfono todos los días."],
+      ["I learned something new online.","Aprendí algo nuevo en internet."]
+    ]
+  },
+
+  {
+    title:"Salud y situaciones difíciles",
+    words:[
+      ["I don't feel well.","No me siento bien."],
+      ["I have a headache.","Tengo dolor de cabeza."],
+      ["How long have you felt sick?","¿Cuánto tiempo te has sentido enfermo?"],
+      ["I have felt sick since yesterday.","Me he sentido enfermo desde ayer."],
+      ["I need to see a doctor.","Necesito ver a un médico."],
+      ["Where is the nearest hospital?","¿Dónde está el hospital más cercano?"],
+      ["You should get some rest.","Deberías descansar un poco."],
+      ["You need to drink more water.","Necesitas beber más agua."],
+      ["I hurt my leg yesterday.","Me lastimé la pierna ayer."],
+      ["I hope you feel better soon.","Espero que te sientas mejor pronto."]
+    ]
+  },
+
+  {
+    title:"Tiempo y clima",
+    words:[
+      ["What is the weather like today?","¿Cómo está el clima hoy?"],
+      ["It is warmer than yesterday.","Está más cálido que ayer."],
+      ["It might rain later.","Podría llover después."],
+      ["I think it will be sunny tomorrow.","Creo que mañana estará soleado."],
+      ["It was raining when I left.","Estaba lloviendo cuando salí."],
+      ["The weather changed suddenly.","El clima cambió de repente."],
+      ["It is too cold outside.","Hace demasiado frío afuera."],
+      ["We should stay inside.","Deberíamos quedarnos adentro."],
+      ["What was the weather like yesterday?","¿Cómo estuvo el clima ayer?"],
+      ["I prefer warm weather.","Prefiero el clima cálido."]
+    ]
+  },
+
+  {
+    title:"Educación y estudio",
+    words:[
+      ["What are you studying?","¿Qué estás estudiando?"],
+      ["I am learning English.","Estoy aprendiendo inglés."],
+      ["I have an exam tomorrow.","Tengo un examen mañana."],
+      ["I studied for two hours.","Estudié durante dos horas."],
+      ["This exercise is difficult.","Este ejercicio es difícil."],
+      ["Can you explain this again?","¿Puedes explicar esto otra vez?"],
+      ["I don't understand this question.","No entiendo esta pregunta."],
+      ["I need to practice more.","Necesito practicar más."],
+      ["I made a mistake in the exercise.","Cometí un error en el ejercicio."],
+      ["I want to improve my English.","Quiero mejorar mi inglés."]
+    ]
+  },
+
+  {
+    title:"Opiniones y preferencias",
+    words:[
+      ["What do you think about it?","¿Qué piensas al respecto?"],
+      ["I think it is a good idea.","Creo que es una buena idea."],
+      ["In my opinion, it is better.","En mi opinión, es mejor."],
+      ["I prefer this one.","Prefiero este."],
+      ["I agree with you.","Estoy de acuerdo contigo."],
+      ["I don't agree with that.","No estoy de acuerdo con eso."],
+      ["It is more interesting than the other one.","Es más interesante que el otro."],
+      ["I think we should wait.","Creo que deberíamos esperar."],
+      ["That sounds like a good idea.","Eso suena como una buena idea."],
+      ["I am not sure about that.","No estoy seguro de eso."]
+    ]
+  }
+
+];
+
+/* =========================
    VOCABULARIO EXTRA
 ========================= */
 
@@ -1696,8 +1884,7 @@ const extraWords=[
 ["write","escribir","Verbos"],
 ["speak","hablar","Verbos"],
 ["listen","escuchar","Verbos"],
-["learn","aprender","Verbos"]
-,
+["learn","aprender","Verbos"],
 ["parents","padres","Familia"],
 ["grandfather","abuelo","Familia"],
 ["grandmother","abuela","Familia"],
@@ -2372,7 +2559,80 @@ const extraWords=[
 ["shoreline","línea costera","Naturaleza"],
 ["coastline","costa","Naturaleza"],
 ["riverbank","orilla del río","Naturaleza"],
-["lakeside","orilla del lago","Naturaleza"]];
+["lakeside","orilla del lago","Naturaleza"],
+["twenty-one","veintiuno","Números"],
+["twenty-two","veintidós","Números"],
+["twenty-three","veintitrés","Números"],
+["twenty-four","veinticuatro","Números"],
+["twenty-five","veinticinco","Números"],
+["twenty-six","veintiséis","Números"],
+["twenty-seven","veintisiete","Números"],
+["twenty-eight","veintiocho","Números"],
+["twenty-nine","veintinueve","Números"],
+["thirty-one","treinta y uno","Números"],
+["thirty-two","treinta y dos","Números"],
+["thirty-three","treinta y tres","Números"],
+["thirty-four","treinta y cuatro","Números"],
+["thirty-five","treinta y cinco","Números"],
+["thirty-six","treinta y seis","Números"],
+["thirty-seven","treinta y siete","Números"],
+["thirty-eight","treinta y ocho","Números"],
+["thirty-nine","treinta y nueve","Números"],
+["forty-one","cuarenta y uno","Números"],
+["forty-two","cuarenta y dos","Números"],
+["forty-three","cuarenta y tres","Números"],
+["forty-four","cuarenta y cuatro","Números"],
+["forty-five","cuarenta y cinco","Números"],
+["forty-six","cuarenta y seis","Números"],
+["forty-seven","cuarenta y siete","Números"],
+["forty-eight","cuarenta y ocho","Números"],
+["forty-nine","cuarenta y nueve","Números"],
+["fifty-one","cincuenta y uno","Números"],
+["fifty-two","cincuenta y dos","Números"],
+["fifty-three","cincuenta y tres","Números"],
+["fifty-four","cincuenta y cuatro","Números"],
+["fifty-five","cincuenta y cinco","Números"],
+["fifty-six","cincuenta y seis","Números"],
+["fifty-seven","cincuenta y siete","Números"],
+["fifty-eight","cincuenta y ocho","Números"],
+["fifty-nine","cincuenta y nueve","Números"],
+["sixty-one","sesenta y uno","Números"],
+["sixty-two","sesenta y dos","Números"],
+["sixty-three","sesenta y tres","Números"],
+["sixty-four","sesenta y cuatro","Números"],
+["sixty-five","sesenta y cinco","Números"],
+["sixty-six","sesenta y seis","Números"],
+["sixty-seven","sesenta y siete","Números"],
+["sixty-eight","sesenta y ocho","Números"],
+["sixty-nine","sesenta y nueve","Números"],
+["seventy-one","setenta y uno","Números"],
+["seventy-two","setenta y dos","Números"],
+["seventy-three","setenta y tres","Números"],
+["seventy-four","setenta y cuatro","Números"],
+["seventy-five","setenta y cinco","Números"],
+["seventy-six","setenta y seis","Números"],
+["seventy-seven","setenta y siete","Números"],
+["seventy-eight","setenta y ocho","Números"],
+["seventy-nine","setenta y nueve","Números"],
+["eighty-one","ochenta y uno","Números"],
+["eighty-two","ochenta y dos","Números"],
+["eighty-three","ochenta y tres","Números"],
+["eighty-four","ochenta y cuatro","Números"],
+["eighty-five","ochenta y cinco","Números"],
+["eighty-six","ochenta y seis","Números"],
+["eighty-seven","ochenta y siete","Números"],
+["eighty-eight","ochenta y ocho","Números"],
+["eighty-nine","ochenta y nueve","Números"],
+["ninety-one","noventa y uno","Números"],
+["ninety-two","noventa y dos","Números"],
+["ninety-three","noventa y tres","Números"],
+["ninety-four","noventa y cuatro","Números"],
+["ninety-five","noventa y cinco","Números"],
+["ninety-six","noventa y seis","Números"],
+["ninety-seven","noventa y siete","Números"],
+["ninety-eight","noventa y ocho","Números"],
+["ninety-nine","noventa y nueve","Números"]
+];
 
 /* =========================
    FRASES
@@ -2833,6 +3093,96 @@ const phrases=[
 ["Family","Familia","Familia"],
 ["Son-in-law","Yerno","Familia"],
 ["Daughter-in-law","Nuera","Familia"],
+["Hi!","¡Hola!","Saludos"],
+["Hey!","¡Hola!","Saludos"],
+["Good evening!","¡Buenas noches!","Saludos"],
+["Bye!","¡Adiós!","Saludos"],
+["See you later.","Hasta luego.","Saludos"],
+["See you soon.","Nos vemos pronto.","Saludos"],
+["Have a good day!","¡Que tengas un buen día!","Saludos"],
+["Nice to meet you.","Mucho gusto.","Saludos"],
+["Nice to see you.","Qué gusto verte.","Saludos"],
+["How are you doing?","¿Cómo estás?","Saludos"],
+["How's it going?","¿Cómo va todo?","Saludos"],
+["Thank you very much.","Muchas gracias.","Cortesía"],
+["Thanks!","¡Gracias!","Cortesía"],
+["Please.","Por favor.","Cortesía"],
+["Excuse me.","Disculpe / Perdón.","Cortesía"],
+["I'm sorry.","Lo siento.","Cortesía"],
+["No problem.","No hay problema.","Cortesía"],
+["That's okay.","Está bien.","Cortesía"],
+["Don't worry.","No te preocupes.","Cortesía"],
+["Good luck!","¡Buena suerte!","Cortesía"],
+["Congratulations!","¡Felicidades!","Cortesía"],
+["What's your name?","¿Cómo te llamas?","Conversación"],
+["Where are you from?","¿De dónde eres?","Conversación"],
+["I am from Guatemala.","Soy de Guatemala.","Conversación"],
+["Where do you live?","¿Dónde vives?","Conversación"],
+["I live in...","Vivo en...","Conversación"],
+["How old are you?","¿Cuántos años tienes?","Conversación"],
+["I am ... years old.","Tengo ... años.","Conversación"],
+["What are you doing?","¿Qué estás haciendo?","Conversación"],
+["What do you mean?","¿Qué quieres decir?","Conversación"],
+["What does this mean?","¿Qué significa esto?","Conversación"],
+["What is this?","¿Qué es esto?","Conversación"],
+["What is that?","¿Qué es eso?","Conversación"],
+["I understand.","Entiendo.","Comunicación"],
+["I don't know.","No sé.","Comunicación"],
+["I know.","Lo sé.","Comunicación"],
+["I forgot.","Lo olvidé.","Comunicación"],
+["I remember.","Lo recuerdo.","Comunicación"],
+["Can you help me?","¿Puedes ayudarme?","Comunicación"],
+["Help me, please.","Ayúdame, por favor.","Comunicación"],
+["Can you repeat that?","¿Puedes repetir eso?","Comunicación"],
+["Please repeat.","Por favor, repite.","Comunicación"],
+["Please speak slowly.","Por favor, habla despacio.","Comunicación"],
+["I don't speak English.","No hablo inglés.","Comunicación"],
+["I speak a little English.","Hablo un poco de inglés.","Comunicación"],
+["How do you say this in English?","¿Cómo se dice esto en inglés?","Comunicación"],
+["How do you spell it?","¿Cómo se deletrea?","Comunicación"],
+["What?","¿Qué?","Preguntas"],
+["Who?","¿Quién?","Preguntas"],
+["Where?","¿Dónde?","Preguntas"],
+["When?","¿Cuándo?","Preguntas"],
+["Why?","¿Por qué?","Preguntas"],
+["How?","¿Cómo?","Preguntas"],
+["Which one?","¿Cuál?","Preguntas"],
+["How much?","¿Cuánto?","Preguntas"],
+["How many?","¿Cuántos?","Preguntas"],
+["What happened?","¿Qué pasó?","Preguntas"],
+["What do you want?","¿Qué quieres?","Preguntas"],
+["Yes, of course.","Sí, por supuesto.","Conversación"],
+["No, thank you.","No, gracias.","Conversación"],
+["Maybe.","Tal vez.","Conversación"],
+["Really?","¿De verdad?","Conversación"],
+["Are you sure?","¿Estás seguro?","Conversación"],
+["I think so.","Creo que sí.","Conversación"],
+["I don't think so.","No creo.","Conversación"],
+["That's right.","Eso es correcto.","Conversación"],
+["That's not right.","Eso no es correcto.","Conversación"],
+["Wait a moment.","Espera un momento.","Conversación"],
+["One moment, please.","Un momento, por favor.","Conversación"],
+["Come here, please.","Ven aquí, por favor.","Conversación"],
+["Be careful!","¡Ten cuidado!","Conversación"],
+["Listen to me.","Escúchame.","Conversación"],
+["Look at this.","Mira esto.","Conversación"],
+["I am ready.","Estoy listo.","Vida diaria"],
+["I am coming.","Ya voy.","Vida diaria"],
+["I am leaving.","Me voy.","Vida diaria"],
+["Wait for me.","Espérame.","Vida diaria"],
+["Come with me.","Ven conmigo.","Vida diaria"],
+["Let's go!","¡Vamos!","Vida diaria"],
+["Let's do it!","¡Hagámoslo!","Vida diaria"],
+["What are you looking for?","¿Qué estás buscando?","Vida diaria"],
+["I need help.","Necesito ayuda.","Vida diaria"],
+["I need this.","Necesito esto.","Vida diaria"],
+["I like it.","Me gusta.","Vida diaria"],
+["I don't like it.","No me gusta.","Vida diaria"],
+["I love it.","Me encanta.","Vida diaria"],
+["I don't know yet.","Todavía no lo sé.","Vida diaria"],
+["Not yet.","Todavía no.","Vida diaria"],
+["Right now.","Ahora mismo.","Vida diaria"],
+["Take care!","¡Cuídate!","Vida diaria"]
 ];
 
 /* =========================
@@ -2843,7 +3193,7 @@ function renderLevels(){
 
   const levels=[
     ["A1","Principiante","Fundamentos del inglés",true],
-    ["A2","Básico","Conversaciones cotidianas",state.examPassed],
+    ["A2","Básico","Conversaciones cotidianas",state.examPassed || countCompletedLessons() >= 20],
     ["B1","Intermedio","Comunicación más avanzada",false],
     ["B2","Intermedio alto","Inglés avanzado",false]
   ];
@@ -2864,7 +3214,11 @@ function renderLevels(){
 
         ${
           l[3]
-          ? `<button class="btn" onclick="go('lessons')">
+          ? `<button class="btn" onclick="${
+              l[0]==="A2"
+              ? "selectedLessonLevel='A2';go('lessons');renderLessons();"
+              : "selectedLessonLevel='A1';go('lessons');renderLessons();"
+            }">
               Entrar
              </button>`
           : `<span style="color:var(--muted)">
@@ -2883,68 +3237,278 @@ function renderLevels(){
 
 function renderLessons(){
 
-  document.getElementById("lessonsList").innerHTML=
-    lessons.map((lesson,index)=>{
+  const box=document.getElementById("lessonsList");
 
-      const unlocked=isLessonUnlocked(index);
-      const progress=lessonProgress(index);
+  if(!box) return;
 
-      return `
+  const a2Unlocked =
+    state.examPassed ||
+    countCompletedLessons() >= 20;
 
-        <div class="card ${unlocked?"":"locked"}">
+  const btnA1=document.getElementById("levelLessonsA1");
+  const btnA2=document.getElementById("levelLessonsA2");
 
-          <div class="lessonCard">
+  if(btnA1){
+    btnA1.className =
+      selectedLessonLevel==="A1"
+      ? "btn"
+      : "btn secondary";
+  }
 
-            <div class="lessonNumber">
-              ${unlocked?(index+1):"🔒"}
-            </div>
+  if(btnA2){
 
-            <div style="flex:1">
+    btnA2.className =
+      selectedLessonLevel==="A2"
+      ? "btn"
+      : "btn secondary";
 
-              <h3>Lección ${index+1}</h3>
+    btnA2.innerHTML =
+      a2Unlocked
+      ? "📗 A2"
+      : "📗 A2 🔒";
 
-              <p>${lesson.title}</p>
+  }
 
-              <div class="progress" style="margin-top:10px">
+  if(selectedLessonLevel==="A2" && !a2Unlocked){
+
+    box.innerHTML=`
+
+      <div class="card">
+
+        <div style="text-align:center">
+
+          <div style="font-size:50px">
+            🔒
+          </div>
+
+          <h2>A2 bloqueado</h2>
+
+          <p style="color:var(--muted)">
+            Completa las 20 lecciones de A1
+            para desbloquear A2.
+          </p>
+
+          <button
+            class="btn"
+            onclick="selectLessonLevel('A1')">
+            📘 Volver a A1
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+  if(selectedLessonLevel==="A1"){
+
+    document.querySelector("#lessons h1").textContent =
+      "🎓 Lecciones A1";
+
+    box.innerHTML =
+      lessons.map((lesson,index)=>{
+
+        const unlocked=
+          isLessonUnlocked(index);
+
+        const progress=
+          lessonProgress(index);
+
+        return `
+
+          <div class="card ${unlocked?"":"locked"}">
+
+            <div class="lessonCard">
+
+              <div class="lessonNumber">
+                ${unlocked?(index+1):"🔒"}
+              </div>
+
+              <div style="flex:1">
+
+                <h3>
+                  Lección ${index+1}
+                </h3>
+
+                <p>
+                  ${lesson.title}
+                </p>
 
                 <div
-                  class="progressBar"
-                  style="width:${progress}%"
-                ></div>
+                  class="progress"
+                  style="margin-top:10px">
+
+                  <div
+                    class="progressBar"
+                    style="width:${progress}%">
+                  </div>
+
+                </div>
+
+                <small style="color:var(--muted)">
+                  ${progress}% completado
+                </small>
+
+                <div
+                  style="margin-top:5px;font-size:18px">
+
+                  ${state.lessonStars[
+                    lessonKey(index)
+                  ]||""}
+
+                </div>
 
               </div>
 
-              <small style="color:var(--muted)">
-                ${progress}% completado
-              </small>
+            </div>
 
-              <div style="margin-top:5px;font-size:18px">
-                ${state.lessonStars[lessonKey(index)]||""}
+            <br>
+
+            ${
+              unlocked
+
+              ? `<button
+                  class="btn"
+                  onclick="openLesson(${index})">
+
+                  ${progress===100
+                    ?"🔁 Repetir"
+                    :"▶️ Abrir"}
+
+                </button>`
+
+              : `<span style="color:var(--muted)">
+                  🔒 Completa la lección anterior
+                </span>`
+            }
+
+          </div>
+
+        `;
+
+      }).join("");
+
+    return;
+  }
+
+  /* =========================
+     A2
+  ========================= */
+
+  document.querySelector("#lessons h1").textContent =
+    "🎓 Lecciones A2";
+
+  box.innerHTML = lessonsA2.map((lesson,index)=>{
+
+    const key = "A2-"+index;
+
+    const unlocked =
+      index === 0 ||
+      state.lessonProgress["A2-"+(index-1)] === 100;
+
+    const progress =
+      state.lessonProgress[key] || 0;
+
+    return `
+
+      <div class="card ${unlocked ? "" : "locked"}">
+
+        <div class="lessonCard">
+
+          <div class="lessonNumber">
+            ${unlocked ? (index+1) : "🔒"}
+          </div>
+
+          <div style="flex:1">
+
+            <h3>
+              Lección A2-${index+1}
+            </h3>
+
+            <p>
+              ${lesson.title}
+            </p>
+
+            <div
+              class="progress"
+              style="margin-top:10px">
+
+              <div
+                class="progressBar"
+                style="width:${progress}%">
               </div>
 
+            </div>
+
+            <small style="color:var(--muted)">
+              ${progress}% completado
+            </small>
+
+            <div style="margin-top:5px;font-size:18px">
+              ${state.lessonStars[key] || ""}
             </div>
 
           </div>
 
-          <br>
-
-          ${
-            unlocked
-            ? `<button class="btn"
-                onclick="openLesson(${index})">
-                ${progress===100?"🔁 Repetir":"▶️ Abrir"}
-               </button>`
-            : `<span style="color:var(--muted)">
-                🔒 Completa la lección anterior
-               </span>`
-          }
-
         </div>
 
-      `;
+        <br>
 
-    }).join("");
+        ${
+          unlocked
+
+          ? `<button
+              class="btn"
+              onclick="openA2Lesson(${index})">
+
+              ${progress===100
+                ? "🔁 Repetir"
+                : "▶️ Abrir"}
+
+            </button>`
+
+          : `<span style="color:var(--muted)">
+              🔒 Completa la lección anterior
+            </span>`
+        }
+
+      </div>
+
+    `;
+
+  }).join("");
+
 }
+
+function selectLessonLevel(level){
+
+  if(level==="A2"){
+
+    const unlocked =
+      state.examPassed ||
+      countCompletedLessons() >= 20;
+
+    if(!unlocked){
+
+      toast("🔒 Completa las 20 lecciones A1.");
+
+      return;
+
+    }
+
+  }
+
+  selectedLessonLevel=level;
+
+  renderLessons();
+
+}
+
+let selectedLessonLevel="A1";
 
 let currentLesson=0;
 let lessonCorrectCount=0;
@@ -3057,6 +3621,542 @@ function showLessonIntro(){
     `Lección ${currentLesson+1}: ${lesson.title}`,
     html
   );
+}
+
+/* =========================
+   MOTOR DE LECCIONES A2
+========================= */
+
+let currentA2Lesson=0;
+let currentA2Question=0;
+let a2QuestionTypes=[];
+let a2Mistakes=[];
+let a2Correct=0;
+
+function a2LessonKey(index){
+  return "A2-"+index;
+}
+
+function openA2Lesson(index){
+
+  const unlocked =
+    index===0 ||
+    state.lessonProgress[a2LessonKey(index-1)]===100;
+
+  if(!unlocked){
+    toast("🔒 Completa la lección A2 anterior.");
+    return;
+  }
+
+  currentA2Lesson=index;
+  currentA2Question=0;
+  a2Correct=0;
+  a2Mistakes=[];
+
+  const key=a2LessonKey(index);
+
+  if(state.lessonProgress[key]===100){
+    delete state.lessonPosition[key];
+    delete state.lessonMistakes[key];
+  }
+
+  saveState();
+
+  showA2LessonIntro();
+}
+
+function showA2LessonIntro(){
+
+  const lesson=lessonsA2[currentA2Lesson];
+
+  let html=`
+
+    <p style="color:var(--muted)">
+      Estudia estas 10 expresiones antes de comenzar.
+    </p>
+
+    <div style="margin-top:15px">
+  `;
+
+  lesson.words.forEach((w,i)=>{
+
+    html+=`
+
+      <div class="word">
+
+        <div>
+
+          <div class="wordEnglish">
+            ${i+1}. ${w[0]}
+          </div>
+
+          <div class="wordSpanish">
+            ${w[1]}
+          </div>
+
+        </div>
+
+        <button
+          class="audioBtn"
+          onclick="speakEnglish('${w[0].replace(/'/g,"\\'")}')">
+          🔊
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+  html+=`
+
+    </div>
+
+    <br>
+
+    <button
+      class="btn"
+      onclick="startA2Exercises()">
+      🚀 Comenzar ejercicios
+    </button>
+
+  `;
+
+  showModal(
+    `A2-${currentA2Lesson+1}: ${lesson.title}`,
+    html
+  );
+}
+
+function startA2Exercises(){
+
+  const types=[
+    "meaning",
+    "translate",
+    "complete",
+    "response"
+  ];
+
+  a2QuestionTypes=[];
+
+  for(let i=0;i<10;i++){
+    a2QuestionTypes.push(types[i%types.length]);
+  }
+
+  a2QuestionTypes=shuffle(a2QuestionTypes);
+
+  renderA2Question();
+
+  document.getElementById("modalLayer").classList.add("show");
+}
+
+function renderA2Question(){
+
+  const lesson=lessonsA2[currentA2Lesson];
+
+  if(currentA2Question>=lesson.words.length){
+
+    finishA2Lesson();
+
+    return;
+  }
+
+  const word=lesson.words[currentA2Question];
+  const type=a2QuestionTypes[currentA2Question];
+
+  let html=`
+    <div style="margin-bottom:15px">
+
+      <div style="color:var(--muted)">
+        Pregunta ${currentA2Question+1} de ${lesson.words.length}
+      </div>
+
+    </div>
+  `;
+
+  if(type==="meaning"){
+
+    const choices=buildA2Choices(word,lesson.words,1);
+
+    html+=`
+
+      <div class="card">
+
+        <div style="font-size:25px;font-weight:bold;display:flex;align-items:center;justify-content:center;gap:10px">
+          <span>${word[0]}</span>
+          <button
+            class="audioBtn"
+            onclick="speakEnglish('${word[0].replace(/'/g,"\\'")}')">
+            🔊
+          </button>
+        </div>
+
+        <p>
+          ¿Qué significa?
+        </p>
+
+        <div class="choices">
+
+          ${choices.map((x,i)=>`
+
+            <button
+              class="choice"
+              onclick="answerA2(${i},'meaning')">
+
+              ${x[1]}
+
+            </button>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+    window.a2Choices=choices;
+    window.a2CorrectIndex=choices.indexOf(word);
+
+  }
+
+  else if(type==="translate"){
+
+    const choices=buildA2Choices(word,lesson.words,0);
+
+    html+=`
+
+      <div class="card">
+
+        <div style="font-size:25px;font-weight:bold">
+          ${word[1]}
+        </div>
+
+        <p>
+          Elige la frase correcta en inglés.
+        </p>
+
+        <div class="choices">
+
+          ${choices.map((x,i)=>`
+
+            <button
+              class="choice"
+              onclick="answerA2(${i},'translate')">
+
+              ${x[0]}
+
+            </button>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+    window.a2Choices=choices;
+    window.a2CorrectIndex=choices.indexOf(word);
+
+  }
+
+  else if(type==="complete"){
+
+    const parts=word[0].split(" ");
+
+    if(parts.length<4){
+
+      a2QuestionTypes[currentA2Question]="meaning";
+
+      renderA2Question();
+
+      return;
+    }
+
+    const blankIndex=
+      Math.floor(parts.length/2);
+
+    const answer=parts[blankIndex];
+
+    const shown=parts.map((x,i)=>
+      i===blankIndex ? "_____" : x
+    ).join(" ");
+
+    const allWords=lesson.words.map(x=>x[0].split(" "))
+      .map(x=>x[Math.floor(x.length/2)])
+      .filter(Boolean);
+
+    const unique=[...new Set(allWords)];
+
+    const others=shuffle(
+      unique.filter(x=>x!==answer)
+    ).slice(0,3);
+
+    const choices=shuffle([
+      answer,
+      ...others
+    ]);
+
+    html+=`
+
+      <div class="card">
+
+        <div style="font-size:24px;font-weight:bold;display:flex;align-items:center;justify-content:center;gap:10px">
+          <span>${shown}</span>
+          <button
+            class="audioBtn"
+            onclick="speakEnglish('${word[0].replace(/'/g,"\\'")}')">
+            🔊
+          </button>
+        </div>
+
+        <p>
+          Elige la palabra que falta.
+        </p>
+
+        <div class="choices">
+
+          ${choices.map((x,i)=>`
+
+            <button
+              class="choice"
+              onclick="answerA2(${i},'complete')">
+
+              ${x}
+
+            </button>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+    window.a2Choices=choices;
+    window.a2CorrectIndex=choices.indexOf(answer);
+
+  }
+
+  else{
+
+    const choices=buildA2Choices(word,lesson.words,0);
+
+    html+=`
+
+      <div class="card">
+
+        <p style="color:var(--muted)">
+          Alguien dice:
+        </p>
+
+        <div style="font-size:22px;font-weight:bold">
+          ${word[1]}
+        </div>
+
+        <div style="margin:12px 0">
+
+          <button
+            class="audioBtn"
+            onclick="speakEnglish('${word[0].replace(/'/g,"\\'")}')">
+            🔊 Escuchar frase en inglés
+          </button>
+
+        </div>
+
+        <p>
+          ¿Qué responderías en inglés?
+        </p>
+
+        <div class="choices">
+
+          ${choices.map((x,i)=>`
+
+            <button
+              class="choice"
+              onclick="answerA2(${i},'response')">
+
+              ${x[0]}
+
+            </button>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    `;
+
+    window.a2Choices=choices;
+    window.a2CorrectIndex=choices.indexOf(word);
+
+  }
+
+  document.getElementById("modalBody").innerHTML=html;
+}
+
+function buildA2Choices(correct,all,field){
+
+  const others=shuffle(
+    all.filter(x=>x!==correct)
+  ).slice(0,3);
+
+  return shuffle([
+    correct,
+    ...others
+  ]);
+}
+
+function answerA2(index,type){
+
+  const correct =
+    index===window.a2CorrectIndex;
+
+  const buttons=
+    document.querySelectorAll("#modalBody .choice");
+
+  buttons.forEach((b,i)=>{
+
+    b.disabled=true;
+
+    if(i===window.a2CorrectIndex){
+      b.classList.add("correct");
+    }
+
+    if(i===index && !correct){
+      b.classList.add("wrong");
+    }
+
+  });
+
+  if(correct){
+
+    a2Correct++;
+
+    state.xp+=5;
+    state.coins+=1;
+
+    toast("✅ ¡Correcto!");
+
+  }else{
+
+    const lesson=lessonsA2[currentA2Lesson];
+
+    if(!a2Mistakes.some(x=>x[0]===lesson.words[currentA2Question][0])){
+      a2Mistakes.push(lesson.words[currentA2Question]);
+    }
+
+    toast("❌ Respuesta incorrecta");
+
+  }
+
+  setTimeout(()=>{
+
+    currentA2Question++;
+
+    renderA2Question();
+
+  },900);
+
+}
+
+function finishA2Lesson(){
+
+  const key=a2LessonKey(currentA2Lesson);
+
+  const percentage=
+    Math.round((a2Correct/10)*100);
+
+  let stars="⭐";
+
+  if(percentage>=90){
+    stars="⭐⭐⭐";
+  }else if(percentage>=70){
+    stars="⭐⭐";
+  }
+
+  const alreadyCompleted =
+    state.lessonProgress[key]===100;
+
+  state.lessonProgress[key]=100;
+  state.lessonStars[key]=stars;
+
+  if(!alreadyCompleted){
+
+    state.xp+=50;
+    state.coins+=10;
+
+    registerStudyDay();
+
+  }
+
+  saveState();
+
+  renderLessons();
+  updateStats();
+
+  const next =
+    currentA2Lesson<lessonsA2.length-1
+
+    ? `<button
+        class="btn success"
+        onclick="goNextA2Lesson()">
+        Siguiente lección →
+       </button>`
+
+    : `<button
+        class="btn gold"
+        onclick="closeModal()">
+        🏆 Continuar
+       </button>`;
+
+  showModal(
+
+    `A2-${currentA2Lesson+1} completada`,
+
+    `
+
+      <div style="text-align:center">
+
+        <div style="font-size:50px">
+          ${stars}
+        </div>
+
+        <h2>
+          ¡Lección completada!
+        </h2>
+
+        <p>
+          Resultado: <b>${percentage}%</b>
+        </p>
+
+        <p style="color:var(--muted)">
+          ${a2Correct} de 10 respuestas correctas.
+        </p>
+
+        <br>
+
+        ${next}
+
+      </div>
+
+    `
+
+  );
+
+}
+
+function goNextA2Lesson(){
+
+  closeModal();
+
+  if(currentA2Lesson<lessonsA2.length-1){
+    openA2Lesson(currentA2Lesson+1);
+  }
+
 }
 
 function startLessonExercises(){
@@ -3652,130 +4752,134 @@ function goNextLesson(){
 }
 
 /* =========================
-   PALABRAS
+   DICCIONARIO
 ========================= */
 
 let activeWordCategory="Todas";
+let activePhraseCategory="Todas";
 
 function setupCategories(){
 
+  const box=document.getElementById("wordFilters");
+
+  if(!box) return;
+
   const categories=[
     "Todas",
-    ...new Set(extraWords.map(w=>w[2]))
+    ...new Set([
+      ...extraWords.map(w=>w[2]),
+      ...phrases.map(p=>p[2])
+    ].filter(Boolean))
   ];
 
-  document.getElementById("wordFilters").innerHTML=
-    categories.map(c=>`
+  box.innerHTML=categories.map(c=>`
+    <button
+      class="filter ${c==="Todas"?"active":""}"
+      onclick="setUnifiedCategory('${c.replace(/'/g,"\\'")}')">
+      ${c}
+    </button>
+  `).join("");
 
-      <button
-        class="filter ${c==="Todas"?"active":""}"
-        onclick="setWordCategory('${c.replace(/'/g,"\\'")}')">
-        ${c}
-      </button>
+  const phraseBox=document.getElementById("phraseFilters");
 
-    `).join("");
-
-  const phraseCategories=[
-    "Todas",
-    ...new Set(phrases.map(p=>p[2]))
-  ];
-
-  document.getElementById("phraseFilters").innerHTML=
-    phraseCategories.map(c=>`
-
-      <button
-        class="filter ${c==="Todas"?"active":""}"
-        onclick="setPhraseCategory('${c.replace(/'/g,"\\'")}')">
-        ${c}
-      </button>
-
-    `).join("");
+  if(phraseBox){
+    phraseBox.innerHTML="";
+  }
 
 }
 
-function setWordCategory(category){
+function setUnifiedCategory(category){
 
   activeWordCategory=category;
+  activePhraseCategory=category;
 
   document.querySelectorAll("#wordFilters .filter")
     .forEach(btn=>{
       btn.classList.toggle(
         "active",
-        btn.textContent===category
+        btn.textContent.trim()===category
       );
     });
 
   renderWords();
+  renderPhrases();
 
 }
 
 function renderWords(){
 
+  const input=document.getElementById("dictionarySearch");
+
   const search=normalizeText(
-    document.getElementById("wordSearch")?.value
+    input ? input.value : ""
   );
 
-  let data=extraWords.filter(w=>{
+  const data=extraWords.filter(w=>{
 
-    const matchesCategory=
+    const categoryOK=
       activeWordCategory==="Todas" ||
       w[2]===activeWordCategory;
 
-    const matchesSearch=
+    const searchOK=
       !search ||
       normalizeText(w[0]).includes(search) ||
       normalizeText(w[1]).includes(search);
 
-    return matchesCategory&&matchesSearch;
+    return categoryOK && searchOK;
 
   });
 
+  const box=document.getElementById("wordsList");
+
+  if(!box) return;
+
   if(!data.length){
 
-    document.getElementById("wordsList").innerHTML=
-      `<p style="color:var(--muted)">
+    box.innerHTML=`
+      <p style="color:var(--muted)">
         No encontramos esa palabra.
-       </p>`;
+      </p>
+    `;
 
     return;
+
   }
 
-  document.getElementById("wordsList").innerHTML=
-    data.map(w=>`
+  box.innerHTML=data.map(w=>`
 
-      <div class="word">
+    <div class="word">
 
-        <div>
+      <div>
 
-          <div class="wordEnglish">
-            ${w[0]}
-          </div>
-
-          <div class="wordSpanish">
-            ${w[1]} · ${w[2]}
-          </div>
-
+        <div class="wordEnglish">
+          ${w[0]}
         </div>
 
-        <div style="display:flex;gap:6px">
-
-          <button
-            class="audioBtn"
-            onclick="speakEnglish('${w[0].replace(/'/g,"\\'")}')">
-            🔊
-          </button>
-
-          <button
-            class="audioBtn"
-            onclick="toggleFavoriteWord('${w[0].replace(/'/g,"\\'")}')">
-            ${state.favorites.includes(w[0])?"❤️":"🤍"}
-          </button>
-
+        <div class="wordSpanish">
+          ${w[1]} · ${w[2]}
         </div>
 
       </div>
 
-    `).join("");
+      <div style="display:flex;gap:6px">
+
+        <button
+          class="audioBtn"
+          onclick="speakEnglish('${w[0].replace(/'/g,"\\'")}')">
+          🔊
+        </button>
+
+        <button
+          class="audioBtn"
+          onclick="toggleFavoriteWord('${w[0].replace(/'/g,"\\'")}')">
+          ${state.favorites.includes(w[0])?"❤️":"🤍"}
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("");
 
 }
 
@@ -3801,28 +4905,11 @@ function toggleFavoriteWord(word){
    FRASES
 ========================= */
 
-let activePhraseCategory="Todas";
-
-function setPhraseCategory(category){
-
-  activePhraseCategory=category;
-
-  document.querySelectorAll("#phraseFilters .filter")
-    .forEach(btn=>{
-      btn.classList.toggle(
-        "active",
-        btn.textContent===category
-      );
-    });
-
-  renderPhrases();
-
-}
 
 function renderPhrases(){
 
   const search=normalizeText(
-    document.getElementById("phraseSearch")?.value
+    document.getElementById("dictionarySearch")?.value
   );
 
   const data=phrases.filter(p=>{
@@ -8199,9 +9286,9 @@ function finishA1Exam(){
 ========================= */
 
 try{ applyTheme(); }catch(e){ console.error("applyTheme:",e); }
-try{ setupCategories(); }catch(e){ console.error("setupCategories:",e); }
-try{ updateStats(); }catch(e){ console.error("updateStats:",e); }
-
+try{
+  setupCategories();
+}catch(e){ console.error("setupCategories:",e); }
 try{
   renderLessons();
 }catch(e){
@@ -8367,84 +9454,11 @@ function speakEnglishCamera(){
 
 function searchDictionary(){
 
-  const input=document.getElementById("dictionarySearch");
-  const value=input ? input.value : "";
-
-  const wordSearch=document.getElementById("wordSearch");
-  const phraseSearch=document.getElementById("phraseSearch");
-
-  if(wordSearch) wordSearch.value=value;
-  if(phraseSearch) phraseSearch.value=value;
-
-  const search=normalizeText(value);
-
-  const wordData=extraWords.filter(w=>{
-    const categoryOK=
-      activeWordCategory==="Todas" ||
-      w[2]===activeWordCategory;
-
-    const searchOK=
-      !search ||
-      normalizeText(w[0]).includes(search) ||
-      normalizeText(w[1]).includes(search);
-
-    return categoryOK && searchOK;
-  });
-
-  const phraseData=phrases.filter(p=>{
-    const categoryOK=
-      activePhraseCategory==="Todas" ||
-      p[2]===activePhraseCategory;
-
-    const searchOK=
-      !search ||
-      normalizeText(p[0]).includes(search) ||
-      normalizeText(p[1]).includes(search);
-
-    return categoryOK && searchOK;
-  });
-
-  const wordsList=document.getElementById("wordsList");
-  const phrasesList=document.getElementById("phrasesList");
-
-  if(wordsList){
-    wordsList.innerHTML=wordData.length
-      ? wordData.map(w=>`
-        <div class="word">
-          <div>
-            <div class="wordEnglish">${w[0]}</div>
-            <div class="wordSpanish">${w[1]} · ${w[2]}</div>
-          </div>
-          <div style="display:flex;gap:6px">
-            <button class="audioBtn"
-              onclick="speakEnglish('${w[0].replace(/'/g,"\\'")}')">🔊</button>
-            <button class="audioBtn"
-              onclick="toggleFavoriteWord('${w[0].replace(/'/g,"\\'")}')">
-              ${state.favorites.includes(w[0])?"❤️":"🤍"}
-            </button>
-          </div>
-        </div>
-      `).join("")
-      : `<p style="color:var(--muted)">No encontramos esa palabra.</p>`;
-  }
-
-  if(phrasesList){
-    phrasesList.innerHTML=phraseData.map(p=>`
-      <div class="card" style="margin-bottom:10px">
-        <div style="display:flex;justify-content:space-between;gap:10px">
-          <div>
-            <strong>${p[0]}</strong>
-            <p style="color:var(--muted);margin-top:5px">${p[1]}</p>
-            <small style="color:var(--muted)">${p[2]}</small>
-          </div>
-          <button class="audioBtn"
-            onclick="speakEnglish('${p[0].replace(/'/g,"\\'")}')">🔊</button>
-        </div>
-      </div>
-    `).join("");
-  }
+  renderWords();
+  renderPhrases();
 
 }
+
 
 function showDictionaryTab(tab){
 
@@ -8468,5 +9482,232 @@ function showDictionaryTab(tab){
 }
 
 </script>
+
+
+
+
+<style>
+#ewCam button {
+  border:0;border-radius:10px;padding:12px 14px;
+  background:#72df9b;color:#10251a;font-weight:bold;
+  cursor:pointer;font-size:14px
+}
+#ewCam button:active { transform:scale(.98) }
+#ewCam input,#ewCam textarea { font-size:16px }
+#ewCam h3 { font-size:17px }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const status = $('ewStatus');
+  let workerPromise = null;
+  let stream = null;
+  let liveTimer = null;
+  let busy = false;
+  let lastLiveText = '';
+
+  function sayStatus(text) {
+    status.textContent = text;
+  }
+
+  async function getWorker() {
+    if (!window.Tesseract) {
+      throw new Error('No se pudo cargar el lector OCR. Revisa Internet.');
+    }
+    if (!workerPromise) {
+      workerPromise = window.Tesseract.createWorker('eng');
+    }
+    return workerPromise;
+  }
+
+  async function readText(source) {
+    sayStatus('⏳ Reconociendo las palabras...');
+    const worker = await getWorker();
+    const result = await worker.recognize(source);
+    return (result.data.text || '').trim();
+  }
+
+  async function translateText(text) {
+    if (!text.trim()) throw new Error('No hay texto para traducir.');
+
+    sayStatus('🌎 Traduciendo al español...');
+
+    // El servicio público puede tener límites de uso.
+    const url = 'https://api.mymemory.translated.net/get?q=' +
+      encodeURIComponent(text.slice(0, 450)) +
+      '&langpair=en|es';
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('El servicio de traducción no respondió.');
+
+    const data = await response.json();
+    if (data.responseStatus !== 200) {
+      throw new Error(data.responseDetails || 'No se pudo traducir.');
+    }
+
+    const translated = data.responseData &&
+      data.responseData.translatedText;
+
+    if (!translated) throw new Error('La traducción llegó vacía.');
+
+    $('ewSpanish').textContent = translated;
+    sayStatus('✅ Traducción completada.');
+  }
+
+  $('ewPhotoTab').addEventListener('click', () => {
+    $('ewPhotoPanel').style.display = 'block';
+    $('ewLivePanel').style.display = 'none';
+  });
+
+  $('ewLiveTab').addEventListener('click', () => {
+    $('ewPhotoPanel').style.display = 'none';
+    $('ewLivePanel').style.display = 'block';
+  });
+
+  $('ewFile').addEventListener('change', () => {
+    const file = $('ewFile').files[0];
+    if (!file) return;
+    $('ewPreview').src = URL.createObjectURL(file);
+    $('ewPreview').style.display = 'block';
+  });
+
+  $('ewReadPhoto').addEventListener('click', async () => {
+    const file = $('ewFile').files[0];
+    if (!file) {
+      sayStatus('Primero toma una foto o elige una imagen.');
+      return;
+    }
+
+    try {
+      const text = await readText(file);
+      $('ewEnglish').value = text;
+      if (text) await translateText(text);
+      else sayStatus('No se encontró texto. Prueba con más luz y enfoque.');
+    } catch (error) {
+      sayStatus('Error: ' + error.message);
+    }
+  });
+
+  $('ewTranslate').addEventListener('click', async () => {
+    try {
+      await translateText($('ewEnglish').value);
+    } catch (error) {
+      sayStatus('Error: ' + error.message);
+    }
+  });
+
+  async function liveScan() {
+    if (!stream || busy) return;
+    busy = true;
+
+    try {
+      const video = $('ewVideo');
+      const canvas = $('ewCanvas');
+      if (video.readyState < 2) return;
+
+      // Reducir la imagen ayuda al rendimiento del teléfono.
+      const width = Math.min(video.videoWidth, 960);
+      const height = Math.round(width * video.videoHeight / video.videoWidth);
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, width, height);
+
+      const text = await readText(canvas);
+      if (text && text !== lastLiveText) {
+        lastLiveText = text;
+        $('ewEnglish').value = text;
+        await translateText(text);
+      } else if (!text) {
+        sayStatus('Enfoca un texto en inglés...');
+      }
+    } catch (error) {
+      sayStatus('Cámara: ' + error.message);
+    } finally {
+      busy = false;
+    }
+  }
+
+  $('ewStartCamera').addEventListener('click', async () => {
+    try {
+      if (stream) return;
+
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: { ideal: 'environment' },
+          width: { ideal: 960 },
+          height: { ideal: 720 }
+        }
+      });
+
+      $('ewVideo').srcObject = stream;
+      await $('ewVideo').play();
+      lastLiveText = '';
+      sayStatus('📷 Cámara activa. Enfoca el texto.');
+
+      // Analiza una imagen cada 3.5 segundos.
+      liveTimer = setInterval(liveScan, 3500);
+      liveScan();
+    } catch (error) {
+      stream = null;
+      sayStatus('No se pudo abrir la cámara. Comprueba el permiso y usa HTTPS.');
+    }
+  });
+
+  function stopCamera() {
+    if (liveTimer) clearInterval(liveTimer);
+    liveTimer = null;
+
+    if (stream) stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    $('ewVideo').srcObject = null;
+    sayStatus('Cámara apagada.');
+  }
+
+  $('ewStopCamera').addEventListener('click', stopCamera);
+
+  $('ewSpeakEnglish').addEventListener('click', () => {
+    speak($('ewEnglish').value, 'en-US');
+  });
+
+  $('ewSpeakSpanish').addEventListener('click', () => {
+    speak($('ewSpanish').textContent, 'es-ES');
+  });
+
+  function speak(text, language) {
+    if (!text.trim()) return;
+    if (!('speechSynthesis' in window)) {
+      sayStatus('Este navegador no admite lectura de voz.');
+      return;
+    }
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language;
+    speechSynthesis.speak(utterance);
+  }
+
+  $('ewCopy').addEventListener('click', async () => {
+    const text = $('ewEnglish').value;
+    if (!text) {
+      sayStatus('No hay texto que copiar.');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      sayStatus('📋 Texto copiado.');
+    } catch (error) {
+      $('ewEnglish').focus();
+      $('ewEnglish').select();
+      sayStatus('Selecciona el texto y cópialo manualmente.');
+    }
+  });
+
+  window.addEventListener('pagehide', stopCamera);
+})();
+</script>
+
 </body>
 </html>

@@ -802,74 +802,71 @@ body.dark .feedback.bad{
 
 </section>
 
-<!-- CAMERA -->
+<!-- CAMERA: TRADUCTOR INTEGRADO EN LA PESTAÑA EXISTENTE -->
 <section id="camera" class="page">
+  <div id="ewCam" style="max-width:850px;margin:0 auto;padding:18px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:18px;font-family:Arial,sans-serif;box-sizing:border-box">
 
-  <h1>📷 Traductor con cámara</h1>
+  <h2 style="margin-top:0">📸 Traductor con cámara</h2>
+  <p>Lee textos en inglés y descubre su significado en español.</p>
 
-  <p style="color:var(--muted);margin:8px 0 20px">
-    Apunta la cámara hacia un texto para intentar reconocerlo.
-  </p>
-
-  <div class="card">
-
-    <video
-      id="cameraVideo"
-      autoplay
-      playsinline
-      muted
-      style="
-        width:100%;
-        max-width:600px;
-        display:block;
-        margin:auto;
-        border-radius:18px;
-        background:#000;
-      "
-    ></video>
-
-    <canvas
-      id="cameraCanvas"
-      style="display:none"
-    ></canvas>
-
-    <div style="text-align:center;margin-top:15px">
-
-      <button
-        class="btn"
-        onclick="startLiveCamera()"
-      >
-        📷 Encender cámara
-      </button>
-
-      <button
-        class="btn secondary"
-        onclick="stopLiveCamera()"
-        style="margin-left:8px"
-      >
-        ⏹️ Detener
-      </button>
-
-    </div>
-
-    <div
-      id="cameraStatus"
-      style="
-        text-align:center;
-        margin-top:15px;
-        color:var(--muted);
-      "
-    >
-      Cámara apagada
-    </div>
-
-    <div
-      id="cameraTextResult"
-      style="margin-top:18px"
-    ></div>
-
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
+    <button id="ewPhotoTab" type="button">📷 Traducir foto</button>
+    <button id="ewLiveTab" type="button">🎥 Cámara en vivo</button>
   </div>
 
+  <div id="ewPhotoPanel">
+    <label for="ewFile">Elige una foto o toma una fotografía:</label>
+    <input id="ewFile" type="file" accept="image/*" capture="environment"
+      style="display:block;width:100%;margin:12px 0">
+
+    <img id="ewPreview" alt="Foto seleccionada"
+      style="display:none;width:100%;max-height:350px;object-fit:contain;border-radius:12px">
+
+    <button id="ewReadPhoto" type="button">🔎 Leer y traducir foto</button>
+  </div>
+
+  <div id="ewLivePanel" style="display:none">
+    <video id="ewVideo" autoplay playsinline muted
+      style="width:100%;max-height:350px;background:#000;border-radius:12px"></video>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button id="ewStartCamera" type="button">▶️ Encender cámara</button>
+      <button id="ewStopCamera" type="button">⏹️ Apagar cámara</button>
+    </div>
+
+    <p style="font-size:13px">Mantén el texto quieto, enfocado y bien iluminado.</p>
+  </div>
+
+  <p id="ewStatus" role="status" aria-live="polite">Listo para comenzar.</p>
+
+  <div style="margin-top:15px">
+    <h3>Texto en inglés</h3>
+    <textarea id="ewEnglish" rows="4" placeholder="Aquí aparecerá el texto reconocido..."
+      style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px"></textarea>
+  </div>
+
+  <button id="ewTranslate" type="button" style="margin-top:10px">🌎 Traducir al español</button>
+
+  <div style="margin-top:15px">
+    <h3>Traducción al español</h3>
+    <div id="ewSpanish" aria-live="polite"
+      style="min-height:55px;padding:12px;background:#fff;color:#17251f;border-radius:10px;white-space:pre-wrap">Tu traducción aparecerá aquí.</div>
+  </div>
+
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+    <button id="ewSpeakEnglish" type="button">🔊 Escuchar inglés</button>
+    <button id="ewSpeakSpanish" type="button">🔊 Escuchar español</button>
+    <button id="ewCopy" type="button">📋 Copiar texto</button>
+  </div>
+
+  <canvas id="ewCanvas" style="display:none"></canvas>
+
+  <p style="font-size:12px;opacity:.8;margin-bottom:0">
+    Necesitas Internet para el reconocimiento inicial y la traducción.
+    Las traducciones pueden contener errores; revisa los textos importantes.
+  </p>
+
+  </div>
 </section>
 
 <!-- ACHIEVEMENTS -->
@@ -9485,5 +9482,232 @@ function showDictionaryTab(tab){
 }
 
 </script>
+
+
+
+
+<style>
+#ewCam button {
+  border:0;border-radius:10px;padding:12px 14px;
+  background:#72df9b;color:#10251a;font-weight:bold;
+  cursor:pointer;font-size:14px
+}
+#ewCam button:active { transform:scale(.98) }
+#ewCam input,#ewCam textarea { font-size:16px }
+#ewCam h3 { font-size:17px }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const status = $('ewStatus');
+  let workerPromise = null;
+  let stream = null;
+  let liveTimer = null;
+  let busy = false;
+  let lastLiveText = '';
+
+  function sayStatus(text) {
+    status.textContent = text;
+  }
+
+  async function getWorker() {
+    if (!window.Tesseract) {
+      throw new Error('No se pudo cargar el lector OCR. Revisa Internet.');
+    }
+    if (!workerPromise) {
+      workerPromise = window.Tesseract.createWorker('eng');
+    }
+    return workerPromise;
+  }
+
+  async function readText(source) {
+    sayStatus('⏳ Reconociendo las palabras...');
+    const worker = await getWorker();
+    const result = await worker.recognize(source);
+    return (result.data.text || '').trim();
+  }
+
+  async function translateText(text) {
+    if (!text.trim()) throw new Error('No hay texto para traducir.');
+
+    sayStatus('🌎 Traduciendo al español...');
+
+    // El servicio público puede tener límites de uso.
+    const url = 'https://api.mymemory.translated.net/get?q=' +
+      encodeURIComponent(text.slice(0, 450)) +
+      '&langpair=en|es';
+
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('El servicio de traducción no respondió.');
+
+    const data = await response.json();
+    if (data.responseStatus !== 200) {
+      throw new Error(data.responseDetails || 'No se pudo traducir.');
+    }
+
+    const translated = data.responseData &&
+      data.responseData.translatedText;
+
+    if (!translated) throw new Error('La traducción llegó vacía.');
+
+    $('ewSpanish').textContent = translated;
+    sayStatus('✅ Traducción completada.');
+  }
+
+  $('ewPhotoTab').addEventListener('click', () => {
+    $('ewPhotoPanel').style.display = 'block';
+    $('ewLivePanel').style.display = 'none';
+  });
+
+  $('ewLiveTab').addEventListener('click', () => {
+    $('ewPhotoPanel').style.display = 'none';
+    $('ewLivePanel').style.display = 'block';
+  });
+
+  $('ewFile').addEventListener('change', () => {
+    const file = $('ewFile').files[0];
+    if (!file) return;
+    $('ewPreview').src = URL.createObjectURL(file);
+    $('ewPreview').style.display = 'block';
+  });
+
+  $('ewReadPhoto').addEventListener('click', async () => {
+    const file = $('ewFile').files[0];
+    if (!file) {
+      sayStatus('Primero toma una foto o elige una imagen.');
+      return;
+    }
+
+    try {
+      const text = await readText(file);
+      $('ewEnglish').value = text;
+      if (text) await translateText(text);
+      else sayStatus('No se encontró texto. Prueba con más luz y enfoque.');
+    } catch (error) {
+      sayStatus('Error: ' + error.message);
+    }
+  });
+
+  $('ewTranslate').addEventListener('click', async () => {
+    try {
+      await translateText($('ewEnglish').value);
+    } catch (error) {
+      sayStatus('Error: ' + error.message);
+    }
+  });
+
+  async function liveScan() {
+    if (!stream || busy) return;
+    busy = true;
+
+    try {
+      const video = $('ewVideo');
+      const canvas = $('ewCanvas');
+      if (video.readyState < 2) return;
+
+      // Reducir la imagen ayuda al rendimiento del teléfono.
+      const width = Math.min(video.videoWidth, 960);
+      const height = Math.round(width * video.videoHeight / video.videoWidth);
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, width, height);
+
+      const text = await readText(canvas);
+      if (text && text !== lastLiveText) {
+        lastLiveText = text;
+        $('ewEnglish').value = text;
+        await translateText(text);
+      } else if (!text) {
+        sayStatus('Enfoca un texto en inglés...');
+      }
+    } catch (error) {
+      sayStatus('Cámara: ' + error.message);
+    } finally {
+      busy = false;
+    }
+  }
+
+  $('ewStartCamera').addEventListener('click', async () => {
+    try {
+      if (stream) return;
+
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: { ideal: 'environment' },
+          width: { ideal: 960 },
+          height: { ideal: 720 }
+        }
+      });
+
+      $('ewVideo').srcObject = stream;
+      await $('ewVideo').play();
+      lastLiveText = '';
+      sayStatus('📷 Cámara activa. Enfoca el texto.');
+
+      // Analiza una imagen cada 3.5 segundos.
+      liveTimer = setInterval(liveScan, 3500);
+      liveScan();
+    } catch (error) {
+      stream = null;
+      sayStatus('No se pudo abrir la cámara. Comprueba el permiso y usa HTTPS.');
+    }
+  });
+
+  function stopCamera() {
+    if (liveTimer) clearInterval(liveTimer);
+    liveTimer = null;
+
+    if (stream) stream.getTracks().forEach(track => track.stop());
+    stream = null;
+    $('ewVideo').srcObject = null;
+    sayStatus('Cámara apagada.');
+  }
+
+  $('ewStopCamera').addEventListener('click', stopCamera);
+
+  $('ewSpeakEnglish').addEventListener('click', () => {
+    speak($('ewEnglish').value, 'en-US');
+  });
+
+  $('ewSpeakSpanish').addEventListener('click', () => {
+    speak($('ewSpanish').textContent, 'es-ES');
+  });
+
+  function speak(text, language) {
+    if (!text.trim()) return;
+    if (!('speechSynthesis' in window)) {
+      sayStatus('Este navegador no admite lectura de voz.');
+      return;
+    }
+    speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language;
+    speechSynthesis.speak(utterance);
+  }
+
+  $('ewCopy').addEventListener('click', async () => {
+    const text = $('ewEnglish').value;
+    if (!text) {
+      sayStatus('No hay texto que copiar.');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(text);
+      sayStatus('📋 Texto copiado.');
+    } catch (error) {
+      $('ewEnglish').focus();
+      $('ewEnglish').select();
+      sayStatus('Selecciona el texto y cópialo manualmente.');
+    }
+  });
+
+  window.addEventListener('pagehide', stopCamera);
+})();
+</script>
+
 </body>
 </html>
