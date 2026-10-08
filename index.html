@@ -567,8 +567,7 @@ body.dark .feedback.bad{
   <button class="navBtn" onclick="go('home')">🏠 Inicio</button>
   <button class="navBtn" onclick="go('levels')">📚 Niveles</button>
   <button class="navBtn" onclick="go('lessons')">🎓 Lecciones</button>
-  <button class="navBtn" onclick="go('phrases')">💬 Frases</button>
-  <button class="navBtn" onclick="go('words')">📖 Palabras</button>
+  <button class="navBtn" onclick="go('dictionary')">📖 Diccionario</button>
   <button class="navBtn" onclick="go('quiz')">🧠 Quiz</button>
   <button class="navBtn" onclick="go('listening')">🎧 Listening</button>
   <button class="navBtn" onclick="go('writing')">✍️ Writing</button>
@@ -703,49 +702,42 @@ body.dark .feedback.bad{
 
 </section>
 
-<!-- PHRASES -->
+<!-- DICCIONARIO -->
 
-<section id="phrases" class="page">
+<section id="dictionary" class="page">
 
-  <h1>💬 Frases</h1>
+  <h1>📖 Diccionario</h1>
 
-  <p style="color:var(--muted);margin:8px 0 15px">
-    Aprende frases útiles en inglés.
+  <p style="color:var(--muted);margin:8px 0 18px">
+    Aprende palabras y frases útiles en inglés.
   </p>
 
   <input
-    id="phraseSearch"
+    id="dictionarySearch"
     class="search"
-    placeholder="🔎 Buscar frase..."
-    oninput="renderPhrases()"
+    placeholder="🔎 Buscar palabra o frase..."
+    oninput="searchDictionary()"
   >
 
-  <div id="phraseFilters" class="filters"></div>
+  <div style="margin-top:20px">
 
-  <div id="phrasesList"></div>
+    <h2>🔤 Palabras</h2>
 
-</section>
+    <div id="wordFilters" class="filters"></div>
 
-<!-- WORDS -->
+    <div id="wordsList" class="card"></div>
 
-<section id="words" class="page">
+  </div>
 
-  <h1>📖 Palabras</h1>
+  <div style="margin-top:28px">
 
-  <p style="color:var(--muted);margin:8px 0 15px">
-    Aprende vocabulario y escucha la pronunciación.
-  </p>
+    <h2>💬 Frases</h2>
 
-  <input
-    id="wordSearch"
-    class="search"
-    placeholder="🔎 Buscar palabra..."
-    oninput="renderWords()"
-  >
+    <div id="phraseFilters" class="filters"></div>
 
-  <div id="wordFilters" class="filters"></div>
+    <div id="phrasesList"></div>
 
-  <div id="wordsList" class="card"></div>
+  </div>
 
 </section>
 
@@ -1076,8 +1068,10 @@ function go(page){
 
   if(page==="levels") renderLevels();
   if(page==="lessons") renderLessons();
-  if(page==="phrases") renderPhrases();
-  if(page==="words") renderWords();
+  if(page==="dictionary"){
+    renderWords();
+    renderPhrases();
+  }
   if(page==="quiz") renderQuiz();
   if(page==="listening") renderListening();
   if(page==="writing") renderWriting();
@@ -7266,6 +7260,45 @@ function speakEnglishCamera(){
   speechSynthesis.speak(u);
 
 }
+
+
+function searchDictionary(){
+
+  const input=document.getElementById("dictionarySearch");
+  const value=input ? input.value : "";
+
+  const wordSearch=document.getElementById("wordSearch");
+  const phraseSearch=document.getElementById("phraseSearch");
+
+  if(wordSearch) wordSearch.value=value;
+  if(phraseSearch) phraseSearch.value=value;
+
+  renderWords();
+  renderPhrases();
+
+}
+
+function showDictionaryTab(tab){
+
+  const words=document.getElementById("dictionaryWords");
+  const phrases=document.getElementById("dictionaryPhrases");
+
+  if(!words || !phrases) return;
+
+  if(tab==="words"){
+
+    words.style.display="block";
+    phrases.style.display="none";
+
+  }else{
+
+    words.style.display="none";
+    phrases.style.display="block";
+
+  }
+
+}
+
 </script>
 </body>
 </html>
