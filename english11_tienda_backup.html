@@ -1,4 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>English World 2.0</title>
 
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#64748b;
+  --primary:#2563eb;
+  --primary2:#1d4ed8;
+  --border:#dbe3ef;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --gold:#f59e0b;
+}
+
+body.dark{
+  --bg:#0b1120;
+  --card:#151e30;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --border:#263449;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:.2s;
+  min-height:100vh;
+}
+
+/* TOPBAR */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px 15px;
+  background:var(--card);
+  border-bottom:1px solid var(--border);
+}
+
+.menuBtn{
+  border:0;
+  background:transparent;
+  font-size:25px;
+  color:var(--text);
+  cursor:pointer;
+}
+
+.logo{
+  font-weight:bold;
+  font-size:19px;
+  white-space:nowrap;
+}
+
+.stats{
+  margin-left:auto;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.stat{
+  background:var(--bg);
+  border:1px solid var(--border);
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  left:-290px;
+  top:0;
+  bottom:0;
+  width:275px;
+  z-index:200;
+  background:var(--card);
+  border-right:1px solid var(--border);
+  padding:70px 14px 20px;
+  overflow-y:auto;
+  transition:.25s;
+}
+
+.sidebar.open{
+  left:0;
+}
+
+.sidebar h3{
+  margin:12px 8px;
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+}
+
+.navBtn{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--text);
+  text-align:left;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:15px;
+  margin-bottom:3px;
+}
+
+.navBtn:hover{
+  background:var(--bg);
+}
+
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:150;
+  background:#0008;
+}
+
+.overlay.show{
+  display:block;
+}
+
+/* MAIN */
+
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:22px 15px 50px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.hero{
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+  color:white;
+  border-radius:22px;
+  padding:28px 22px;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  opacity:.9;
+}
+
+.sectionTitle{
+  margin:25px 0 12px;
+  font-size:21px;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+}
+
+.card h3{
+  margin-bottom:7px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* BUTTONS */
+
+button{
+  font-family:inherit;
+}
+
+.btn{
+  border:0;
+  background:var(--primary);
+  color:white;
+  padding:11px 16px;
+  border-radius:11px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.btn:hover{
+  background:var(--primary2);
+}
+
+.btn.secondary{
+  background:var(--bg);
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.btn.success{
+  background:var(--success);
+}
+
+.btn.danger{
+  background:var(--danger);
+}
+
+.btn.gold{
+  background:var(--gold);
+  color:#111827;
+}
+
+/* PROGRESS */
+
+.progress{
+  height:10px;
+  background:var(--bg);
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+.progressBar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#2563eb,#7c3aed);
+}
+
+/* LESSON */
+
+.lessonCard{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.lessonNumber{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.locked{
+  opacity:.5;
+}
+
+.word{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px;
+  border-bottom:1px solid var(--border);
+}
+
+.word:last-child{
+  border-bottom:0;
+}
+
+.wordEnglish{
+  font-weight:bold;
+}
+
+.wordSpanish{
+  color:var(--muted);
+}
+
+.audioBtn{
+  border:0;
+  background:var(--bg);
+  border:1px solid var(--border);
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  cursor:pointer;
+  color:var(--text);
+}
+
+/* SEARCH */
+
+.search{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+  margin-bottom:12px;
+}
+
+.filters{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:5px;
+  margin-bottom:15px;
+}
+
+.filter{
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:8px 12px;
+  border-radius:20px;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+.filter.active{
+  background:var(--primary);
+  color:white;
+  border-color:var(--primary);
+}
+
+/* MODAL */
+
+.modalLayer{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:500;
+  background:#0009;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.modalLayer.show{
+  display:flex;
+}
+
+.modal{
+  width:min(700px,100%);
+  max-height:90vh;
+  overflow-y:auto;
+  background:var(--card);
+  border-radius:20px;
+  padding:22px;
+}
+
+.modalHeader{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.closeBtn{
+  border:0;
+  background:transparent;
+  color:var(--text);
+  font-size:25px;
+  cursor:pointer;
+}
+
+.feedback{
+  margin-top:15px;
+  padding:13px;
+  border-radius:12px;
+}
+
+.feedback.good{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.feedback.bad{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+body.dark .feedback.good{
+  background:#14532d;
+  color:#dcfce7;
+}
+
+body.dark .feedback.bad{
+  background:#7f1d1d;
+  color:#fee2e2;
+}
+
+/* CHOICES */
+
+.choices{
+  display:grid;
+  gap:10px;
+  margin-top:15px;
+}
+
+.choice{
+  width:100%;
+  text-align:left;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  padding:14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:15px;
+}
+
+.choice:hover{
+  border-color:var(--primary);
+}
+
+.choice.correct{
+  background:#dcfce7;
+  color:#166534;
+  border-color:#16a34a;
+}
+
+.choice.wrong{
+  background:#fee2e2;
+  color:#991b1b;
+  border-color:#dc2626;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111827;
+  color:white;
+  padding:12px 18px;
+  border-radius:12px;
+  z-index:900;
+  display:none;
+}
+
+.toast.show{
+  display:block;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .logo{
+    font-size:16px;
+  }
+
+  .stats{
+    gap:4px;
+  }
+
+  .stat{
+    padding:5px 7px;
+    font-size:11px;
+  }
+
+  .hero h1{
+    font-size:25px;
+  }
+
+  main{
+    padding:16px 12px 40px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+
+<header class="topbar">
+
+  <button class="menuBtn" onclick="toggleMenu()">☰</button>
+
+  <div class="logo">🌎 English World</div>
+
+  <div class="stats">
+
+    <div class="stat">
+      👤 <span id="topName">Estudiante</span>
+    </div>
+
+    <div class="stat">
+      ⭐ <span id="topXP">0</span>
+    </div>
+
+    <div class="stat">
+      🪙 <span id="topCoins">100</span>
+    </div>
+
+    <div class="stat">
+      📚 <span id="topLevel">A1</span>
+    </div>
+
+    <div class="stat">
+      🔥 <span id="topStreak">0</span>
+    </div>
+
+  </div>
+
+</header>
+
+<!-- SIDEBAR -->
+
+<aside id="sidebar" class="sidebar">
+
+  <h3>Aprender</h3>
+
+  <button class="navBtn" onclick="go('home')">🏠 Inicio</button>
+  <button class="navBtn" onclick="go('levels')">📚 Niveles</button>
+  <button class="navBtn" onclick="go('lessons')">🎓 Lecciones</button>
+  <button class="navBtn" onclick="go('phrases')">💬 Frases</button>
+  <button class="navBtn" onclick="go('words')">📖 Palabras</button>
+  <button class="navBtn" onclick="go('quiz')">🧠 Quiz</button>
+  <button class="navBtn" onclick="go('listening')">🎧 Listening</button>
+  <button class="navBtn" onclick="go('writing')">✍️ Writing</button>
+
+  <h3>Mi progreso</h3>
+
+  <button class="navBtn" onclick="go('achievements')">🏆 Logros</button>
+  <button class="navBtn" onclick="go('profile')">👤 Perfil</button>
+  <button class="navBtn" onclick="go('missions')">🎯 Misiones</button>
+  <button class="navBtn" onclick="go('calendar')">📅 Calendario</button>
+  <button class="navBtn" onclick="go('review')">🔄 Repaso</button>
+
+  <h3>Recompensas</h3>
+
+  <button class="navBtn" onclick="go('shop')">🛒 Tienda</button>
+  <button class="navBtn" onclick="go('inventory')">🎒 Inventario</button>
+  <button class="navBtn" onclick="go('collection')">✨ Colección</button>
+
+  <h3>Configuración</h3>
+
+  <button class="navBtn" onclick="toggleTheme()">🌙 Tema</button>
+
+</aside>
+
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+
+<main>
+
+<!-- HOME -->
+
+<section id="home" class="page active">
+
+  <div class="hero">
+
+    <h1>🌎 Bienvenido a English World</h1>
+
+    <p>
+      Aprende inglés paso a paso, practica, gana XP
+      y conviértete en un maestro.
+    </p>
+
+    <br>
+
+    <button class="btn" onclick="go('lessons')">
+      🎓 Continuar aprendiendo
+    </button>
+
+  </div>
+
+  <h2 class="sectionTitle">Tu día</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>🔥 Racha</h3>
+      <p>Estudia cada día para mantener tu racha.</p>
+      <br>
+      <strong id="homeStreak">0 días</strong>
+    </div>
+
+    <div class="card">
+      <h3>⭐ XP</h3>
+      <p>Gana experiencia completando actividades.</p>
+      <br>
+      <strong id="homeXP">0 XP</strong>
+    </div>
+
+    <div class="card">
+      <h3>📚 Lecciones</h3>
+      <p>Avanza por las lecciones de inglés.</p>
+      <br>
+      <strong id="homeLessons">0 / 20</strong>
+    </div>
+
+  </div>
+
+  <h2 class="sectionTitle">Acceso rápido</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>🎧 Listening</h3>
+      <p>Escucha palabras en inglés y demuestra que las entiendes.</p>
+      <br>
+      <button class="btn" onclick="go('listening')">Practicar</button>
+    </div>
+
+    <div class="card">
+      <h3>✍️ Writing</h3>
+      <p>Escribe palabras en inglés y comprueba tus respuestas.</p>
+      <br>
+      <button class="btn" onclick="go('writing')">Practicar</button>
+    </div>
+
+    <div class="card">
+      <h3>🧠 Quiz</h3>
+      <p>Pon a prueba todo lo que has aprendido.</p>
+      <br>
+      <button class="btn" onclick="go('quiz')">Jugar</button>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- LEVELS -->
+
+<section id="levels" class="page">
+
+  <h1>📚 Niveles</h1>
+
+  <p style="color:var(--muted);margin:8px 0 20px">
+    Avanza desde A1 hasta B2.
+  </p>
+
+  <div id="levelsList" class="grid"></div>
+
+</section>
+
+<!-- LESSONS -->
+
+<section id="lessons" class="page">
+
+  <h1>🎓 Lecciones A1</h1>
+
+  <p style="color:var(--muted);margin:8px 0 20px">
+    Completa las lecciones en orden.
+  </p>
+
+  <div id="lessonsList" class="grid"></div>
+
+</section>
+
+<!-- PHRASES -->
+
+<section id="phrases" class="page">
+
+  <h1>💬 Frases</h1>
+
+  <p style="color:var(--muted);margin:8px 0 15px">
+    Aprende frases útiles en inglés.
+  </p>
+
+  <input
+    id="phraseSearch"
+    class="search"
+    placeholder="🔎 Buscar frase..."
+    oninput="renderPhrases()"
+  >
+
+  <div id="phraseFilters" class="filters"></div>
+
+  <div id="phrasesList"></div>
+
+</section>
+
+<!-- WORDS -->
+
+<section id="words" class="page">
+
+  <h1>📖 Palabras</h1>
+
+  <p style="color:var(--muted);margin:8px 0 15px">
+    Aprende vocabulario y escucha la pronunciación.
+  </p>
+
+  <input
+    id="wordSearch"
+    class="search"
+    placeholder="🔎 Buscar palabra..."
+    oninput="renderWords()"
+  >
+
+  <div id="wordFilters" class="filters"></div>
+
+  <div id="wordsList" class="card"></div>
+
+</section>
+
+<!-- QUIZ -->
+
+<section id="quiz" class="page">
+
+  <h1>🧠 Quiz</h1>
+
+  <div id="quizContent" style="margin-top:18px"></div>
+
+</section>
+
+<!-- LISTENING -->
+
+<section id="listening" class="page">
+
+  <h1>🎧 Listening</h1>
+
+  <p style="color:var(--muted);margin:8px 0 20px">
+    Escucha la palabra en inglés y selecciona su significado.
+  </p>
+
+  <div id="listeningContent"></div>
+
+</section>
+
+<!-- WRITING -->
+
+<section id="writing" class="page">
+
+  <h1>✍️ Writing</h1>
+
+  <p style="color:var(--muted);margin:8px 0 20px">
+    Escribe la palabra inglesa correcta.
+  </p>
+
+  <div id="writingContent"></div>
+
+</section>
+
+<!-- ACHIEVEMENTS -->
+
+<section id="achievements" class="page">
+
+  <h1>🏆 Logros</h1>
+
+  <div id="achievementsList" class="grid" style="margin-top:18px"></div>
+
+</section>
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+  <h1>👤 Perfil</h1>
+
+  <div id="profileContent" style="margin-top:18px"></div>
+
+</section>
+
+<!-- SHOP -->
+
+<section id="shop" class="page">
+
+  <h1>🛒 Tienda</h1>
+
+  <p style="color:var(--muted);margin:8px 0 20px">
+    Usa tus monedas para conseguir objetos especiales.
+  </p>
+
+  <div id="shopList" class="grid"></div>
+
+</section>
+
+<!-- INVENTORY -->
+
+<section id="inventory" class="page">
+
+  <h1>🎒 Inventario</h1>
+
+  <div id="inventoryList" class="grid" style="margin-top:18px"></div>
+
+</section>
+
+<!-- MISSIONS -->
+
+<section id="missions" class="page">
+
+  <h1>🎯 Misiones</h1>
+
+  <div id="missionsList" class="grid" style="margin-top:18px"></div>
+
+</section>
+
+<!-- CALENDAR -->
+
+<section id="calendar" class="page">
+
+  <h1>📅 Calendario</h1>
+
+  <div id="calendarContent" style="margin-top:18px"></div>
+
+</section>
+
+<!-- COLLECTION -->
+
+<section id="collection" class="page">
+
+  <h1>✨ Colección</h1>
+
+  <div id="collectionList" class="grid" style="margin-top:18px"></div>
+
+</section>
+
+<!-- REVIEW -->
+
+<section id="review" class="page">
+
+  <h1>🔄 Repaso</h1>
+
+  <p style="color:var(--muted);margin:8px 0 20px">
+    Repasa las palabras que más te cuestan.
+  </p>
+
+  <div id="reviewContent"></div>
+
+</section>
+
+</main>
+
+<!-- MODAL -->
+
+<div id="modalLayer" class="modalLayer">
+
+  <div class="modal">
+
+    <div class="modalHeader">
+
+      <h2 id="modalTitle">English World</h2>
+
+      <button
+        class="closeBtn"
+        onclick="closeModal()"
+      >×</button>
+
+    </div>
+
+    <div id="modalBody"></div>
+
+  </div>
+
+</div>
+
+<div id="toast" class="toast"></div>
+<script>
 const STORAGE="englishWorld_FINAL_2026";
 
 let state=JSON.parse(localStorage.getItem(STORAGE))||{
@@ -2163,8 +3052,8 @@ state.lessonRewarded = state.lessonRewarded || {};
    INICIO
 ========================= */
 saveState();
-
-
+</script>
+<script>
 
 /* =========================
    QUIZ
@@ -2466,11 +3355,17 @@ function finishQuiz(){
 }
 
 /* =========================
-   LISTENING
+   LISTENING 2.0
 ========================= */
 
-let listeningCurrent=null;
-let listeningAnswered=false;
+let listeningCurrent = null;
+let listeningAnswered = false;
+let listeningQuestions = [];
+let listeningMistakes = [];
+let listeningIndex = 0;
+let listeningScore = 0;
+let listeningFirstRound = true;
+let listeningMode = "choice";
 
 function renderListening(){
 
@@ -2480,16 +3375,48 @@ function renderListening(){
 
       <div class="card">
 
-        <h2>🎧 Entrenamiento auditivo</h2>
+        <h2>🎧 Listening 2.0</h2>
 
         <p style="color:var(--muted);margin:10px 0">
-          Escucha una palabra y selecciona su significado.
+          Entrena tu oído con palabras y dictados en inglés.
         </p>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+          gap:10px;
+          margin:18px 0">
+
+          <div class="card" style="margin:0;text-align:center">
+            <div style="font-size:28px">🔊</div>
+            <strong>Escucha</strong>
+            <div style="color:var(--muted);font-size:13px">
+              Audio en inglés
+            </div>
+          </div>
+
+          <div class="card" style="margin:0;text-align:center">
+            <div style="font-size:28px">✍️</div>
+            <strong>Escribe</strong>
+            <div style="color:var(--muted);font-size:13px">
+              Dictados cortos
+            </div>
+          </div>
+
+          <div class="card" style="margin:0;text-align:center">
+            <div style="font-size:28px">🎯</div>
+            <strong>10 ejercicios</strong>
+            <div style="color:var(--muted);font-size:13px">
+              Con repaso
+            </div>
+          </div>
+
+        </div>
 
         <button
           class="btn"
           onclick="startListening()">
-          ▶️ Comenzar
+          ▶️ Comenzar Listening
         </button>
 
       </div>
@@ -2497,49 +3424,179 @@ function renderListening(){
     `;
 
     return;
-
   }
 
   renderListeningQuestion();
-
 }
 
 function startListening(){
 
-  const all=getQuizWords();
+  const all=shuffle([...getQuizWords()]);
 
-  listeningCurrent=
-    all[Math.floor(Math.random()*all.length)];
+  if(!all.length){
+    toast("No hay palabras disponibles.");
+    return;
+  }
 
+  listeningQuestions=all.slice(0,Math.min(10,all.length));
+  listeningMistakes=[];
+  listeningIndex=0;
+  listeningScore=0;
+  listeningFirstRound=true;
   listeningAnswered=false;
 
-  renderListeningQuestion();
+  listeningCurrent=listeningQuestions[0];
 
+  renderListeningQuestion();
+}
+
+function speakListeningSlow(word){
+
+  if(!("speechSynthesis" in window)){
+    toast("El audio no está disponible en este navegador.");
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const u=new SpeechSynthesisUtterance(word);
+
+  u.lang="en-US";
+  u.rate=0.62;
+  u.pitch=1;
+  u.volume=1;
+
+  speechSynthesis.speak(u);
+}
+
+function speakListeningNormal(word){
+
+  if(!("speechSynthesis" in window)){
+    toast("El audio no está disponible en este navegador.");
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const u=new SpeechSynthesisUtterance(word);
+
+  u.lang="en-US";
+  u.rate=0.9;
+  u.pitch=1;
+  u.volume=1;
+
+  speechSynthesis.speak(u);
+}
+
+function getListeningChoices(item){
+
+  const all=getQuizWords();
+
+  const others=shuffle(
+    all.filter(w=>w[0]!==item[0])
+  ).slice(0,3);
+
+  return shuffle([item,...others]);
 }
 
 function renderListeningQuestion(){
 
+  if(!listeningCurrent){
+    renderListening();
+    return;
+  }
+
   const item=listeningCurrent;
 
-  const choices=shuffle(
-    getQuizWords()
-      .filter(w=>w[0]!==item[0])
-      .slice(0,3)
-      .concat([item])
-  );
+  listeningAnswered=false;
 
-  document.getElementById("listeningContent").innerHTML=`
+  const total=listeningQuestions.length;
+  const number=listeningIndex+1;
+
+  listeningMode=
+    (listeningIndex%3===2)
+    ? "write"
+    : "choice";
+
+  let html=`
 
     <div class="card">
 
-      <h2>🎧 Escucha</h2>
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        align-items:center;
+        flex-wrap:wrap">
 
-      <button
-        class="audioBtn"
-        style="margin-top:15px"
-        onclick="speakEnglish('${item[0]}')">
-        🔊
-      </button>
+        <strong>🎧 Listening</strong>
+
+        <span style="color:var(--muted)">
+          ${number} / ${total}
+        </span>
+
+      </div>
+
+      <div style="
+        margin-top:12px;
+        height:8px;
+        background:var(--border);
+        border-radius:20px;
+        overflow:hidden">
+
+        <div style="
+          width:${Math.round((number/total)*100)}%;
+          height:100%;
+          background:#2563eb;
+          border-radius:20px">
+        </div>
+
+      </div>
+
+      <div style="
+        text-align:center;
+        padding:25px 10px 10px">
+
+        <div style="font-size:18px;color:var(--muted)">
+          ${listeningMode==="write"
+            ? "✍️ Escribe lo que escuches"
+            : "🇪🇸 Selecciona lo que significa"}
+        </div>
+
+        <div style="
+          font-size:46px;
+          margin:18px 0">
+          🎧
+        </div>
+
+        <div style="
+          display:flex;
+          justify-content:center;
+          gap:10px;
+          flex-wrap:wrap">
+
+          <button
+            class="btn"
+            onclick="speakListeningNormal('${item[0].replace(/'/g,"\'")}')">
+            🔊 Escuchar
+          </button>
+
+          <button
+            class="btn secondary"
+            onclick="speakListeningSlow('${item[0].replace(/'/g,"\'")}')">
+            🐢 Lento
+          </button>
+
+        </div>
+
+      </div>
+  `;
+
+  if(listeningMode==="choice"){
+
+    const choices=getListeningChoices(item);
+
+    html+=`
 
       <div class="choices">
 
@@ -2547,7 +3604,7 @@ function renderListeningQuestion(){
 
           <button
             class="choice"
-            onclick="answerListening('${encodeURIComponent(JSON.stringify(c))}')">
+            onclick="answerListeningChoice('${encodeURIComponent(JSON.stringify(c))}')">
             ${c[1]}
           </button>
 
@@ -2555,19 +3612,162 @@ function renderListeningQuestion(){
 
       </div>
 
+    `;
+
+  }else{
+
+    html+=`
+
+      <div style="margin-top:15px">
+
+        <input
+          id="listeningInput"
+          type="text"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="Escribe la palabra en inglés"
+          style="
+            width:100%;
+            padding:14px;
+            border-radius:12px;
+            border:1px solid var(--border);
+            background:var(--card);
+            color:var(--text);
+            font-size:16px">
+
+        <button
+          class="btn"
+          style="margin-top:12px;width:100%"
+          onclick="answerListeningWrite()">
+          ✓ Comprobar
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  html+=`
+
       <div id="listeningFeedback"></div>
 
     </div>
 
   `;
 
+  document.getElementById("listeningContent").innerHTML=html;
+
   setTimeout(()=>{
-    speakEnglish(item[0]);
+    speakListeningNormal(item[0]);
   },350);
+
+  if(listeningMode==="write"){
+
+    setTimeout(()=>{
+
+      const input=document.getElementById("listeningInput");
+
+      if(input) input.focus();
+
+    },500);
+
+  }
 
 }
 
-function answerListening(encoded){
+function markListeningCorrect(){
+
+  listeningScore++;
+
+  state.xp+=5;
+  state.coins+=1;
+
+  registerStudyDay();
+
+}
+
+function saveListeningMistake(){
+
+  const key=listeningCurrent[0];
+
+  if(!listeningMistakes.some(w=>w[0]===key)){
+    listeningMistakes.push(listeningCurrent);
+  }
+
+}
+
+function showListeningFeedback(ok){
+
+  const correct=listeningCurrent;
+
+  if(ok){
+
+    markListeningCorrect();
+
+    document.getElementById("listeningFeedback").innerHTML=`
+
+      <div class="feedback good">
+
+        ✅ ¡Correcto!
+
+        <br><br>
+
+        <strong>${correct[0]}</strong>
+        = ${correct[1]}
+
+        <br><br>
+
+        <button
+          class="btn"
+          onclick="nextListeningQuestion()">
+          Siguiente →
+        </button>
+
+      </div>
+
+    `;
+
+  }else{
+
+    saveListeningMistake();
+
+    document.getElementById("listeningFeedback").innerHTML=`
+
+      <div class="feedback bad">
+
+        ❌ Incorrecto
+
+        <br><br>
+
+        La respuesta era:
+
+        <br>
+
+        <strong>${correct[0]}</strong>
+        = ${correct[1]}
+
+        <br><br>
+
+        <button
+          class="btn"
+          onclick="nextListeningQuestion()">
+          Siguiente →
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  saveState();
+  updateStats();
+
+}
+
+function answerListeningChoice(encoded){
 
   if(listeningAnswered) return;
 
@@ -2587,8 +3787,10 @@ function answerListening(encoded){
 
       btn.disabled=true;
 
-      if(normalizeText(btn.textContent)===
-        normalizeText(correct[1])){
+      if(
+        normalizeText(btn.textContent)===
+        normalizeText(correct[1])
+      ){
 
         btn.classList.add("correct");
 
@@ -2596,59 +3798,215 @@ function answerListening(encoded){
 
     });
 
-  if(ok){
+  showListeningFeedback(ok);
+}
 
-    state.xp+=5;
-    state.coins+=1;
+function answerListeningWrite(){
 
-    registerStudyDay();
+  if(listeningAnswered) return;
 
-    document.getElementById("listeningFeedback").innerHTML=`
+  const input=document.getElementById("listeningInput");
 
-      <div class="feedback good">
+  if(!input) return;
 
-        ✅ Correcto
+  const typed=normalizeText(input.value);
 
-        <br><br>
+  if(!typed){
 
-        <button
-          class="btn"
-          onclick="startListening()">
-          Siguiente →
-        </button>
-
-      </div>
-
-    `;
-
-  }else{
-
-    document.getElementById("listeningFeedback").innerHTML=`
-
-      <div class="feedback bad">
-
-        ❌ Incorrecto.
-
-        <br>
-        Era:
-        <strong>${correct[1]}</strong>
-
-        <br><br>
-
-        <button
-          class="btn"
-          onclick="startListening()">
-          Siguiente →
-        </button>
-
-      </div>
-
-    `;
+    toast("Escribe una respuesta primero.");
+    return;
 
   }
 
+  listeningAnswered=true;
+
+  const correct=listeningCurrent;
+
+  const ok=
+    typed===normalizeText(correct[0]);
+
+  input.disabled=true;
+
+  showListeningFeedback(ok);
+}
+
+function nextListeningQuestion(){
+
+  if(listeningFirstRound){
+
+    listeningIndex++;
+
+    if(listeningIndex<listeningQuestions.length){
+
+      listeningCurrent=listeningQuestions[listeningIndex];
+
+      renderListeningQuestion();
+      return;
+
+    }
+
+    if(listeningMistakes.length>0){
+
+      listeningFirstRound=false;
+      listeningQuestions=[...listeningMistakes];
+      listeningIndex=0;
+      listeningCurrent=listeningQuestions[0];
+
+      showListeningReviewIntro();
+      return;
+
+    }
+
+    finishListening();
+    return;
+
+  }
+
+  listeningIndex++;
+
+  if(listeningIndex<listeningQuestions.length){
+
+    listeningCurrent=listeningQuestions[listeningIndex];
+
+    renderListeningQuestion();
+    return;
+
+  }
+
+  finishListening();
+}
+
+function showListeningReviewIntro(){
+
+  document.getElementById("listeningContent").innerHTML=`
+
+    <div class="card" style="text-align:center">
+
+      <div style="font-size:55px">🔁</div>
+
+      <h2>Repasemos tus errores</h2>
+
+      <p style="color:var(--muted)">
+        Tienes ${listeningQuestions.length}
+        palabra${listeningQuestions.length===1?"":"s"} para repasar.
+      </p>
+
+      <button
+        class="btn"
+        onclick="renderListeningQuestion()">
+        ▶️ Comenzar repaso
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+function finishListening(){
+
+  const total=listeningQuestions.length;
+
+  const percentage=
+    total
+    ? Math.round((listeningScore/total)*100)
+    : 0;
+
+  let stars="⭐";
+
+  if(percentage>=90){
+    stars="⭐⭐⭐⭐⭐";
+  }else if(percentage>=75){
+    stars="⭐⭐⭐⭐";
+  }else if(percentage>=60){
+    stars="⭐⭐⭐";
+  }else if(percentage>=40){
+    stars="⭐⭐";
+  }
+
+  let bonus=0;
+
+  if(percentage>=90) bonus=20;
+  else if(percentage>=70) bonus=15;
+  else if(percentage>=50) bonus=10;
+
+  state.xp+=bonus;
+
+  registerStudyDay();
+
   saveState();
   updateStats();
+
+  document.getElementById("listeningContent").innerHTML=`
+
+    <div class="card" style="text-align:center">
+
+      <div style="font-size:55px">🎧</div>
+
+      <h2>¡Listening terminado!</h2>
+
+      <div style="
+        font-size:30px;
+        margin:12px">
+        ${stars}
+      </div>
+
+      <div style="
+        font-size:42px;
+        font-weight:bold">
+        ${percentage}%
+      </div>
+
+      <p style="color:var(--muted)">
+        Aciertos: ${listeningScore} de ${total}
+      </p>
+
+      ${bonus>0
+        ? `<p>⭐ +${bonus} XP de bonificación</p>`
+        : `<p style="color:var(--muted)">
+             Sigue practicando para conseguir la bonificación.
+           </p>`
+      }
+
+      <div style="
+        display:flex;
+        gap:10px;
+        justify-content:center;
+        flex-wrap:wrap;
+        margin-top:18px">
+
+        <button
+          class="btn"
+          onclick="resetListening()">
+          🔄 Repetir
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="showPage('home')">
+          🏠 Salir
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+  listeningCurrent=null;
+}
+
+function resetListening(){
+
+  listeningCurrent=null;
+  listeningAnswered=false;
+  listeningQuestions=[];
+  listeningMistakes=[];
+  listeningIndex=0;
+  listeningScore=0;
+  listeningFirstRound=true;
+
+  renderListening();
 
 }
 
@@ -2915,10 +4273,58 @@ function renderProfile(){
         onchange="importProgress(event)"
       >
 
+      <hr style="margin:20px 0;border:0;border-top:1px solid var(--border)">
+
+      <div style="
+        padding:15px;
+        border:1px solid #ef4444;
+        border-radius:14px">
+
+        <h3 style="margin-bottom:8px">
+          ⚠️ Zona de peligro
+        </h3>
+
+        <p style="color:var(--muted);font-size:14px;margin-bottom:12px">
+          Borra todo el progreso guardado en este dispositivo.
+        </p>
+
+        <button
+          class="btn"
+          style="background:#dc2626;color:white;width:100%"
+          onclick="resetAllProgress()">
+          🗑️ Reiniciar progreso
+        </button>
+
+      </div>
+
     </div>
 
   `;
 
+}
+
+
+
+function resetAllProgress(){
+
+  const first=confirm(
+    "⚠️ ¿Quieres reiniciar TODO tu progreso?"
+  );
+
+  if(!first) return;
+
+  const second=confirm(
+    "🚨 ÚLTIMA CONFIRMACIÓN\n\n"+
+    "Se borrarán XP, monedas, lecciones, racha, "+
+    "logros, inventario y estadísticas.\n\n"+
+    "Esta acción no se puede deshacer."
+  );
+
+  if(!second) return;
+
+  localStorage.removeItem(STORAGE);
+
+  location.reload();
 }
 
 function changeName(){
@@ -3927,3 +5333,7 @@ renderReview();
 
 saveState();
 
+</script>
+
+</body>
+</html>

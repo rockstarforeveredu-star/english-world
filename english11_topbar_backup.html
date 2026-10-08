@@ -3355,11 +3355,17 @@ function finishQuiz(){
 }
 
 /* =========================
-   LISTENING
+   LISTENING 2.0
 ========================= */
 
-let listeningCurrent=null;
-let listeningAnswered=false;
+let listeningCurrent = null;
+let listeningAnswered = false;
+let listeningQuestions = [];
+let listeningMistakes = [];
+let listeningIndex = 0;
+let listeningScore = 0;
+let listeningFirstRound = true;
+let listeningMode = "choice";
 
 function renderListening(){
 
@@ -3369,16 +3375,48 @@ function renderListening(){
 
       <div class="card">
 
-        <h2>🎧 Entrenamiento auditivo</h2>
+        <h2>🎧 Listening 2.0</h2>
 
         <p style="color:var(--muted);margin:10px 0">
-          Escucha una palabra y selecciona su significado.
+          Entrena tu oído con palabras y dictados en inglés.
         </p>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+          gap:10px;
+          margin:18px 0">
+
+          <div class="card" style="margin:0;text-align:center">
+            <div style="font-size:28px">🔊</div>
+            <strong>Escucha</strong>
+            <div style="color:var(--muted);font-size:13px">
+              Audio en inglés
+            </div>
+          </div>
+
+          <div class="card" style="margin:0;text-align:center">
+            <div style="font-size:28px">✍️</div>
+            <strong>Escribe</strong>
+            <div style="color:var(--muted);font-size:13px">
+              Dictados cortos
+            </div>
+          </div>
+
+          <div class="card" style="margin:0;text-align:center">
+            <div style="font-size:28px">🎯</div>
+            <strong>10 ejercicios</strong>
+            <div style="color:var(--muted);font-size:13px">
+              Con repaso
+            </div>
+          </div>
+
+        </div>
 
         <button
           class="btn"
           onclick="startListening()">
-          ▶️ Comenzar
+          ▶️ Comenzar Listening
         </button>
 
       </div>
@@ -3386,49 +3424,179 @@ function renderListening(){
     `;
 
     return;
-
   }
 
   renderListeningQuestion();
-
 }
 
 function startListening(){
 
-  const all=getQuizWords();
+  const all=shuffle([...getQuizWords()]);
 
-  listeningCurrent=
-    all[Math.floor(Math.random()*all.length)];
+  if(!all.length){
+    toast("No hay palabras disponibles.");
+    return;
+  }
 
+  listeningQuestions=all.slice(0,Math.min(10,all.length));
+  listeningMistakes=[];
+  listeningIndex=0;
+  listeningScore=0;
+  listeningFirstRound=true;
   listeningAnswered=false;
 
-  renderListeningQuestion();
+  listeningCurrent=listeningQuestions[0];
 
+  renderListeningQuestion();
+}
+
+function speakListeningSlow(word){
+
+  if(!("speechSynthesis" in window)){
+    toast("El audio no está disponible en este navegador.");
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const u=new SpeechSynthesisUtterance(word);
+
+  u.lang="en-US";
+  u.rate=0.62;
+  u.pitch=1;
+  u.volume=1;
+
+  speechSynthesis.speak(u);
+}
+
+function speakListeningNormal(word){
+
+  if(!("speechSynthesis" in window)){
+    toast("El audio no está disponible en este navegador.");
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const u=new SpeechSynthesisUtterance(word);
+
+  u.lang="en-US";
+  u.rate=0.9;
+  u.pitch=1;
+  u.volume=1;
+
+  speechSynthesis.speak(u);
+}
+
+function getListeningChoices(item){
+
+  const all=getQuizWords();
+
+  const others=shuffle(
+    all.filter(w=>w[0]!==item[0])
+  ).slice(0,3);
+
+  return shuffle([item,...others]);
 }
 
 function renderListeningQuestion(){
 
+  if(!listeningCurrent){
+    renderListening();
+    return;
+  }
+
   const item=listeningCurrent;
 
-  const choices=shuffle(
-    getQuizWords()
-      .filter(w=>w[0]!==item[0])
-      .slice(0,3)
-      .concat([item])
-  );
+  listeningAnswered=false;
 
-  document.getElementById("listeningContent").innerHTML=`
+  const total=listeningQuestions.length;
+  const number=listeningIndex+1;
+
+  listeningMode=
+    (listeningIndex%3===2)
+    ? "write"
+    : "choice";
+
+  let html=`
 
     <div class="card">
 
-      <h2>🎧 Escucha</h2>
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        align-items:center;
+        flex-wrap:wrap">
 
-      <button
-        class="audioBtn"
-        style="margin-top:15px"
-        onclick="speakEnglish('${item[0]}')">
-        🔊
-      </button>
+        <strong>🎧 Listening</strong>
+
+        <span style="color:var(--muted)">
+          ${number} / ${total}
+        </span>
+
+      </div>
+
+      <div style="
+        margin-top:12px;
+        height:8px;
+        background:var(--border);
+        border-radius:20px;
+        overflow:hidden">
+
+        <div style="
+          width:${Math.round((number/total)*100)}%;
+          height:100%;
+          background:#2563eb;
+          border-radius:20px">
+        </div>
+
+      </div>
+
+      <div style="
+        text-align:center;
+        padding:25px 10px 10px">
+
+        <div style="font-size:18px;color:var(--muted)">
+          ${listeningMode==="write"
+            ? "✍️ Escribe lo que escuches"
+            : "🇪🇸 Selecciona lo que significa"}
+        </div>
+
+        <div style="
+          font-size:46px;
+          margin:18px 0">
+          🎧
+        </div>
+
+        <div style="
+          display:flex;
+          justify-content:center;
+          gap:10px;
+          flex-wrap:wrap">
+
+          <button
+            class="btn"
+            onclick="speakListeningNormal('${item[0].replace(/'/g,"\'")}')">
+            🔊 Escuchar
+          </button>
+
+          <button
+            class="btn secondary"
+            onclick="speakListeningSlow('${item[0].replace(/'/g,"\'")}')">
+            🐢 Lento
+          </button>
+
+        </div>
+
+      </div>
+  `;
+
+  if(listeningMode==="choice"){
+
+    const choices=getListeningChoices(item);
+
+    html+=`
 
       <div class="choices">
 
@@ -3436,7 +3604,7 @@ function renderListeningQuestion(){
 
           <button
             class="choice"
-            onclick="answerListening('${encodeURIComponent(JSON.stringify(c))}')">
+            onclick="answerListeningChoice('${encodeURIComponent(JSON.stringify(c))}')">
             ${c[1]}
           </button>
 
@@ -3444,19 +3612,162 @@ function renderListeningQuestion(){
 
       </div>
 
+    `;
+
+  }else{
+
+    html+=`
+
+      <div style="margin-top:15px">
+
+        <input
+          id="listeningInput"
+          type="text"
+          autocomplete="off"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="Escribe la palabra en inglés"
+          style="
+            width:100%;
+            padding:14px;
+            border-radius:12px;
+            border:1px solid var(--border);
+            background:var(--card);
+            color:var(--text);
+            font-size:16px">
+
+        <button
+          class="btn"
+          style="margin-top:12px;width:100%"
+          onclick="answerListeningWrite()">
+          ✓ Comprobar
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  html+=`
+
       <div id="listeningFeedback"></div>
 
     </div>
 
   `;
 
+  document.getElementById("listeningContent").innerHTML=html;
+
   setTimeout(()=>{
-    speakEnglish(item[0]);
+    speakListeningNormal(item[0]);
   },350);
+
+  if(listeningMode==="write"){
+
+    setTimeout(()=>{
+
+      const input=document.getElementById("listeningInput");
+
+      if(input) input.focus();
+
+    },500);
+
+  }
 
 }
 
-function answerListening(encoded){
+function markListeningCorrect(){
+
+  listeningScore++;
+
+  state.xp+=5;
+  state.coins+=1;
+
+  registerStudyDay();
+
+}
+
+function saveListeningMistake(){
+
+  const key=listeningCurrent[0];
+
+  if(!listeningMistakes.some(w=>w[0]===key)){
+    listeningMistakes.push(listeningCurrent);
+  }
+
+}
+
+function showListeningFeedback(ok){
+
+  const correct=listeningCurrent;
+
+  if(ok){
+
+    markListeningCorrect();
+
+    document.getElementById("listeningFeedback").innerHTML=`
+
+      <div class="feedback good">
+
+        ✅ ¡Correcto!
+
+        <br><br>
+
+        <strong>${correct[0]}</strong>
+        = ${correct[1]}
+
+        <br><br>
+
+        <button
+          class="btn"
+          onclick="nextListeningQuestion()">
+          Siguiente →
+        </button>
+
+      </div>
+
+    `;
+
+  }else{
+
+    saveListeningMistake();
+
+    document.getElementById("listeningFeedback").innerHTML=`
+
+      <div class="feedback bad">
+
+        ❌ Incorrecto
+
+        <br><br>
+
+        La respuesta era:
+
+        <br>
+
+        <strong>${correct[0]}</strong>
+        = ${correct[1]}
+
+        <br><br>
+
+        <button
+          class="btn"
+          onclick="nextListeningQuestion()">
+          Siguiente →
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+  saveState();
+  updateStats();
+
+}
+
+function answerListeningChoice(encoded){
 
   if(listeningAnswered) return;
 
@@ -3476,8 +3787,10 @@ function answerListening(encoded){
 
       btn.disabled=true;
 
-      if(normalizeText(btn.textContent)===
-        normalizeText(correct[1])){
+      if(
+        normalizeText(btn.textContent)===
+        normalizeText(correct[1])
+      ){
 
         btn.classList.add("correct");
 
@@ -3485,59 +3798,215 @@ function answerListening(encoded){
 
     });
 
-  if(ok){
+  showListeningFeedback(ok);
+}
 
-    state.xp+=5;
-    state.coins+=1;
+function answerListeningWrite(){
 
-    registerStudyDay();
+  if(listeningAnswered) return;
 
-    document.getElementById("listeningFeedback").innerHTML=`
+  const input=document.getElementById("listeningInput");
 
-      <div class="feedback good">
+  if(!input) return;
 
-        ✅ Correcto
+  const typed=normalizeText(input.value);
 
-        <br><br>
+  if(!typed){
 
-        <button
-          class="btn"
-          onclick="startListening()">
-          Siguiente →
-        </button>
-
-      </div>
-
-    `;
-
-  }else{
-
-    document.getElementById("listeningFeedback").innerHTML=`
-
-      <div class="feedback bad">
-
-        ❌ Incorrecto.
-
-        <br>
-        Era:
-        <strong>${correct[1]}</strong>
-
-        <br><br>
-
-        <button
-          class="btn"
-          onclick="startListening()">
-          Siguiente →
-        </button>
-
-      </div>
-
-    `;
+    toast("Escribe una respuesta primero.");
+    return;
 
   }
 
+  listeningAnswered=true;
+
+  const correct=listeningCurrent;
+
+  const ok=
+    typed===normalizeText(correct[0]);
+
+  input.disabled=true;
+
+  showListeningFeedback(ok);
+}
+
+function nextListeningQuestion(){
+
+  if(listeningFirstRound){
+
+    listeningIndex++;
+
+    if(listeningIndex<listeningQuestions.length){
+
+      listeningCurrent=listeningQuestions[listeningIndex];
+
+      renderListeningQuestion();
+      return;
+
+    }
+
+    if(listeningMistakes.length>0){
+
+      listeningFirstRound=false;
+      listeningQuestions=[...listeningMistakes];
+      listeningIndex=0;
+      listeningCurrent=listeningQuestions[0];
+
+      showListeningReviewIntro();
+      return;
+
+    }
+
+    finishListening();
+    return;
+
+  }
+
+  listeningIndex++;
+
+  if(listeningIndex<listeningQuestions.length){
+
+    listeningCurrent=listeningQuestions[listeningIndex];
+
+    renderListeningQuestion();
+    return;
+
+  }
+
+  finishListening();
+}
+
+function showListeningReviewIntro(){
+
+  document.getElementById("listeningContent").innerHTML=`
+
+    <div class="card" style="text-align:center">
+
+      <div style="font-size:55px">🔁</div>
+
+      <h2>Repasemos tus errores</h2>
+
+      <p style="color:var(--muted)">
+        Tienes ${listeningQuestions.length}
+        palabra${listeningQuestions.length===1?"":"s"} para repasar.
+      </p>
+
+      <button
+        class="btn"
+        onclick="renderListeningQuestion()">
+        ▶️ Comenzar repaso
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+function finishListening(){
+
+  const total=listeningQuestions.length;
+
+  const percentage=
+    total
+    ? Math.round((listeningScore/total)*100)
+    : 0;
+
+  let stars="⭐";
+
+  if(percentage>=90){
+    stars="⭐⭐⭐⭐⭐";
+  }else if(percentage>=75){
+    stars="⭐⭐⭐⭐";
+  }else if(percentage>=60){
+    stars="⭐⭐⭐";
+  }else if(percentage>=40){
+    stars="⭐⭐";
+  }
+
+  let bonus=0;
+
+  if(percentage>=90) bonus=20;
+  else if(percentage>=70) bonus=15;
+  else if(percentage>=50) bonus=10;
+
+  state.xp+=bonus;
+
+  registerStudyDay();
+
   saveState();
   updateStats();
+
+  document.getElementById("listeningContent").innerHTML=`
+
+    <div class="card" style="text-align:center">
+
+      <div style="font-size:55px">🎧</div>
+
+      <h2>¡Listening terminado!</h2>
+
+      <div style="
+        font-size:30px;
+        margin:12px">
+        ${stars}
+      </div>
+
+      <div style="
+        font-size:42px;
+        font-weight:bold">
+        ${percentage}%
+      </div>
+
+      <p style="color:var(--muted)">
+        Aciertos: ${listeningScore} de ${total}
+      </p>
+
+      ${bonus>0
+        ? `<p>⭐ +${bonus} XP de bonificación</p>`
+        : `<p style="color:var(--muted)">
+             Sigue practicando para conseguir la bonificación.
+           </p>`
+      }
+
+      <div style="
+        display:flex;
+        gap:10px;
+        justify-content:center;
+        flex-wrap:wrap;
+        margin-top:18px">
+
+        <button
+          class="btn"
+          onclick="resetListening()">
+          🔄 Repetir
+        </button>
+
+        <button
+          class="btn secondary"
+          onclick="showPage('home')">
+          🏠 Salir
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+  listeningCurrent=null;
+}
+
+function resetListening(){
+
+  listeningCurrent=null;
+  listeningAnswered=false;
+  listeningQuestions=[];
+  listeningMistakes=[];
+  listeningIndex=0;
+  listeningScore=0;
+  listeningFirstRound=true;
+
+  renderListening();
 
 }
 
@@ -3732,8 +4201,26 @@ function renderProfile(){
 
       <div style="text-align:center">
 
-        <div style="font-size:70px">
-          ${state.avatar||"🙂"}
+        <div style="margin-bottom:12px">
+
+          ${
+            state.avatarImage
+            ? `<img
+                 src="${state.avatarImage}"
+                 alt="Foto de perfil"
+                 style="
+                   width:120px;
+                   height:120px;
+                   border-radius:50%;
+                   object-fit:cover;
+                   border:4px solid var(--accent);
+                 "
+               >`
+            : `<div style="font-size:70px">
+                 ${state.equippedAvatar || state.avatar || "🙂"}
+               </div>`
+          }
+
         </div>
 
         <h2>${state.name}</h2>
@@ -3786,6 +4273,32 @@ function renderProfile(){
 
       <button
         class="btn secondary"
+        onclick="document.getElementById('profilePhotoInput').click()">
+        📷 Elegir foto del teléfono
+      </button>
+
+      <input
+        id="profilePhotoInput"
+        type="file"
+        accept="image/*"
+        style="display:none"
+        onchange="setProfilePhoto(event)"
+      >
+
+      ${
+        state.avatarImage
+        ? `
+          <button
+            class="btn secondary"
+            onclick="removeProfilePhoto()">
+            🗑️ Quitar foto
+          </button>
+        `
+        : ""
+      }
+
+      <button
+        class="btn secondary"
         onclick="exportProgress()">
         💾 Exportar progreso
       </button>
@@ -3804,10 +4317,113 @@ function renderProfile(){
         onchange="importProgress(event)"
       >
 
+      <hr style="
+        margin:20px 0;
+        border:0;
+        border-top:1px solid var(--border)">
+
+      <div style="
+        padding:15px;
+        border:1px solid #ef4444;
+        border-radius:14px">
+
+        <h3 style="margin-bottom:8px">
+          ⚠️ Zona de peligro
+        </h3>
+
+        <p style="
+          color:var(--muted);
+          font-size:14px;
+          margin-bottom:12px">
+          Borra todo el progreso guardado en este dispositivo.
+        </p>
+
+        <button
+          class="btn"
+          style="background:#dc2626;color:white;width:100%"
+          onclick="resetAllProgress()">
+          🗑️ Reiniciar progreso
+        </button>
+
+      </div>
+
     </div>
 
   `;
 
+}
+
+
+function setProfilePhoto(event){
+
+  const file=event.target.files && event.target.files[0];
+
+  if(!file) return;
+
+  if(!file.type.startsWith("image/")){
+    toast("❌ Selecciona una imagen.");
+    return;
+  }
+
+  if(file.size > 5 * 1024 * 1024){
+    toast("❌ La imagen debe pesar menos de 5 MB.");
+    return;
+  }
+
+  const reader=new FileReader();
+
+  reader.onload=function(){
+
+    state.avatarImage=reader.result;
+
+    saveState();
+
+    renderProfile();
+    updateStats();
+
+    toast("📷 ¡Foto de perfil guardada!");
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function removeProfilePhoto(){
+
+  state.avatarImage="";
+
+  saveState();
+
+  renderProfile();
+  updateStats();
+
+  toast("🗑️ Foto eliminada.");
+
+}
+
+
+function resetAllProgress(){
+
+  const first=confirm(
+    "⚠️ ¿Quieres reiniciar TODO tu progreso?"
+  );
+
+  if(!first) return;
+
+  const second=confirm(
+    "🚨 ÚLTIMA CONFIRMACIÓN\n\n"+
+    "Se borrarán XP, monedas, lecciones, racha, "+
+    "logros, inventario y estadísticas.\n\n"+
+    "Esta acción no se puede deshacer."
+  );
+
+  if(!second) return;
+
+  localStorage.removeItem(STORAGE);
+
+  location.reload();
 }
 
 function changeName(){
@@ -3866,66 +4482,312 @@ function setAvatar(avatar){
 }
 
 /* =========================
-   TIENDA
+   TIENDA 2.0
 ========================= */
 
 const shopItems=[
+
+  // AVATARES
   ["avatar_crown","👑 Corona","Avatar especial",80],
   ["avatar_robot","🤖 Robot","Avatar robot",100],
   ["avatar_dragon","🐲 Dragón","Avatar dragón",150],
   ["avatar_alien","👽 Alien","Avatar alienígena",180],
+  ["avatar_cat","🐱 Gato","Avatar gato",70],
+  ["avatar_dog","🐶 Perro","Avatar perro",70],
+  ["avatar_panda","🐼 Panda","Avatar panda",90],
+  ["avatar_lion","🦁 León","Avatar león",110],
+  ["avatar_tiger","🐯 Tigre","Avatar tigre",120],
+  ["avatar_fox","🦊 Zorro","Avatar zorro",120],
+  ["avatar_bear","🐻 Oso","Avatar oso",100],
+  ["avatar_monkey","🐵 Mono","Avatar mono",80],
+  ["avatar_penguin","🐧 Pingüino","Avatar pingüino",90],
+  ["avatar_frog","🐸 Rana","Avatar rana",80],
+  ["avatar_unicorn","🦄 Unicornio","Avatar especial",180],
+  ["avatar_ghost","👻 Fantasma","Avatar especial",160],
+  ["avatar_vampire","🧛 Vampiro","Avatar especial",200],
+  ["avatar_wizard","🧙 Mago","Avatar mágico",220],
+  ["avatar_ninja","🥷 Ninja","Avatar ninja",220],
+  ["avatar_king","🤴 Rey","Avatar real",250],
+  ["avatar_queen","👸 Reina","Avatar real",250],
+  ["avatar_rocket","🚀 Explorador","Avatar espacial",180],
+  ["avatar_astronaut","👨‍🚀 Astronauta","Avatar espacial",250],
+  ["avatar_fire","🔥 Fuego","Avatar legendario",300],
+  ["avatar_ice","🥶 Hielo","Avatar legendario",300],
+  ["avatar_skull","💀 Calavera","Avatar especial",200],
+
+  // MARCOS
   ["frame_gold","🟡 Marco dorado","Marco premium",120],
   ["frame_fire","🔥 Marco fuego","Marco especial",180],
+
+  // FONDOS
   ["background_space","🌌 Espacio","Fondo espacial",150],
   ["background_forest","🌲 Bosque","Fondo natural",120],
+
+  // EFECTOS
   ["effect_star","✨ Estrellas","Efecto especial",200],
   ["effect_fire","🔥 Fuego","Efecto especial",250],
+
+  // PROTECCIÓN
   ["streak_protection","🛡️ Protección","Protege una racha",100]
+
+];
+
+const chestItems=[
+
+  {
+    id:"chest_common",
+    icon:"📦",
+    name:"Cofre común",
+    desc:"Recompensas pequeñas",
+    price:100
+  },
+
+  {
+    id:"chest_rare",
+    icon:"💎",
+    name:"Cofre raro",
+    desc:"Mejores recompensas",
+    price:250
+  },
+
+  {
+    id:"chest_legendary",
+    icon:"👑",
+    name:"Cofre legendario",
+    desc:"Grandes recompensas",
+    price:500
+  }
+
+];
+
+
+const xpShopItems=[
+  ["xp_listening","🎧 Listening avanzado","Desbloqueo especial",250],
+  ["xp_review","🧠 Repaso especial","Repaso de palabras difíciles",150],
+  ["xp_mission","🎯 Misión extra","Misión especial",200],
+  ["xp_avatar","🧙 Avatar legendario","Avatar exclusivo",500],
+  ["xp_effect","✨ Efecto legendario","Efecto exclusivo",750],
+  ["xp_legendary","👑 Objeto legendario","Recompensa exclusiva",1500]
 ];
 
 function renderShop(){
 
-  document.getElementById("shopList").innerHTML=
-    shopItems.map(item=>{
+  const container=document.getElementById("shopList");
 
-      const owned=state.inventory.includes(item[0]);
+  if(!container) return;
 
-      return `
+  let html=`
 
-        <div class="card">
+    <div style="grid-column:1/-1">
 
-          <div style="font-size:35px">
-            ${item[1].split(" ")[0]}
-          </div>
+      <div class="card"
+        style="
+          background:linear-gradient(135deg,#f59e0b,#f97316);
+          color:white">
 
-          <h3>${item[1]}</h3>
+        <h2>⭐ Centro de XP</h2>
 
-          <p>${item[2]}</p>
+        <p style="opacity:.9">
+          Usa tu experiencia para conseguir recompensas exclusivas.
+        </p>
 
-          <br>
+        <div style="
+          font-size:28px;
+          font-weight:bold;
+          margin:12px 0">
+          ⭐ ${state.xp} XP
+        </div>
 
-          <strong>🪙 ${item[3]}</strong>
+        <div class="grid" style="margin-top:15px">
 
-          <br><br>
+          ${xpShopItems.map(item=>{
 
-          ${
-            owned
-            ? `<button class="btn secondary"
-                 onclick="equipItem('${item[0]}')">
-                 Equipar
-               </button>`
-            : `<button class="btn"
-                 onclick="buyItem('${item[0]}')">
-                 Comprar
-               </button>`
-          }
+            const owned=state.inventory.includes(item[0]);
+
+            return `
+
+              <div class="card"
+                style="
+                  margin:0;
+                  background:rgba(255,255,255,.14);
+                  color:white">
+
+                <div style="font-size:42px">
+                  ${item[1].split(" ")[0]}
+                </div>
+
+                <h3>${item[1]}</h3>
+
+                <p>${item[2]}</p>
+
+                <strong>⭐ ${item[3]} XP</strong>
+
+                <br><br>
+
+                ${
+                  owned
+
+                  ? `<strong>✅ Comprado</strong>`
+
+                  : `<button
+                       class="btn"
+                       onclick="buyXPItem('${item[0]}')">
+                       ⭐ Comprar con XP
+                     </button>`
+                }
+
+              </div>
+
+            `;
+
+          }).join("")}
 
         </div>
 
-      `;
+      </div>
 
-    }).join("");
+    </div>
 
+    <div style="grid-column:1/-1">
+
+      <div class="card"
+        style="
+          background:linear-gradient(135deg,#7c3aed,#2563eb);
+          color:white">
+
+        <h2>🎁 Cofres de recompensa</h2>
+
+        <p style="opacity:.9">
+          Compra un cofre y descubre una recompensa aleatoria.
+        </p>
+
+        <div class="grid" style="margin-top:15px">
+
+          ${chestItems.map(chest=>`
+
+            <div class="card"
+              style="
+                margin:0;
+                text-align:center;
+                background:rgba(255,255,255,.12);
+                color:white">
+
+              <div style="font-size:55px">
+                ${chest.icon}
+              </div>
+
+              <h3>${chest.name}</h3>
+
+              <p>${chest.desc}</p>
+
+              <strong>🪙 ${chest.price}</strong>
+
+              <br><br>
+
+              <button
+                class="btn"
+                onclick="buyChest('${chest.id}')">
+                🎁 Comprar
+              </button>
+
+            </div>
+
+          `).join("")}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div style="grid-column:1/-1">
+      <h2>🎭 Avatares</h2>
+    </div>
+
+  `;
+
+  html+=shopItems.map(item=>{
+
+    const owned=state.inventory.includes(item[0]);
+
+    const isAvatar=item[0].startsWith("avatar_");
+
+    return `
+
+      <div class="card">
+
+        <div style="font-size:45px">
+          ${item[1].split(" ")[0]}
+        </div>
+
+        <h3>${item[1]}</h3>
+
+        <p>${item[2]}</p>
+
+        <br>
+
+        <strong>🪙 ${item[3]}</strong>
+
+        <br><br>
+
+        ${
+          owned
+
+          ? `<button
+               class="btn secondary"
+               onclick="equipItem('${item[0]}')">
+               ${isAvatar ? "🎭 Usar avatar" : "✨ Equipar"}
+             </button>`
+
+          : `<button
+               class="btn"
+               onclick="buyItem('${item[0]}')">
+               🛒 Comprar
+             </button>`
+        }
+
+      </div>
+
+    `;
+
+  }).join("");
+
+  container.innerHTML=html;
+}
+
+
+function buyXPItem(id){
+
+  const item=xpShopItems.find(x=>x[0]===id);
+
+  if(!item) return;
+
+  if(state.inventory.includes(id)){
+    toast("Ya tienes esta recompensa.");
+    return;
+  }
+
+  if(state.xp<item[3]){
+    toast("⭐ No tienes suficiente XP.");
+    return;
+  }
+
+  const ok=confirm(
+    `¿Comprar ${item[1]} por ${item[3]} XP?`
+  );
+
+  if(!ok) return;
+
+  state.xp-=item[3];
+  state.inventory.push(item[0]);
+
+  saveState();
+
+  updateStats();
+  renderShop();
+  renderInventory();
+
+  toast(`🎉 ¡${item[1]} desbloqueado!`);
 }
 
 function buyItem(id){
@@ -3935,17 +4797,13 @@ function buyItem(id){
   if(!item) return;
 
   if(state.inventory.includes(id)){
-
     toast("Ya tienes este objeto.");
     return;
-
   }
 
   if(state.coins<item[3]){
-
     toast("🪙 No tienes suficientes monedas.");
     return;
-
   }
 
   state.coins-=item[3];
@@ -3957,7 +4815,7 @@ function buyItem(id){
   renderShop();
   renderInventory();
 
-  toast("🎉 Objeto comprado.");
+  toast("🎉 ¡Objeto comprado!");
 
 }
 
@@ -3965,13 +4823,17 @@ function equipItem(id){
 
   if(!state.inventory.includes(id)) return;
 
+  const item=shopItems.find(x=>x[0]===id);
+
+  if(!item) return;
+
   state.equippedItem=id;
 
-  // Si es un avatar, también lo convertimos en avatar activo
-  const avatar=shopItems.find(item=>item[0]===id);
+  if(id.startsWith("avatar_")){
 
-  if(avatar && id.startsWith("avatar_")){
-    state.equippedAvatar=avatar[1].split(" ")[0];
+    state.equippedAvatar=
+      item[1].split(" ")[0];
+
   }
 
   saveState();
@@ -3984,9 +4846,259 @@ function equipItem(id){
 
 }
 
+function buyChest(id){
+
+  const chest=chestItems.find(x=>x.id===id);
+
+  if(!chest) return;
+
+  if(state.coins<chest.price){
+
+    toast("🪙 No tienes suficientes monedas.");
+    return;
+
+  }
+
+  state.coins-=chest.price;
+
+  saveState();
+  updateStats();
+
+  openChest(id);
+
+}
+
+function openChest(id){
+
+  const chest=chestItems.find(x=>x.id===id);
+
+  if(!chest) return;
+
+  let rewards=[];
+
+  const roll=Math.random();
+
+  if(id==="chest_common"){
+
+    if(roll<0.45){
+
+      const coins=30+Math.floor(Math.random()*71);
+      state.coins+=coins;
+      rewards.push(`🪙 +${coins} monedas`);
+
+    }else if(roll<0.8){
+
+      const xp=20+Math.floor(Math.random()*31);
+      state.xp+=xp;
+      rewards.push(`⭐ +${xp} XP`);
+
+    }else{
+
+      rewards.push(addRandomAvatar("common"));
+
+    }
+
+  }else if(id==="chest_rare"){
+
+    if(roll<0.35){
+
+      const coins=100+Math.floor(Math.random()*101);
+      state.coins+=coins;
+      rewards.push(`🪙 +${coins} monedas`);
+
+    }else if(roll<0.65){
+
+      const xp=60+Math.floor(Math.random()*61);
+      state.xp+=xp;
+      rewards.push(`⭐ +${xp} XP`);
+
+    }else if(roll<0.88){
+
+      rewards.push(addRandomAvatar("rare"));
+
+    }else{
+
+      rewards.push(addRandomSpecial());
+
+    }
+
+  }else{
+
+    if(roll<0.30){
+
+      const coins=250+Math.floor(Math.random()*251);
+      state.coins+=coins;
+      rewards.push(`🪙 +${coins} monedas`);
+
+    }else if(roll<0.55){
+
+      const xp=150+Math.floor(Math.random()*151);
+      state.xp+=xp;
+      rewards.push(`⭐ +${xp} XP`);
+
+    }else if(roll<0.82){
+
+      rewards.push(addRandomAvatar("legendary"));
+
+    }else{
+
+      rewards.push(addRandomSpecial());
+
+    }
+
+  }
+
+  saveState();
+
+  updateStats();
+  renderShop();
+  renderInventory();
+
+  showModal(
+    `🎁 ${chest.name}`,
+    `
+      <div style="text-align:center">
+
+        <div style="
+          font-size:80px;
+          margin:10px">
+          ${chest.icon}
+        </div>
+
+        <h2>¡Cofre abierto!</h2>
+
+        <div style="
+          margin:20px 0;
+          font-size:20px">
+
+          ${rewards.map(r=>`
+            <div style="margin:10px">
+              🎉 ${r}
+            </div>
+          `).join("")}
+
+        </div>
+
+        <button
+          class="btn"
+          onclick="closeModal()">
+          Continuar
+        </button>
+
+      </div>
+    `
+  );
+
+}
+
+function addRandomAvatar(rarity){
+
+  let pool=[];
+
+  if(rarity==="common"){
+
+    pool=[
+      "avatar_cat",
+      "avatar_dog",
+      "avatar_panda",
+      "avatar_monkey",
+      "avatar_frog",
+      "avatar_penguin",
+      "avatar_bear"
+    ];
+
+  }else if(rarity==="rare"){
+
+    pool=[
+      "avatar_lion",
+      "avatar_tiger",
+      "avatar_fox",
+      "avatar_unicorn",
+      "avatar_ghost",
+      "avatar_rocket",
+      "avatar_wizard"
+    ];
+
+  }else{
+
+    pool=[
+      "avatar_dragon",
+      "avatar_vampire",
+      "avatar_ninja",
+      "avatar_king",
+      "avatar_queen",
+      "avatar_astronaut",
+      "avatar_fire",
+      "avatar_ice",
+      "avatar_skull"
+    ];
+
+  }
+
+  const available=
+    pool.filter(id=>!state.inventory.includes(id));
+
+  if(!available.length){
+
+    const coins=
+      rarity==="legendary" ? 250 :
+      rarity==="rare" ? 100 : 50;
+
+    state.coins+=coins;
+
+    return `🪙 +${coins} monedas por duplicado`;
+
+  }
+
+  const id=
+    available[Math.floor(Math.random()*available.length)];
+
+  state.inventory.push(id);
+
+  const item=shopItems.find(x=>x[0]===id);
+
+  return `🎭 ${item[1]} desbloqueado`;
+
+}
+
+function addRandomSpecial(){
+
+  const pool=[
+    "frame_gold",
+    "frame_fire",
+    "background_space",
+    "background_forest",
+    "effect_star",
+    "effect_fire",
+    "streak_protection"
+  ];
+
+  const available=
+    pool.filter(id=>!state.inventory.includes(id));
+
+  if(!available.length){
+
+    state.coins+=150;
+
+    return "🪙 +150 monedas por duplicado";
+
+  }
+
+  const id=
+    available[Math.floor(Math.random()*available.length)];
+
+  state.inventory.push(id);
+
+  const item=shopItems.find(x=>x[0]===id);
+
+  return `✨ ${item[1]} desbloqueado`;
+
+}
+
 /* =========================
    INVENTARIO
 ========================= */
+
 
 function renderInventory(){
 
