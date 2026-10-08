@@ -899,6 +899,7 @@ let state=JSON.parse(localStorage.getItem(STORAGE))||{
   lastStudyDay:"",
   studyDays:[],
   lessonProgress:{},
+  lessonStars:{},
   lessonPosition:{},
   lessonMistakes:{},
   mastered:[],
@@ -1615,7 +1616,403 @@ const phrases=[
 ["What time is it?","¿Qué hora es?","Tiempo"],
 ["See you tomorrow.","Nos vemos mañana.","Tiempo"],
 ["See you next week.","Nos vemos la próxima semana.","Tiempo"],
-["I am here now.","Estoy aquí ahora.","Tiempo"]
+["I am here now.","Estoy aquí ahora.","Tiempo"],
+["Run","Correr","Acciones"],
+["Walk","Caminar","Acciones"],
+["Jump","Saltar","Acciones"],
+["Sit","Sentarse","Acciones"],
+["Stand","Pararse","Acciones"],
+["Open","Abrir","Acciones"],
+["Close","Cerrar","Acciones"],
+["Start","Empezar","Acciones"],
+["Stop","Detener","Acciones"],
+["Go","Ir","Acciones"],
+["Come","Venir","Acciones"],
+["Look","Mirar","Acciones"],
+["Listen","Escuchar","Acciones"],
+["Speak","Hablar","Acciones"],
+["Eat","Comer","Acciones"],
+["Drink","Beber","Acciones"],
+["Sleep","Dormir","Acciones"],
+["Wake up","Despertarse","Acciones"],
+["Work","Trabajar","Acciones"],
+["Play","Jugar","Acciones"],
+
+["Love","Amor","Emociones"],
+["Angry","Enojado","Emociones"],
+["Excited","Emocionado","Emociones"],
+["Scared","Asustado","Emociones"],
+["Nervous","Nervioso","Emociones"],
+["Surprised","Sorprendido","Emociones"],
+["Bored","Aburrido","Emociones"],
+["Calm","Tranquilo","Emociones"],
+["Proud","Orgulloso","Emociones"],
+["Confused","Confundido","Emociones"],
+["Hungry","Hambriento","Emociones"],
+["Thirsty","Sediento","Emociones"],
+["Lonely","Solo","Emociones"],
+["Excited","Emocionado","Emociones"],
+["Relaxed","Relajado","Emociones"],
+["Afraid","Asustado","Emociones"],
+["Hopeful","Esperanzado","Emociones"],
+["Friendly","Amable","Emociones"],
+["Kind","Amable","Emociones"],
+["Nice","Agradable","Emociones"],
+
+["Head","Cabeza","Cuerpo"],
+["Face","Cara","Cuerpo"],
+["Eye","Ojo","Cuerpo"],
+["Ear","Oreja","Cuerpo"],
+["Nose","Nariz","Cuerpo"],
+["Mouth","Boca","Cuerpo"],
+["Tooth","Diente","Cuerpo"],
+["Neck","Cuello","Cuerpo"],
+["Shoulder","Hombro","Cuerpo"],
+["Arm","Brazo","Cuerpo"],
+["Hand","Mano","Cuerpo"],
+["Finger","Dedo","Cuerpo"],
+["Chest","Pecho","Cuerpo"],
+["Back","Espalda","Cuerpo"],
+["Leg","Pierna","Cuerpo"],
+["Knee","Rodilla","Cuerpo"],
+["Foot","Pie","Cuerpo"],
+["Toe","Dedo del pie","Cuerpo"],
+["Heart","Corazón","Cuerpo"],
+["Hair","Cabello","Cuerpo"],
+
+["Today","Hoy","Tiempo"],
+["Tomorrow","Mañana","Tiempo"],
+["Yesterday","Ayer","Tiempo"],
+["Morning","Mañana","Tiempo"],
+["Afternoon","Tarde","Tiempo"],
+["Evening","Noche","Tiempo"],
+["Night","Noche","Tiempo"],
+["Monday","Lunes","Tiempo"],
+["Tuesday","Martes","Tiempo"],
+["Wednesday","Miércoles","Tiempo"],
+["Thursday","Jueves","Tiempo"],
+["Friday","Viernes","Tiempo"],
+["Saturday","Sábado","Tiempo"],
+["Sunday","Domingo","Tiempo"],
+["Week","Semana","Tiempo"],
+["Month","Mes","Tiempo"],
+["Year","Año","Tiempo"],
+["Hour","Hora","Tiempo"],
+["Minute","Minuto","Tiempo"],
+["Second","Segundo","Tiempo"],
+
+["One","Uno","Números"],
+["Two","Dos","Números"],
+["Three","Tres","Números"],
+["Four","Cuatro","Números"],
+["Five","Cinco","Números"],
+["Six","Seis","Números"],
+["Seven","Siete","Números"],
+["Eight","Ocho","Números"],
+["Nine","Nueve","Números"],
+["Ten","Diez","Números"],
+["Twenty","Veinte","Números"],
+["Thirty","Treinta","Números"],
+["Forty","Cuarenta","Números"],
+["Fifty","Cincuenta","Números"],
+["Hundred","Cien","Números"],
+["First","Primero","Números"],
+["Second","Segundo","Números"],
+["Third","Tercero","Números"],
+["Many","Muchos","Números"],
+["Few","Pocos","Números"],
+
+["Doctor","Doctor","Profesiones"],
+["Teacher","Maestro","Profesiones"],
+["Engineer","Ingeniero","Profesiones"],
+["Driver","Conductor","Profesiones"],
+["Police officer","Policía","Profesiones"],
+["Firefighter","Bombero","Profesiones"],
+["Farmer","Granjero","Profesiones"],
+["Cook","Cocinero","Profesiones"],
+["Waiter","Mesero","Profesiones"],
+["Nurse","Enfermero","Profesiones"],
+["Artist","Artista","Profesiones"],
+["Singer","Cantante","Profesiones"],
+["Actor","Actor","Profesiones"],
+["Writer","Escritor","Profesiones"],
+["Mechanic","Mecánico","Profesiones"],
+["Pilot","Piloto","Profesiones"],
+["Dentist","Dentista","Profesiones"],
+["Manager","Gerente","Profesiones"],
+["Worker","Trabajador","Profesiones"],
+["Scientist","Científico","Profesiones"],
+["Room","Habitación","Casa"],
+["Kitchen","Cocina","Casa"],
+["Bathroom","Baño","Casa"],
+["Bedroom","Dormitorio","Casa"],
+["Living room","Sala","Casa"],
+["Dining room","Comedor","Casa"],
+["Garden","Jardín","Casa"],
+["Garage","Garaje","Casa"],
+["Roof","Techo","Casa"],
+["Wall","Pared","Casa"],
+["Floor","Piso","Casa"],
+["Ceiling","Techo","Casa"],
+["Chair","Silla","Casa"],
+["Table","Mesa","Casa"],
+["Bed","Cama","Casa"],
+["Sofa","Sofá","Casa"],
+["Lamp","Lámpara","Casa"],
+["Mirror","Espejo","Casa"],
+["Key","Llave","Casa"],
+["Kitchen table","Mesa de cocina","Casa"],
+
+["Book","Libro","Escuela"],
+["Notebook","Cuaderno","Escuela"],
+["Pencil","Lápiz","Escuela"],
+["Pen","Bolígrafo","Escuela"],
+["Eraser","Borrador","Escuela"],
+["Ruler","Regla","Escuela"],
+["Backpack","Mochila","Escuela"],
+["Teacher","Maestro","Escuela"],
+["Student","Estudiante","Escuela"],
+["Classroom","Salón de clases","Escuela"],
+["School","Escuela","Escuela"],
+["Lesson","Lección","Escuela"],
+["Homework","Tarea","Escuela"],
+["Test","Examen","Escuela"],
+["Question","Pregunta","Escuela"],
+["Answer","Respuesta","Escuela"],
+["Read","Leer","Escuela"],
+["Write","Escribir","Escuela"],
+["Learn","Aprender","Escuela"],
+["Study","Estudiar","Escuela"],
+
+["Tree","Árbol","Naturaleza"],
+["Flower","Flor","Naturaleza"],
+["Grass","Césped","Naturaleza"],
+["Forest","Bosque","Naturaleza"],
+["Mountain","Montaña","Naturaleza"],
+["River","Río","Naturaleza"],
+["Lake","Lago","Naturaleza"],
+["Sea","Mar","Naturaleza"],
+["Ocean","Océano","Naturaleza"],
+["Beach","Playa","Naturaleza"],
+["Island","Isla","Naturaleza"],
+["Rock","Roca","Naturaleza"],
+["Stone","Piedra","Naturaleza"],
+["Sand","Arena","Naturaleza"],
+["Earth","Tierra","Naturaleza"],
+["Sky","Cielo","Naturaleza"],
+["Sun","Sol","Naturaleza"],
+["Moon","Luna","Naturaleza"],
+["Star","Estrella","Naturaleza"],
+["Cloud","Nube","Naturaleza"],
+
+["Rain","Lluvia","Clima"],
+["Snow","Nieve","Clima"],
+["Wind","Viento","Clima"],
+["Storm","Tormenta","Clima"],
+["Thunder","Trueno","Clima"],
+["Lightning","Relámpago","Clima"],
+["Hot","Caliente","Clima"],
+["Cold","Frío","Clima"],
+["Warm","Cálido","Clima"],
+["Cool","Fresco","Clima"],
+["Sunny","Soleado","Clima"],
+["Cloudy","Nublado","Clima"],
+["Rainy","Lluvioso","Clima"],
+["Windy","Ventoso","Clima"],
+["Foggy","Con niebla","Clima"],
+["Weather","Clima","Clima"],
+["Temperature","Temperatura","Clima"],
+["Summer","Verano","Clima"],
+["Winter","Invierno","Clima"],
+["Spring","Primavera","Clima"],
+
+["Car","Carro","Transporte"],
+["Bus","Autobús","Transporte"],
+["Train","Tren","Transporte"],
+["Airplane","Avión","Transporte"],
+["Boat","Bote","Transporte"],
+["Ship","Barco","Transporte"],
+["Bicycle","Bicicleta","Transporte"],
+["Motorcycle","Motocicleta","Transporte"],
+["Truck","Camión","Transporte"],
+["Van","Furgoneta","Transporte"],
+["Taxi","Taxi","Transporte"],
+["Road","Carretera","Transporte"],
+["Street","Calle","Transporte"],
+["Bridge","Puente","Transporte"],
+["Airport","Aeropuerto","Transporte"],
+["Station","Estación","Transporte"],
+["Stop","Parada","Transporte"],
+["Driver","Conductor","Transporte"],
+["Passenger","Pasajero","Transporte"],
+["Ticket","Boleto","Transporte"],
+
+["Hospital","Hospital","Lugares"],
+["School","Escuela","Lugares"],
+["Bank","Banco","Lugares"],
+["Store","Tienda","Lugares"],
+["Market","Mercado","Lugares"],
+["Restaurant","Restaurante","Lugares"],
+["Hotel","Hotel","Lugares"],
+["Park","Parque","Lugares"],
+["Church","Iglesia","Lugares"],
+["Library","Biblioteca","Lugares"],
+["Museum","Museo","Lugares"],
+["Cinema","Cine","Lugares"],
+["Beach","Playa","Lugares"],
+["City","Ciudad","Lugares"],
+["Town","Pueblo","Lugares"],
+["Village","Aldea","Lugares"],
+["Country","País","Lugares"],
+["Capital","Capital","Lugares"],
+["Office","Oficina","Lugares"],
+["Airport","Aeropuerto","Lugares"],
+
+["Football","Fútbol","Deportes"],
+["Basketball","Baloncesto","Deportes"],
+["Baseball","Béisbol","Deportes"],
+["Tennis","Tenis","Deportes"],
+["Volleyball","Voleibol","Deportes"],
+["Swimming","Natación","Deportes"],
+["Running","Correr","Deportes"],
+["Cycling","Ciclismo","Deportes"],
+["Boxing","Boxeo","Deportes"],
+["Golf","Golf","Deportes"],
+["Player","Jugador","Deportes"],
+["Team","Equipo","Deportes"],
+["Ball","Pelota","Deportes"],
+["Game","Juego","Deportes"],
+["Match","Partido","Deportes"],
+["Goal","Gol","Deportes"],
+["Coach","Entrenador","Deportes"],
+["Winner","Ganador","Deportes"],
+["Champion","Campeón","Deportes"],
+["Score","Marcador","Deportes"],
+
+["Computer","Computadora","Tecnología"],
+["Phone","Teléfono","Tecnología"],
+["Tablet","Tableta","Tecnología"],
+["Keyboard","Teclado","Tecnología"],
+["Screen","Pantalla","Tecnología"],
+["Mouse","Ratón","Tecnología"],
+["Internet","Internet","Tecnología"],
+["Website","Sitio web","Tecnología"],
+["Game","Juego","Tecnología"],
+["App","Aplicación","Tecnología"],
+["Password","Contraseña","Tecnología"],
+["Email","Correo electrónico","Tecnología"],
+["Message","Mensaje","Tecnología"],
+["Photo","Foto","Tecnología"],
+["Video","Video","Tecnología"],
+["Camera","Cámara","Tecnología"],
+["Battery","Batería","Tecnología"],
+["Charger","Cargador","Tecnología"],
+["File","Archivo","Tecnología"],
+["Download","Descargar","Tecnología"],
+["Red","Rojo","Colores"],
+["Blue","Azul","Colores"],
+["Green","Verde","Colores"],
+["Yellow","Amarillo","Colores"],
+["Orange","Naranja","Colores"],
+["Purple","Morado","Colores"],
+["Pink","Rosado","Colores"],
+["Black","Negro","Colores"],
+["White","Blanco","Colores"],
+["Brown","Marrón","Colores"],
+["Gray","Gris","Colores"],
+["Gold","Dorado","Colores"],
+["Silver","Plateado","Colores"],
+["Light blue","Azul claro","Colores"],
+["Dark blue","Azul oscuro","Colores"],
+["Light green","Verde claro","Colores"],
+["Dark green","Verde oscuro","Colores"],
+["Bright red","Rojo brillante","Colores"],
+["Colorful","Colorido","Colores"],
+["What color is it?","¿De qué color es?","Colores"],
+
+["Dog","Perro","Animales"],
+["Cat","Gato","Animales"],
+["Bird","Pájaro","Animales"],
+["Fish","Pez","Animales"],
+["Horse","Caballo","Animales"],
+["Cow","Vaca","Animales"],
+["Pig","Cerdo","Animales"],
+["Chicken","Pollo","Animales"],
+["Duck","Pato","Animales"],
+["Rabbit","Conejo","Animales"],
+["Mouse","Ratón","Animales"],
+["Lion","León","Animales"],
+["Tiger","Tigre","Animales"],
+["Elephant","Elefante","Animales"],
+["Monkey","Mono","Animales"],
+["Bear","Oso","Animales"],
+["Wolf","Lobo","Animales"],
+["Fox","Zorro","Animales"],
+["Deer","Ciervo","Animales"],
+["Giraffe","Jirafa","Animales"],
+
+["Apple","Manzana","Comida"],
+["Banana","Banana","Comida"],
+["Orange","Naranja","Comida"],
+["Grape","Uva","Comida"],
+["Strawberry","Fresa","Comida"],
+["Watermelon","Sandía","Comida"],
+["Pineapple","Piña","Comida"],
+["Mango","Mango","Comida"],
+["Lemon","Limón","Comida"],
+["Peach","Melocotón","Comida"],
+["Pear","Pera","Comida"],
+["Tomato","Tomate","Comida"],
+["Potato","Papa","Comida"],
+["Carrot","Zanahoria","Comida"],
+["Onion","Cebolla","Comida"],
+["Rice","Arroz","Comida"],
+["Bread","Pan","Comida"],
+["Cheese","Queso","Comida"],
+["Egg","Huevo","Comida"],
+["Chicken","Pollo","Comida"],
+
+["Shirt","Camisa","Ropa"],
+["Pants","Pantalones","Ropa"],
+["Shoes","Zapatos","Ropa"],
+["Socks","Calcetines","Ropa"],
+["Hat","Sombrero","Ropa"],
+["Dress","Vestido","Ropa"],
+["Skirt","Falda","Ropa"],
+["Jacket","Chaqueta","Ropa"],
+["Coat","Abrigo","Ropa"],
+["Sweater","Suéter","Ropa"],
+["T-shirt","Camiseta","Ropa"],
+["Shorts","Pantalones cortos","Ropa"],
+["Jeans","Jeans","Ropa"],
+["Belt","Cinturón","Ropa"],
+["Gloves","Guantes","Ropa"],
+["Scarf","Bufanda","Ropa"],
+["Boots","Botas","Ropa"],
+["Tie","Corbata","Ropa"],
+["Watch","Reloj","Ropa"],
+["Backpack","Mochila","Ropa"],
+
+["Mother","Madre","Familia"],
+["Father","Padre","Familia"],
+["Parents","Padres","Familia"],
+["Son","Hijo","Familia"],
+["Daughter","Hija","Familia"],
+["Brother","Hermano","Familia"],
+["Sister","Hermana","Familia"],
+["Grandfather","Abuelo","Familia"],
+["Grandmother","Abuela","Familia"],
+["Grandparents","Abuelos","Familia"],
+["Uncle","Tío","Familia"],
+["Aunt","Tía","Familia"],
+["Cousin","Primo / Prima","Familia"],
+["Husband","Esposo","Familia"],
+["Wife","Esposa","Familia"],
+["Baby","Bebé","Familia"],
+["Child","Niño / Niña","Familia"],
+["Family","Familia","Familia"],
+["Son-in-law","Yerno","Familia"],
+["Daughter-in-law","Nuera","Familia"],
 ];
 
 /* =========================
@@ -1700,6 +2097,10 @@ function renderLessons(){
               <small style="color:var(--muted)">
                 ${progress}% completado
               </small>
+
+              <div style="margin-top:5px;font-size:18px">
+                ${state.lessonStars[lessonKey(index)]||""}
+              </div>
 
             </div>
 
@@ -1910,6 +2311,14 @@ function renderNormalLessonQuestion(){
         <strong>${item[0]}</strong>?
       </h2>
 
+      <div style="margin-top:10px">
+        <button
+          onclick="speakEnglish('${item[0].replace(/'/g,"\\'")}')"
+          style="padding:10px 16px;border:none;border-radius:10px;background:#2563eb;color:white;font-weight:bold">
+          🔊
+        </button>
+      </div>
+
       <div class="choices">
 
   `;
@@ -1958,6 +2367,8 @@ function answerLesson(encoded){
 
   const lesson=lessons[currentLesson];
   const correct=lesson.words[currentQuestion];
+
+  speakEnglish(correct[0]);
 
   const buttons=document.querySelectorAll(".choice");
 
@@ -2314,6 +2725,7 @@ function finishLesson(){
   }
 
   state.lessonProgress[key]=100;
+  state.lessonStars[key]=stars;
 
   delete state.lessonPosition[key];
   delete state.lessonMistakes[key];
@@ -2629,17 +3041,16 @@ function renderPhrases(){
 
 }
 
+// Reparar estados antiguos
+state.lessonStars = state.lessonStars || {};
+state.lessonProgress = state.lessonProgress || {};
+state.lessonPosition = state.lessonPosition || {};
+state.lessonMistakes = state.lessonMistakes || {};
+state.lessonRewarded = state.lessonRewarded || {};
+
 /* =========================
    INICIO
 ========================= */
-
-applyTheme();
-setupCategories();
-updateStats();
-renderLevels();
-renderLessons();
-renderWords();
-renderPhrases();
 saveState();
 </script>
 <script>
@@ -4374,18 +4785,28 @@ function finishA1Exam(){
    INICIO FINAL
 ========================= */
 
-applyTheme();
-setupCategories();
-updateStats();
-renderLevels();
-renderLessons();
-renderWords();
-renderPhrases();
-renderQuiz();
-renderListening();
-renderWriting();
-renderAchievements();
-renderProfile();
+try{ applyTheme(); }catch(e){ console.error("applyTheme:",e); }
+try{ setupCategories(); }catch(e){ console.error("setupCategories:",e); }
+try{ updateStats(); }catch(e){ console.error("updateStats:",e); }
+
+try{
+  renderLessons();
+}catch(e){
+  console.error("ERROR EN LECCIONES:",e);
+  const box=document.getElementById("lessonsList");
+  if(box){
+    box.innerHTML='<div class="card"><h2>⚠️ Error en las lecciones</h2><p>'+e.message+'</p></div>';
+  }
+}
+
+try{ renderLevels(); }catch(e){ console.error("renderLevels:",e); }
+try{ renderWords(); }catch(e){ console.error("renderWords:",e); }
+try{ renderPhrases(); }catch(e){ console.error("renderPhrases:",e); }
+try{ renderQuiz(); }catch(e){ console.error("renderQuiz:",e); }
+try{ renderListening(); }catch(e){ console.error("renderListening:",e); }
+try{ renderWriting(); }catch(e){ console.error("renderWriting:",e); }
+try{ renderAchievements(); }catch(e){ console.error("renderAchievements:",e); }
+try{ renderProfile(); }catch(e){ console.error("renderProfile:",e); }
 renderShop();
 renderInventory();
 renderMissions();
