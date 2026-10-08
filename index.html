@@ -8376,8 +8376,73 @@ function searchDictionary(){
   if(wordSearch) wordSearch.value=value;
   if(phraseSearch) phraseSearch.value=value;
 
-  renderWords();
-  renderPhrases();
+  const search=normalizeText(value);
+
+  const wordData=extraWords.filter(w=>{
+    const categoryOK=
+      activeWordCategory==="Todas" ||
+      w[2]===activeWordCategory;
+
+    const searchOK=
+      !search ||
+      normalizeText(w[0]).includes(search) ||
+      normalizeText(w[1]).includes(search);
+
+    return categoryOK && searchOK;
+  });
+
+  const phraseData=phrases.filter(p=>{
+    const categoryOK=
+      activePhraseCategory==="Todas" ||
+      p[2]===activePhraseCategory;
+
+    const searchOK=
+      !search ||
+      normalizeText(p[0]).includes(search) ||
+      normalizeText(p[1]).includes(search);
+
+    return categoryOK && searchOK;
+  });
+
+  const wordsList=document.getElementById("wordsList");
+  const phrasesList=document.getElementById("phrasesList");
+
+  if(wordsList){
+    wordsList.innerHTML=wordData.length
+      ? wordData.map(w=>`
+        <div class="word">
+          <div>
+            <div class="wordEnglish">${w[0]}</div>
+            <div class="wordSpanish">${w[1]} · ${w[2]}</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="audioBtn"
+              onclick="speakEnglish('${w[0].replace(/'/g,"\\'")}')">🔊</button>
+            <button class="audioBtn"
+              onclick="toggleFavoriteWord('${w[0].replace(/'/g,"\\'")}')">
+              ${state.favorites.includes(w[0])?"❤️":"🤍"}
+            </button>
+          </div>
+        </div>
+      `).join("")
+      : `<p style="color:var(--muted)">No encontramos esa palabra.</p>`;
+  }
+
+  if(phrasesList){
+    phrasesList.innerHTML=phraseData.map(p=>`
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;gap:10px">
+          <div>
+            <strong>${p[0]}</strong>
+            <p style="color:var(--muted);margin-top:5px">${p[1]}</p>
+            <small style="color:var(--muted)">${p[2]}</small>
+          </div>
+          <button class="audioBtn"
+            onclick="speakEnglish('${p[0].replace(/'/g,"\\'")}')">🔊</button>
+        </div>
+      </div>
+    `).join("");
+  }
 
 }
 
