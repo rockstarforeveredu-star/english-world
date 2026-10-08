@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>English World</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f4f6fb;
+ color:#172033;
+ transition:.3s;
+}
+
+body.dark{
+ background:#101522;
+ color:#f1f4ff;
+}
+
+.topbar{
+ position:sticky;
+ top:0;
+ z-index:100;
+ background:#ffffff;
+ border-bottom:1px solid #ddd;
+ padding:12px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+}
+
+.dark .topbar{
+ background:#171d2b;
+ border-color:#30384d;
+}
+
+.logo{
+ font-size:20px;
+ font-weight:bold;
+}
+
+.stats{
+ display:flex;
+ gap:6px;
+ flex-wrap:wrap;
+ justify-content:flex-end;
+}
+
+.stat{
+ background:#eef2ff;
+ padding:7px 9px;
+ border-radius:10px;
+ font-size:13px;
+ font-weight:bold;
+}
+
+.dark .stat{
+ background:#252d40;
+}
+
+.menu-btn{
+ border:0;
+ background:#4f46e5;
+ color:white;
+ padding:10px 14px;
+ border-radius:10px;
+ font-weight:bold;
+}
+
+.menu{
+ display:none;
+ position:fixed;
+ top:0;
+ left:0;
+ width:270px;
+ height:100%;
+ z-index:200;
+ background:white;
+ padding:20px;
+ box-shadow:4px 0 20px #0003;
+ overflow:auto;
+}
+
+.dark .menu{
+ background:#171d2b;
+}
+
+.menu.open{
+ display:block;
+}
+
+.menu h2{
+ margin-top:0;
+}
+
+.menu button{
+ width:100%;
+ padding:13px;
+ margin:4px 0;
+ border:0;
+ border-radius:9px;
+ text-align:left;
+ background:#f0f2f7;
+ color:inherit;
+ font-size:15px;
+}
+
+.dark .menu button{
+ background:#252d40;
+}
+
+.close{
+ background:#ef4444!important;
+ color:white!important;
+ text-align:center!important;
+}
+
+main{
+ max-width:950px;
+ margin:auto;
+ padding:20px 14px 50px;
+}
+
+section{
+ display:none;
+}
+
+section.active{
+ display:block;
+}
+
+.hero{
+ background:linear-gradient(135deg,#4f46e5,#7c3aed);
+ color:white;
+ border-radius:20px;
+ padding:25px;
+ margin-bottom:16px;
+}
+
+.hero h1{
+ margin:0 0 8px;
+}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+ gap:12px;
+}
+
+.card{
+ background:white;
+ border-radius:16px;
+ padding:18px;
+ box-shadow:0 5px 20px #0000000d;
+}
+
+.dark .card{
+ background:#181f2e;
+}
+
+.big{
+ font-size:28px;
+ font-weight:bold;
+ margin-top:8px;
+}
+
+.btn{
+ border:0;
+ padding:12px 16px;
+ border-radius:10px;
+ background:#4f46e5;
+ color:white;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.btn.secondary{
+ background:#64748b;
+}
+
+.btn.success{
+ background:#16a34a;
+}
+
+.btn:disabled{
+ opacity:.5;
+}
+
+.lesson{
+ margin:10px 0;
+ padding:15px;
+ border-radius:14px;
+ background:white;
+ border:2px solid transparent;
+}
+
+.dark .lesson{
+ background:#181f2e;
+}
+
+.lesson.locked{
+ opacity:.55;
+}
+
+.lesson.completed{
+ border-color:#22c55e;
+}
+
+.lesson-title{
+ font-weight:bold;
+ font-size:17px;
+}
+
+.progress{
+ height:10px;
+ background:#e5e7eb;
+ border-radius:20px;
+ overflow:hidden;
+ margin:10px 0;
+}
+
+.dark .progress{
+ background:#30384d;
+}
+
+.progress-bar{
+ height:100%;
+ width:0;
+ background:#4f46e5;
+ transition:.3s;
+}
+
+.word-list{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:10px;
+ margin:15px 0;
+}
+
+.word{
+ padding:14px;
+ border-radius:12px;
+ background:#f1f5f9;
+}
+
+.dark .word{
+ background:#252d40;
+}
+
+.word strong{
+ display:block;
+ font-size:18px;
+}
+
+.audio{
+ border:0;
+ background:#4f46e5;
+ color:white;
+ border-radius:8px;
+ padding:6px 9px;
+ margin-top:7px;
+}
+
+.question{
+ background:white;
+ padding:20px;
+ border-radius:16px;
+ margin-top:15px;
+}
+
+.dark .question{
+ background:#181f2e;
+}
+
+.options{
+ display:grid;
+ gap:10px;
+ margin-top:18px;
+}
+
+.option{
+ border:2px solid #dbe0ea;
+ background:white;
+ color:#172033;
+ padding:14px;
+ border-radius:11px;
+ text-align:left;
+ font-size:16px;
+}
+
+.dark .option{
+ background:#252d40;
+ color:white;
+ border-color:#3b465e;
+}
+
+.option.correct{
+ border-color:#22c55e;
+ background:#dcfce7;
+ color:#166534;
+}
+
+.option.wrong{
+ border-color:#ef4444;
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+.dark .option.correct{
+ color:#bbf7d0;
+ background:#14532d;
+}
+
+.dark .option.wrong{
+ color:#fecaca;
+ background:#7f1d1d;
+}
+
+.feedback{
+ margin-top:15px;
+ padding:13px;
+ border-radius:10px;
+ display:none;
+}
+
+.feedback.show{
+ display:block;
+}
+
+.feedback.ok{
+ background:#dcfce7;
+ color:#166534;
+}
+
+.feedback.bad{
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+.dark .feedback.ok{
+ background:#14532d;
+ color:#bbf7d0;
+}
+
+.dark .feedback.bad{
+ background:#7f1d1d;
+ color:#fecaca;
+}
+
+.center{
+ text-align:center;
+}
+
+.xpbox{
+ font-size:18px;
+ font-weight:bold;
+}
+
+.badge{
+ display:inline-block;
+ padding:6px 10px;
+ background:#fef3c7;
+ border-radius:20px;
+ margin:4px;
+}
+
+textarea,input{
+ width:100%;
+ padding:12px;
+ border-radius:10px;
+ border:1px solid #ccd2dd;
+ background:white;
+ color:#172033;
+}
+
+.dark textarea,.dark input{
+ background:#252d40;
+ color:white;
+ border-color:#3b465e;
+}
+
+@media(max-width:600px){
+ .logo{display:none}
+ .stats{justify-content:flex-start}
+ .topbar{flex-wrap:wrap}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+<button class="menu-btn" onclick="toggleMenu()">☰ Menú</button>
+
+<div class="logo">🌎 English World</div>
+
+<div class="stats">
+ <div class="stat">⭐ <span id="topXP">0</span> XP</div>
+ <div class="stat">📚 Nivel <span id="topLevel">1</span></div>
+ <div class="stat">🔥 <span id="topStreak">0</span></div>
+</div>
+
+</div>
+
+<div id="menu" class="menu">
+
+<h2>🌎 English World</h2>
+
+<button class="close" onclick="toggleMenu()">✕ Cerrar</button>
+
+<button onclick="showSection('inicio')">🏠 Inicio</button>
+<button onclick="showSection('niveles')">📚 Niveles</button>
+<button onclick="showSection('lecciones')">📝 Lecciones</button>
+<button onclick="showSection('frases')">💬 Frases</button>
+<button onclick="showSection('palabras')">📖 Palabras</button>
+<button onclick="showSection('quiz')">❓ Quiz</button>
+<button onclick="showSection('listening')">🎧 Listening</button>
+<button onclick="showSection('writing')">✍️ Writing</button>
+<button onclick="showSection('progreso')">📊 Progreso</button>
+<button onclick="showSection('logros')">🏆 Logros</button>
+<button onclick="showSection('perfil')">👤 Perfil</button>
+<button onclick="toggleTheme()">🌙 Tema</button>
+
+</div>
+
+<main>
+
+<!-- INICIO -->
+
+<section id="inicio" class="active">
+
+<div class="hero">
+
+<h1>🌎 English World</h1>
+
+<p>Aprende inglés paso a paso.</p>
+
+<div class="xpbox">
+⭐ XP: <span id="homeXP">0</span>
+</div>
+
+<div class="xpbox">
+📚 Nivel: <span id="homeLevel">1</span>
+</div>
+
+<div class="xpbox">
+🔥 Racha: <span id="homeStreak">0</span>
+</div>
+
+</div>
+
+<div class="cards">
+
+<div class="card">
+<h3>📚 Tu nivel</h3>
+<div class="big" id="cardLevel">1</div>
+<p>Continúa estudiando para avanzar.</p>
+</div>
+
+<div class="card">
+<h3>⭐ Experiencia</h3>
+<div class="big" id="cardXP">0</div>
+<p>XP acumulada.</p>
+</div>
+
+<div class="card">
+<h3>🔥 Racha</h3>
+<div class="big" id="cardStreak">0</div>
+<p>Días de estudio.</p>
+</div>
+
+</div>
+
+<br>
+
+<button class="btn" onclick="showSection('lecciones')">
+🚀 Continuar aprendiendo
+</button>
+
+</section>
+
+
+<!-- NIVELES -->
+
+<section id="niveles">
+
+<h1>📚 Niveles</h1>
+
+<div class="cards">
+
+<div class="card">
+<h2>A1</h2>
+<p>Principiante</p>
+<strong>10 lecciones</strong>
+</div>
+
+<div class="card">
+<h2>A2</h2>
+<p>Básico</p>
+<strong>10 lecciones</strong>
+</div>
+
+<div class="card">
+<h2>B1</h2>
+<p>Intermedio</p>
+<strong>10 lecciones</strong>
+</div>
+
+<div class="card">
+<h2>B2</h2>
+<p>Intermedio alto</p>
+<strong>10 lecciones</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LECCIONES -->
+
+<section id="lecciones">
+
+<h1>📝 Lecciones A1</h1>
+
+<div id="lessonList"></div>
+
+<div id="lessonWords" style="display:none">
+
+<h2 id="lessonTitle"></h2>
+
+<p id="lessonDescription"></p>
+
+<div class="word-list" id="wordList"></div>
+
+<button class="btn" onclick="startLessonExercises()">
+▶️ Comenzar ejercicios
+</button>
+
+</div>
+
+<div id="exerciseArea" style="display:none">
+
+<div class="progress">
+<div id="lessonProgressBar" class="progress-bar"></div>
+</div>
+
+<p id="questionCounter"></p>
+
+<div id="questionContainer"></div>
+
+<div id="lessonFinish" style="display:none" class="center">
+
+<h2>🎉 ¡Lección completada!</h2>
+
+<p>Has terminado esta lección.</p>
+
+<button class="btn" onclick="showSection('lecciones')">
+📚 Volver a lecciones
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- FRASES -->
+
+<section id="frases">
+
+<h1>💬 Frases útiles</h1>
+
+<div class="word-list" id="phraseList"></div>
+
+</section>
+
+
+<!-- PALABRAS -->
+
+<section id="palabras">
+
+<h1>📖 Palabras</h1>
+
+<div class="word-list" id="extraWords"></div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section id="quiz">
+
+<h1>❓ Quiz</h1>
+
+<div class="card">
+
+<h2>Práctica rápida</h2>
+
+<p>Elige la traducción correcta.</p>
+
+<div id="quizContainer"></div>
+
+</div>
+
+</section>
+
+
+<!-- LISTENING -->
+
+<section id="listening">
+
+<h1>🎧 Listening</h1>
+
+<div class="card">
+
+<h2>Escucha y elige</h2>
+
+<button class="btn" onclick="startListening()">
+🔊 Escuchar palabra
+</button>
+
+<div id="listeningOptions" class="options"></div>
+
+</div>
+
+</section>
+
+
+<!-- WRITING -->
+
+<section id="writing">
+
+<h1>✍️ Writing</h1>
+
+<div class="card">
+
+<h2>Escribe en inglés</h2>
+
+<p id="writingSpanish">Pulsa comenzar.</p>
+
+<input id="writingInput" placeholder="Escribe en inglés">
+
+<br><br>
+
+<button class="btn" onclick="checkWriting()">
+Comprobar
+</button>
+
+<button class="audio" onclick="speakCurrentWriting()">
+🔊 Pronunciar
+</button>
+
+<p id="writingResult"></p>
+
+</div>
+
+</section>
+
+
+<!-- PROGRESO -->
+
+<section id="progreso">
+
+<h1>📊 Mi progreso</h1>
+
+<div class="cards">
+
+<div class="card">
+<h3>⭐ XP</h3>
+<div class="big" id="progressXP">0</div>
+</div>
+
+<div class="card">
+<h3>📚 Nivel</h3>
+<div class="big" id="progressLevel">1</div>
+</div>
+
+<div class="card">
+<h3>🔥 Racha</h3>
+<div class="big" id="progressStreak">0</div>
+</div>
+
+<div class="card">
+<h3>✅ Lecciones</h3>
+<div class="big" id="progressLessons">0</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LOGROS -->
+
+<section id="logros">
+
+<h1>🏆 Logros</h1>
+
+<div class="card">
+
+<div class="badge">🌱 Primer paso</div>
+<div class="badge">📚 Estudiante</div>
+<div class="badge">🔥 En racha</div>
+<div class="badge">⭐ 100 XP</div>
+
+</div>
+
+</section>
+
+
+<!-- PERFIL -->
+
+<section id="perfil">
+
+<h1>👤 Perfil</h1>
+
+<div class="card">
+
+<h2>Mi progreso</h2>
+
+<p>⭐ XP: <strong id="profileXP">0</strong></p>
+<p>📚 Nivel: <strong id="profileLevel">1</strong></p>
+<p>🔥 Racha: <strong id="profileStreak">0</strong></p>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+
+const STORAGE="englishWorldA1_v4";
+
+const lessons=[
+
+{
+title:"Saludos básicos",
+description:"Aprende saludos y expresiones básicas.",
+words:[
+["hello","hola"],
+["goodbye","adiós"],
+["please","por favor"],
+["thanks","gracias"],
+["yes","sí"],
+["no","no"],
+["sorry","perdón"],
+["welcome","bienvenido"],
+["morning","mañana"],
+["night","noche"]
+]},
+
+{
+title:"La casa",
+description:"Palabras comunes de la casa.",
+words:[
+["house","casa"],
+["room","habitación"],
+["door","puerta"],
+["window","ventana"],
+["table","mesa"],
+["chair","silla"],
+["bed","cama"],
+["kitchen","cocina"],
+["bathroom","baño"],
+["garden","jardín"]
+]},
+
+{
+title:"La familia",
+description:"Miembros de la familia.",
+words:[
+["mother","madre"],
+["father","padre"],
+["brother","hermano"],
+["sister","hermana"],
+["family","familia"],
+["son","hijo"],
+["daughter","hija"],
+["child","niño"],
+["man","hombre"],
+["woman","mujer"]
+]},
+
+{
+title:"Comida y bebidas",
+description:"Comida y bebidas básicas.",
+words:[
+["water","agua"],
+["food","comida"],
+["bread","pan"],
+["milk","leche"],
+["coffee","café"],
+["tea","té"],
+["apple","manzana"],
+["banana","banana"],
+["rice","arroz"],
+["meat","carne"]
+]},
+
+{
+title:"La escuela",
+description:"Palabras de la escuela.",
+words:[
+["school","escuela"],
+["teacher","maestro"],
+["student","estudiante"],
+["book","libro"],
+["pen","bolígrafo"],
+["pencil","lápiz"],
+["class","clase"],
+["lesson","lección"],
+["question","pregunta"],
+["answer","respuesta"]
+]},
+
+{
+title:"Transporte y lugares",
+description:"Transporte y lugares.",
+words:[
+["car","carro"],
+["bus","autobús"],
+["train","tren"],
+["road","carretera"],
+["street","calle"],
+["city","ciudad"],
+["country","país"],
+["airport","aeropuerto"],
+["station","estación"],
+["ticket","boleto"]
+]},
+
+{
+title:"Personas y trabajos",
+description:"Personas y trabajos.",
+words:[
+["friend","amigo"],
+["work","trabajo"],
+["job","empleo"],
+["money","dinero"],
+["shop","tienda"],
+["market","mercado"],
+["doctor","médico"],
+["hospital","hospital"],
+["police","policía"],
+["restaurant","restaurante"]
+]},
+
+{
+title:"Adjetivos",
+description:"Adjetivos comunes.",
+words:[
+["big","grande"],
+["small","pequeño"],
+["good","bueno"],
+["bad","malo"],
+["hot","caliente"],
+["cold","frío"],
+["happy","feliz"],
+["sad","triste"],
+["fast","rápido"],
+["slow","lento"]
+]},
+
+{
+title:"Tiempo",
+description:"Palabras relacionadas con el tiempo.",
+words:[
+["day","día"],
+["week","semana"],
+["month","mes"],
+["year","año"],
+["today","hoy"],
+["tomorrow","mañana"],
+["yesterday","ayer"],
+["time","tiempo"],
+["hour","hora"],
+["minute","minuto"]
+]},
+
+{
+title:"Acciones",
+description:"Acciones básicas en inglés.",
+words:[
+["go","ir"],
+["come","venir"],
+["eat","comer"],
+["drink","beber"],
+["sleep","dormir"],
+["read","leer"],
+["write","escribir"],
+["speak","hablar"],
+["listen","escuchar"],
+["learn","aprender"]
+]}
+
+];
+
+
+const extraWords=[
+["book","libro"],["water","agua"],["house","casa"],
+["car","carro"],["school","escuela"],["friend","amigo"],
+["family","familia"],["food","comida"],["dog","perro"],
+["cat","gato"],["sun","sol"],["moon","luna"],
+["star","estrella"],["tree","árbol"],["flower","flor"],
+["computer","computadora"],["phone","teléfono"],["music","música"],
+["movie","película"],["game","juego"],["red","rojo"],
+["blue","azul"],["green","verde"],["black","negro"],
+["white","blanco"],["one","uno"],["two","dos"],
+["three","tres"],["four","cuatro"],["five","cinco"],
+["six","seis"],["seven","siete"],["eight","ocho"],
+["nine","nueve"],["ten","diez"],["morning","mañana"],
+["night","noche"],["today","hoy"],["tomorrow","mañana"],
+["yesterday","ayer"],["happy","feliz"],["sad","triste"],
+["big","grande"],["small","pequeño"],["good","bueno"],
+["bad","malo"],["hot","caliente"],["cold","frío"],
+["fast","rápido"],["slow","lento"],["easy","fácil"],
+["difficult","difícil"],["beautiful","hermoso"],["strong","fuerte"],
+["weak","débil"],["new","nuevo"],["old","viejo"],
+["young","joven"],["man","hombre"],["woman","mujer"],
+["boy","niño"],["girl","niña"],["mother","madre"],
+["father","padre"],["brother","hermano"],["sister","hermana"],
+["teacher","maestro"],["student","estudiante"],["doctor","médico"],
+["police","policía"],["work","trabajo"],["money","dinero"],
+["shop","tienda"],["market","mercado"],["restaurant","restaurante"],
+["hospital","hospital"],["airport","aeropuerto"],["street","calle"],
+["city","ciudad"],["country","país"],["road","carretera"],
+["bus","autobús"],["train","tren"],["ticket","boleto"],
+["eat","comer"],["drink","beber"],["sleep","dormir"],
+["read","leer"],["write","escribir"],["speak","hablar"],
+["listen","escuchar"],["learn","aprender"],["go","ir"],
+["come","venir"],["help","ayudar"],["love","amar"]
+];
+
+
+const phrases=[
+["Hello!","¡Hola!"],
+["How are you?","¿Cómo estás?"],
+["I am fine.","Estoy bien."],
+["Thank you.","Gracias."],
+["See you later.","Hasta luego."],
+["Good morning.","Buenos días."],
+["Good night.","Buenas noches."],
+["What is your name?","¿Cómo te llamas?"],
+["My name is...","Mi nombre es..."],
+["Nice to meet you.","Mucho gusto."]
+];
+
+
+let state=JSON.parse(localStorage.getItem(STORAGE))||{
+ xp:0,
+ streak:0,
+ level:1,
+ lessonProgress:{},
+ lessonPosition:{},
+ lessonMistakes:{},
+ lessonRewarded:{}
+};
+
+
+let currentLesson=0;
+let lessonQuestions=[];
+let currentQuestion=0;
+let lessonMistakes=[];
+let lessonReviewQueue=[];
+let lessonReviewIndex=0;
+let lessonReviewRound=false;
+let currentAnswered=false;
+let currentWritingWord="";
+
+
+function saveState(){
+ localStorage.setItem(STORAGE,JSON.stringify(state));
+ updateStats();
+}
+
+
+function updateStats(){
+
+ const xp=state.xp||0;
+ const level=state.level||1;
+ const streak=state.streak||0;
+
+ document.getElementById("topXP").textContent=xp;
+ document.getElementById("topLevel").textContent=level;
+ document.getElementById("topStreak").textContent=streak;
+
+ document.getElementById("homeXP").textContent=xp;
+ document.getElementById("homeLevel").textContent=level;
+ document.getElementById("homeStreak").textContent=streak;
+
+ document.getElementById("cardXP").textContent=xp;
+ document.getElementById("cardLevel").textContent=level;
+ document.getElementById("cardStreak").textContent=streak;
+
+ document.getElementById("progressXP").textContent=xp;
+ document.getElementById("progressLevel").textContent=level;
+ document.getElementById("progressStreak").textContent=streak;
+
+ document.getElementById("profileXP").textContent=xp;
+ document.getElementById("profileLevel").textContent=level;
+ document.getElementById("profileStreak").textContent=streak;
+
+ let completed=0;
+
+ for(let i=0;i<lessons.length;i++){
+  if(isLessonComplete(i)) completed++;
+ }
+
+ document.getElementById("progressLessons").textContent=completed;
+}
+
+
+function toggleMenu(){
+ document.getElementById("menu").classList.toggle("open");
+}
+
+
+function showSection(id){
+
+ document.querySelectorAll("section").forEach(s=>{
+  s.classList.remove("active");
+ });
+
+ document.getElementById(id).classList.add("active");
+
+ document.getElementById("menu").classList.remove("open");
+
+ if(id==="lecciones"){
+  renderLessons();
+ }
+
+ if(id==="palabras"){
+  renderExtraWords();
+ }
+
+ if(id==="frases"){
+  renderPhrases();
+ }
+
+ if(id==="quiz"){
+  renderQuiz();
+ }
+
+ updateStats();
+}
+
+
+function toggleTheme(){
+
+ document.body.classList.toggle("dark");
+
+ localStorage.setItem(
+  "englishWorldTheme",
+  document.body.classList.contains("dark")?"dark":"light"
+ );
+}
+
+
+if(localStorage.getItem("englishWorldTheme")==="dark"){
+ document.body.classList.add("dark");
+}
+
+
+function speak(text){
+
+ if(!("speechSynthesis" in window)){
+  alert("Tu navegador no admite audio.");
+  return;
+ }
+
+ speechSynthesis.cancel();
+
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang="en-US";
+ u.rate=.85;
+
+ speechSynthesis.speak(u);
+}
+
+
+function lessonKey(index){
+ return "A1-"+index;
+}
+
+
+function isLessonComplete(index){
+ return state.lessonProgress[lessonKey(index)]===100;
+}
+
+
+function isLessonUnlocked(index){
+
+ if(index===0) return true;
+
+ return isLessonComplete(index-1);
+}
+
+
+function renderLessons(){
+
+ const list=document.getElementById("lessonList");
+
+ list.innerHTML="";
+
+ lessons.forEach((lesson,index)=>{
+
+  const unlocked=isLessonUnlocked(index);
+  const complete=isLessonComplete(index);
+  const progress=state.lessonProgress[lessonKey(index)]||0;
+
+  const div=document.createElement("div");
+
+  div.className=
+   "lesson "+
+   (complete?"completed ":"")+
+   (!unlocked?"locked":"");
+
+  div.innerHTML=`
+
+   <div class="lesson-title">
+   ${unlocked?"📖":"🔒"} Lección ${index+1}: ${lesson.title}
+   </div>
+
+   <p>${lesson.description}</p>
+
+   <div class="progress">
+   <div class="progress-bar" style="width:${progress}%"></div>
+   </div>
+
+   <small>${progress}% completado</small>
+   <br><br>
+
+   <button class="btn"
+   ${!unlocked?"disabled":""}
+   onclick="openLesson(${index})">
+
+   ${complete?"🔄 Repetir lección":
+     unlocked?"▶️ Abrir":"🔒 Bloqueada"}
+
+   </button>
+  `;
+
+  list.appendChild(div);
+ });
+}
+
+
+function openLesson(index){
+
+ if(!isLessonUnlocked(index)){
+  alert("🔒 Primero completa la lección anterior.");
+  return;
+ }
+
+ currentLesson=index;
+
+ const key=lessonKey(index);
+
+ const complete=isLessonComplete(index);
+
+ if(complete){
+
+  currentQuestion=0;
+  lessonMistakes=[];
+  lessonReviewQueue=[];
+  lessonReviewIndex=0;
+  lessonReviewRound=false;
+
+  delete state.lessonPosition[key];
+  delete state.lessonMistakes[key];
+
+ }else{
+
+  currentQuestion=
+   state.lessonPosition[key]!==undefined
+   ?state.lessonPosition[key]
+   :0;
+
+  lessonMistakes=
+   state.lessonMistakes[key]||[];
+
+  lessonReviewRound=false;
+ }
+
+ document.getElementById("lessonList").style.display="none";
+
+ document.getElementById("lessonWords").style.display="block";
+
+ document.getElementById("exerciseArea").style.display="none";
+
+ document.getElementById("lessonFinish").style.display="none";
+
+ document.getElementById("lessonTitle").textContent=
+  "Lección "+(index+1)+": "+lessons[index].title;
+
+ document.getElementById("lessonDescription").textContent=
+  lessons[index].description;
+
+ const wordList=document.getElementById("wordList");
+
+ wordList.innerHTML="";
+
+ lessons[index].words.forEach(w=>{
+
+  const d=document.createElement("div");
+
+  d.className="word";
+
+  d.innerHTML=`
+   <strong>${w[0]}</strong>
+   <span>${w[1]}</span><br>
+   <button class="audio" onclick="speak('${w[0]}')">
+   🔊 Pronunciar
+   </button>
+  `;
+
+  wordList.appendChild(d);
+ });
+
+ saveState();
+}
+
+
+function startLessonExercises(){
+
+ const words=lessons[currentLesson].words;
+
+ /*
+  TODAS las preguntas de las lecciones
+  son de opción múltiple.
+ */
+
+ lessonQuestions=words.map(word=>({
+  word,
+  type:"choice"
+ }));
+
+ document.getElementById("lessonWords").style.display="none";
+
+ document.getElementById("exerciseArea").style.display="block";
+
+ document.getElementById("lessonFinish").style.display="none";
+
+ renderLessonQuestion();
+}
+
+
+function renderLessonQuestion(){
+
+ if(lessonReviewRound){
+
+  if(lessonReviewIndex>=lessonReviewQueue.length){
+
+   if(lessonMistakes.length){
+
+    lessonReviewQueue=[...lessonMistakes];
+    lessonReviewIndex=0;
+
+    renderLessonQuestion();
+
+    return;
+   }
+
+   finishLesson();
+
+   return;
+  }
+
+  currentQuestion=lessonReviewQueue[lessonReviewIndex];
+
+ }else{
+
+  if(currentQuestion>=lessonQuestions.length){
+
+   if(lessonMistakes.length){
+
+    lessonReviewRound=true;
+    lessonReviewQueue=[...lessonMistakes];
+    lessonReviewIndex=0;
+
+    renderLessonQuestion();
+
+    return;
+   }
+
+   finishLesson();
+
+   return;
+  }
+ }
+
+ const q=lessonQuestions[currentQuestion];
+
+ currentAnswered=false;
+
+ const key=lessonKey(currentLesson);
+
+ if(!lessonReviewRound){
+
+  state.lessonPosition[key]=currentQuestion;
+ }
+
+ state.lessonMistakes[key]=lessonMistakes;
+
+ saveState();
+
+ const total=lessonQuestions.length;
+
+ const shown=lessonReviewRound
+  ?lessonReviewIndex+1
+  :currentQuestion+1;
+
+ document.getElementById("questionCounter").textContent=
+  lessonReviewRound
+   ?`🔁 Repaso de errores · ${shown}/${lessonReviewQueue.length}`
+   :`Pregunta ${shown}/${total}`;
+
+ const percent=lessonReviewRound
+  ?100
+  :(currentQuestion/total)*100;
+
+ document.getElementById("lessonProgressBar").style.width=
+  percent+"%";
+
+ renderChoiceQuestion(q);
+}
+
+
+function renderChoiceQuestion(q){
+
+ const container=document.getElementById("questionContainer");
+
+ const word=q.word[0];
+ const answer=q.word[1];
+
+ let options=[answer];
+
+ const allWords=lessons[currentLesson].words;
+
+ while(options.length<3){
+
+  const random=
+   allWords[Math.floor(Math.random()*allWords.length)][1];
+
+  if(!options.includes(random)){
+   options.push(random);
+  }
+ }
+
+ options.sort(()=>Math.random()-.5);
+
+ container.innerHTML=`
+
+ <div class="question">
+
+ <h2>¿Qué significa "${word}"?</h2>
+
+ <button class="audio" onclick="speak('${word}')">
+ 🔊 Escuchar
+ </button>
+
+ <div class="options">
+
+ ${options.map((option,i)=>`
+
+ <button class="option"
+ onclick="answerChoice(this,'${escapeJS(option)}','${escapeJS(answer)}')">
+
+ ${String.fromCharCode(65+i)}) ${option}
+
+ </button>
+
+ `).join("")}
+
+ </div>
+
+ <div id="feedback" class="feedback"></div>
+
+ <br>
+
+ <button
+ id="nextButton"
+ class="btn"
+ style="display:none"
+ onclick="nextLessonQuestion()">
+
+ Siguiente palabra ➡️
+
+ </button>
+
+ </div>
+ `;
+}
+
+
+function escapeJS(text){
+
+ return text
+  .replace(/\\/g,"\\\\")
+  .replace(/'/g,"\\'");
+}
+
+
+function answerChoice(button,selected,correct){
+
+ if(currentAnswered) return;
+
+ currentAnswered=true;
+
+ const feedback=document.getElementById("feedback");
+
+ if(selected===correct){
+
+  button.classList.add("correct");
+
+  feedback.className="feedback show ok";
+
+  feedback.textContent="✅ ¡Correcto!";
+
+  const key=lessonKey(currentLesson);
+
+  const questionIndex=currentQuestion;
+
+  if(!state.lessonRewarded[key]){
+   state.lessonRewarded[key]=[];
+  }
+
+  if(!state.lessonRewarded[key].includes(questionIndex)){
+
+   state.lessonRewarded[key].push(questionIndex);
+
+   state.xp+=2;
+  }
+
+  const mistakeIndex=lessonMistakes.indexOf(questionIndex);
+
+  if(mistakeIndex!==-1){
+   lessonMistakes.splice(mistakeIndex,1);
+  }
+
+  state.lessonMistakes[key]=lessonMistakes;
+
+ }else{
+
+  button.classList.add("wrong");
+
+  feedback.className="feedback show bad";
+
+  feedback.textContent=
+   "❌ Incorrecto. La respuesta correcta es: "+correct;
+
+  const key=lessonKey(currentLesson);
+
+  const questionIndex=currentQuestion;
+
+  if(!lessonMistakes.includes(questionIndex)){
+   lessonMistakes.push(questionIndex);
+  }
+
+  state.lessonMistakes[key]=lessonMistakes;
+
+  document.querySelectorAll(".option").forEach(btn=>{
+   if(btn.textContent.includes(correct)){
+    btn.classList.add("correct");
+   }
+  });
+ }
+
+ saveState();
+
+ document.getElementById("nextButton").style.display="inline-block";
+}
+
+
+function nextLessonQuestion(){
+
+ if(!currentAnswered) return;
+
+ if(lessonReviewRound){
+
+  lessonReviewIndex++;
+
+ }else{
+
+  currentQuestion++;
+ }
+
+ currentAnswered=false;
+
+ renderLessonQuestion();
+}
+
+
+function finishLesson(){
+
+ const key=lessonKey(currentLesson);
+
+ state.lessonProgress[key]=100;
+
+ state.lessonPosition[key]=0;
+
+ state.lessonMistakes[key]=[];
+
+ lessonReviewRound=false;
+
+ lessonReviewQueue=[];
+
+ lessonReviewIndex=0;
+
+ if(!state.lessonRewarded[key]){
+  state.lessonRewarded[key]=[];
+ }
+
+ /*
+  Solo da 10 XP de recompensa una vez.
+ */
+
+ const bonusKey=key+"-BONUS";
+
+ if(!state.lessonRewarded[key].includes(bonusKey)){
+
+  state.lessonRewarded[key].push(bonusKey);
+
+  state.xp+=10;
+
+ }
+
+ /*
+  Subimos el nivel según las lecciones completadas.
+ */
+
+ let completed=0;
+
+ for(let i=0;i<lessons.length;i++){
+  if(isLessonComplete(i)) completed++;
+ }
+
+ state.level=Math.min(10,completed+1);
+
+ /*
+  Racha sencilla: aumenta al completar una lección nueva.
+ */
+
+ if(!state.lessonRewarded[key].includes("STREAK")){
+
+  state.lessonRewarded[key].push("STREAK");
+
+  state.streak++;
+ }
+
+ saveState();
+
+ document.getElementById("exerciseArea").style.display="none";
+
+ document.getElementById("lessonFinish").style.display="block";
+
+ document.getElementById("lessonProgressBar").style.width="100%";
+
+ renderLessons();
+
+ alert("🎉 ¡Lección completada! Ganaste XP.");
+
+}
+
+
+function renderExtraWords(){
+
+ const container=document.getElementById("extraWords");
+
+ container.innerHTML="";
+
+ extraWords.forEach(w=>{
+
+  const d=document.createElement("div");
+
+  d.className="word";
+
+  d.innerHTML=`
+   <strong>${w[0]}</strong>
+   ${w[1]}<br>
+   <button class="audio" onclick="speak('${w[0]}')">
+   🔊 Audio
+   </button>
+  `;
+
+  container.appendChild(d);
+ });
+}
+
+
+function renderPhrases(){
+
+ const container=document.getElementById("phraseList");
+
+ container.innerHTML="";
+
+ phrases.forEach(p=>{
+
+  const d=document.createElement("div");
+
+  d.className="word";
+
+  d.innerHTML=`
+   <strong>${p[0]}</strong>
+   ${p[1]}<br>
+   <button class="audio" onclick="speak('${p[0]}')">
+   🔊 Audio
+   </button>
+  `;
+
+  container.appendChild(d);
+ });
+}
+
+
+/* QUIZ */
+
+let quizWord=null;
+
+function renderQuiz(){
+
+ const container=document.getElementById("quizContainer");
+
+ const all=[];
+
+ lessons.forEach(l=>{
+  l.words.forEach(w=>all.push(w));
+ });
+
+ quizWord=all[Math.floor(Math.random()*all.length)];
+
+ let options=[quizWord[1]];
+
+ while(options.length<3){
+
+  const w=all[Math.floor(Math.random()*all.length)][1];
+
+  if(!options.includes(w)){
+   options.push(w);
+  }
+ }
+
+ options.sort(()=>Math.random()-.5);
+
+ container.innerHTML=`
+
+ <h3>¿Qué significa "${quizWord[0]}"?</h3>
+
+ <button class="audio"
+ onclick="speak('${quizWord[0]}')">
+ 🔊 Escuchar
+ </button>
+
+ <div class="options">
+
+ ${options.map(o=>`
+
+ <button class="option"
+ onclick="answerQuiz(this,'${escapeJS(o)}','${escapeJS(quizWord[1])}')">
+
+ ${o}
+
+ </button>
+
+ `).join("")}
+
+ </div>
+
+ `;
+}
+
+
+function answerQuiz(button,selected,correct){
+
+ document.querySelectorAll("#quizContainer .option").forEach(b=>{
+  b.disabled=true;
+ });
+
+ if(selected===correct){
+
+  button.classList.add("correct");
+
+  state.xp+=1;
+
+  saveState();
+
+  setTimeout(renderQuiz,700);
+
+ }else{
+
+  button.classList.add("wrong");
+
+  document.querySelectorAll("#quizContainer .option").forEach(b=>{
+   if(b.textContent.trim()===correct){
+    b.classList.add("correct");
+   }
+  });
+
+  setTimeout(renderQuiz,1000);
+ }
+}
+
+
+/* LISTENING */
+
+let listeningWord=null;
+
+function startListening(){
+
+ const all=[];
+
+ lessons.forEach(l=>{
+  l.words.forEach(w=>all.push(w));
+ });
+
+ listeningWord=
+  all[Math.floor(Math.random()*all.length)];
+
+ speak(listeningWord[0]);
+
+ const container=document.getElementById("listeningOptions");
+
+ let options=[listeningWord[1]];
+
+ while(options.length<3){
+
+  const w=all[Math.floor(Math.random()*all.length)][1];
+
+  if(!options.includes(w)){
+   options.push(w);
+  }
+ }
+
+ options.sort(()=>Math.random()-.5);
+
+ container.innerHTML=options.map(o=>`
+
+ <button class="option"
+ onclick="checkListening(this,'${escapeJS(o)}','${escapeJS(listeningWord[1])}')">
+
+ ${o}
+
+ </button>
+
+ `).join("");
+}
+
+
+function checkListening(button,selected,correct){
+
+ if(selected===correct){
+
+  button.classList.add("correct");
+
+  state.xp+=1;
+
+  saveState();
+
+ }else{
+
+  button.classList.add("wrong");
+
+ }
+}
+
+
+/* WRITING */
+
+function newWriting(){
+
+ const all=[];
+
+ lessons.forEach(l=>{
+  l.words.forEach(w=>all.push(w));
+ });
+
+ currentWritingWord=
+  all[Math.floor(Math.random()*all.length)];
+
+ document.getElementById("writingSpanish").textContent=
+  "Traduce: "+currentWritingWord[1];
+
+ document.getElementById("writingInput").value="";
+
+ document.getElementById("writingResult").textContent="";
+}
+
+
+function checkWriting(){
+
+ if(!currentWritingWord){
+  newWriting();
+  return;
+ }
+
+ const value=
+  document.getElementById("writingInput").value
+  .trim()
+  .toLowerCase();
+
+ if(value===currentWritingWord[0].toLowerCase()){
+
+  document.getElementById("writingResult").textContent=
+   "✅ ¡Correcto!";
+
+  state.xp+=1;
+
+  saveState();
+
+  setTimeout(newWriting,700);
+
+ }else{
+
+  document.getElementById("writingResult").textContent=
+   "❌ Correcto: "+currentWritingWord[0];
+ }
+}
+
+
+function speakCurrentWriting(){
+
+ if(currentWritingWord){
+  speak(currentWritingWord[0]);
+ }else{
+  newWriting();
+ }
+}
+
+
+/* INICIAR */
+
+renderLessons();
+renderExtraWords();
+renderPhrases();
+updateStats();
+newWriting();
+
+</script>
+
+</body>
+</html>

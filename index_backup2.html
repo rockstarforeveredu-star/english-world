@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English World</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07111f;
+  --card:#101d31;
+  --card2:#14243b;
+  --text:#f4f7fb;
+  --muted:#9fb0c8;
+  --primary:#4f8cff;
+  --green:#25c878;
+  --yellow:#ffc857;
+  --red:#ff5c6c;
+  --border:#233752;
+}
+body.light{
+  --bg:#eef3f9;
+  --card:#fff;
+  --card2:#f4f7fb;
+  --text:#132033;
+  --muted:#617089;
+  --border:#dce4ef;
+}
+body{
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,var(--bg),#0b1930);
+  color:var(--text);
+  min-height:100vh;
+}
+body.light{background:var(--bg)}
+button,input{
+  font:inherit;
+}
+button{
+  border:0;
+  cursor:pointer;
+}
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 16px;
+  background:rgba(7,17,31,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+.light .header{background:rgba(255,255,255,.94)}
+.logo{
+  font-size:21px;
+  font-weight:800;
+}
+.header-right{
+  display:flex;
+  gap:7px;
+  align-items:center;
+}
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  background:var(--card2);
+  color:var(--text);
+  font-size:19px;
+}
+.stats{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  padding:10px 14px;
+}
+.stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:7px 10px;
+  font-size:13px;
+}
+.menu{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:285px;
+  z-index:100;
+  background:var(--card);
+  border-right:1px solid var(--border);
+  transform:translateX(-105%);
+  transition:.25s;
+  padding:18px;
+  overflow:auto;
+}
+.menu.open{transform:translateX(0)}
+.menu-title{
+  font-size:20px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+.menu button{
+  width:100%;
+  padding:13px;
+  margin:4px 0;
+  text-align:left;
+  border-radius:11px;
+  background:transparent;
+  color:var(--text);
+}
+.menu button:hover{background:var(--card2)}
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  background:rgba(0,0,0,.55);
+  display:none;
+}
+.overlay.show{display:block}
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:18px 14px 50px;
+}
+.section{display:none}
+.section.active{display:block}
+.hero{
+  padding:25px 0;
+}
+.hero h1{
+  font-size:34px;
+  margin-bottom:8px;
+}
+.hero p{color:var(--muted);line-height:1.5}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:17px;
+}
+.card h3{margin-bottom:8px}
+.card p{
+  color:var(--muted);
+  line-height:1.5;
+}
+.primary{
+  background:var(--primary);
+  color:white;
+  padding:12px 16px;
+  border-radius:11px;
+  font-weight:700;
+}
+.secondary{
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  padding:11px 15px;
+  border-radius:11px;
+}
+.success{
+  background:var(--green);
+  color:white;
+  padding:11px 15px;
+  border-radius:11px;
+}
+.danger{
+  background:var(--red);
+  color:white;
+  padding:11px 15px;
+  border-radius:11px;
+}
+.section-title{
+  margin:10px 0 15px;
+  font-size:25px;
+}
+.level-card{
+  position:relative;
+}
+.level-badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:8px;
+  background:var(--primary);
+  color:white;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:9px;
+}
+.progress{
+  height:9px;
+  background:var(--card2);
+  border-radius:20px;
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress div{
+  height:100%;
+  background:var(--green);
+  width:0%;
+  transition:.3s;
+}
+.lesson-list{
+  display:grid;
+  gap:12px;
+}
+.lesson-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+}
+.lesson-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+}
+.status{
+  font-size:13px;
+  font-weight:bold;
+}
+.done{color:var(--green)}
+.available{color:var(--yellow)}
+.locked{color:var(--muted)}
+.word-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:10px;
+}
+.word-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:14px;
+}
+.word-en{
+  font-size:19px;
+  font-weight:800;
+}
+.word-es{
+  color:var(--muted);
+  margin:4px 0 10px;
+}
+.audio{
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  padding:8px 12px;
+  border-radius:9px;
+}
+.preview{
+  margin-bottom:18px;
+}
+.preview-note{
+  background:var(--card2);
+  padding:13px;
+  border-radius:12px;
+  margin-bottom:14px;
+  color:var(--muted);
+}
+.exercise-box{
+  max-width:700px;
+  margin:auto;
+}
+.question-number{
+  color:var(--primary);
+  font-weight:bold;
+  margin-bottom:10px;
+}
+.question{
+  font-size:25px;
+  line-height:1.35;
+  margin-bottom:18px;
+}
+.options{
+  display:grid;
+  gap:10px;
+}
+.option{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  text-align:left;
+}
+.option:hover{border-color:var(--primary)}
+.option.correct{background:rgba(37,200,120,.2);border-color:var(--green)}
+.option.wrong{background:rgba(255,92,108,.2);border-color:var(--red)}
+.answer-input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--text);
+  outline:none;
+  margin-bottom:10px;
+}
+.feedback{
+  margin:16px 0;
+  padding:13px;
+  border-radius:12px;
+  display:none;
+}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(37,200,120,.15);color:#62e39c}
+.feedback.bad{background:rgba(255,92,108,.15);color:#ff8995}
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+.audio-big{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:15px;
+}
+.quiz-levels{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:12px;
+}
+.quiz-level{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:16px;
+  border-radius:15px;
+}
+.quiz-level.locked{opacity:.55}
+.profile input{
+  width:100%;
+  padding:13px;
+  background:var(--card2);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin:10px 0;
+}
+.search{
+  width:100%;
+  padding:13px;
+  border-radius:11px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--border);
+  margin-bottom:14px;
+}
+.hidden{display:none!important}
+.center{text-align:center}
+.small{font-size:13px;color:var(--muted)}
+.tag{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:7px;
+  background:var(--card2);
+  font-size:12px;
+  margin:3px;
+}
+footer{
+  text-align:center;
+  color:var(--muted);
+  padding:30px 10px;
+}
+@media(max-width:600px){
+  .hero h1{font-size:29px}
+  .question{font-size:22px}
+  .menu{width:270px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">🌎 English World</div>
+  <div class="header-right">
+    <button class="icon-btn" onclick="toggleTheme()">🌙</button>
+    <button class="icon-btn" onclick="openMenu()">☰</button>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat">⭐ XP: <b id="xp">0</b></div>
+  <div class="stat">🔥 Racha: <b id="streak">0</b></div>
+  <div class="stat">🏆 Récord: <b id="record">0</b></div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<nav class="menu" id="menu">
+  <div class="menu-title">☰ Menú</div>
+  <button onclick="closeMenu();showSection('home')">🏠 Inicio</button>
+  <button onclick="closeMenu();showSection('levels')">📚 Niveles</button>
+  <button onclick="closeMenu();showSection('lessons')">📝 Lecciones</button>
+  <button onclick="closeMenu();showSection('phrases')">💬 Frases</button>
+  <button onclick="closeMenu();showSection('words')">📖 Palabras</button>
+  <button onclick="closeMenu();showSection('quiz')">🎮 Quiz</button>
+  <button onclick="closeMenu();showSection('listening')">🎧 Listening</button>
+  <button onclick="closeMenu();showSection('writing')">✍️ Writing</button>
+  <button onclick="closeMenu();showSection('progress')">📊 Progreso</button>
+  <button onclick="closeMenu();showSection('achievements')">🏆 Logros</button>
+  <button onclick="closeMenu();showSection('profile')">👤 Perfil</button>
+  <button onclick="toggleTheme()">🎨 Tema</button>
+</nav>
+
+<main>
+
+<section id="home" class="section active">
+  <div class="hero">
+    <h1>Aprende inglés de verdad 🚀</h1>
+    <p>Aprende palabras, frases, pronunciación y comprensión paso a paso.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>📚 Tu curso</h3>
+      <p id="homeLevel">A1 · Comenzando</p>
+      <div class="progress"><div id="homeProgress"></div></div>
+    </div>
+    <div class="card">
+      <h3>⭐ Experiencia</h3>
+      <p>Gana XP completando palabras y ejercicios.</p>
+    </div>
+    <div class="card">
+      <h3>🔊 Pronunciación</h3>
+      <p>Escucha las palabras directamente en inglés.</p>
+    </div>
+  </div>
+</section>
+
+<section id="levels" class="section">
+  <h2 class="section-title">📚 Niveles</h2>
+  <div id="levelsContainer" class="grid"></div>
+</section>
+
+<section id="lessons" class="section">
+  <h2 class="section-title">📝 Lecciones</h2>
+  <div id="lessonArea"></div>
+</section>
+
+<section id="phrases" class="section">
+  <h2 class="section-title">💬 Frases</h2>
+  <div class="word-grid" id="phraseList"></div>
+</section>
+
+<section id="words" class="section">
+  <h2 class="section-title">📖 Palabras</h2>
+  <input class="search" id="wordSearch" placeholder="🔎 Buscar palabra..." oninput="renderWords()">
+  <div class="word-grid" id="wordList"></div>
+</section>
+
+<section id="quiz" class="section">
+  <h2 class="section-title">🎮 Quiz</h2>
+  <div id="quizArea"></div>
+</section>
+
+<section id="listening" class="section">
+  <h2 class="section-title">🎧 Listening</h2>
+  <div class="card">
+    <p>Escucha la palabra y selecciona su significado.</p>
+    <br>
+    <div id="listeningArea"></div>
+  </div>
+</section>
+
+<section id="writing" class="section">
+  <h2 class="section-title">✍️ Writing</h2>
+  <div class="card">
+    <p>Escribe la palabra inglesa correcta.</p>
+    <br>
+    <div id="writingArea"></div>
+  </div>
+</section>
+
+<section id="progress" class="section">
+  <h2 class="section-title">📊 Progreso</h2>
+  <div id="progressArea"></div>
+</section>
+
+<section id="achievements" class="section">
+  <h2 class="section-title">🏆 Logros</h2>
+  <div id="achievementArea" class="grid"></div>
+</section>
+
+<section id="profile" class="section">
+  <h2 class="section-title">👤 Perfil</h2>
+  <div class="card profile">
+    <h3>Tu nombre</h3>
+    <input id="nameInput" placeholder="Escribe tu nombre">
+    <button class="primary" onclick="saveName()">Guardar</button>
+    <br><br>
+    <button class="danger" onclick="resetAll()">Restablecer progreso</button>
+  </div>
+</section>
+
+<footer>🌎 English World · Aprende inglés paso a paso</footer>
+
+</main>
+
+<script>
+/* =========================
+   DATOS
+========================= */
+
+const levels=["A1","A2","B1","B2"];
+
+const levelNames={
+ A1:"Principiante",
+ A2:"Básico",
+ B1:"Intermedio",
+ B2:"Intermedio alto"
+};
+
+/*
+  200+ palabras fáciles.
+  Se mantienen separadas del sistema de lecciones.
+*/
+const extraWords=[
+["house","casa"],["door","puerta"],["window","ventana"],["room","habitación"],
+["table","mesa"],["chair","silla"],["bed","cama"],["floor","piso"],
+["wall","pared"],["kitchen","cocina"],["bathroom","baño"],["garden","jardín"],
+["food","comida"],["water","agua"],["milk","leche"],["bread","pan"],
+["apple","manzana"],["banana","banano"],["orange","naranja"],["rice","arroz"],
+["egg","huevo"],["meat","carne"],["fish","pescado"],["cheese","queso"],
+["soup","sopa"],["coffee","café"],["tea","té"],["juice","jugo"],
+["dog","perro"],["cat","gato"],["bird","pájaro"],["fish","pez"],
+["horse","caballo"],["cow","vaca"],["pig","cerdo"],["chicken","pollo"],
+["family","familia"],["mother","madre"],["father","padre"],["brother","hermano"],
+["sister","hermana"],["son","hijo"],["daughter","hija"],["friend","amigo"],
+["man","hombre"],["woman","mujer"],["boy","niño"],["girl","niña"],
+["baby","bebé"],["teacher","maestro"],["student","estudiante"],["doctor","doctor"],
+["school","escuela"],["class","clase"],["book","libro"],["pen","lapicero"],
+["pencil","lápiz"],["paper","papel"],["desk","escritorio"],["lesson","lección"],
+["car","carro"],["bus","autobús"],["train","tren"],["bike","bicicleta"],
+["road","carretera"],["street","calle"],["city","ciudad"],["park","parque"],
+["store","tienda"],["market","mercado"],["bank","banco"],["hotel","hotel"],
+["big","grande"],["small","pequeño"],["long","largo"],["short","corto"],
+["good","bueno"],["bad","malo"],["new","nuevo"],["old","viejo"],
+["young","joven"],["happy","feliz"],["sad","triste"],["easy","fácil"],
+["hard","difícil"],["hot","caliente"],["cold","frío"],["fast","rápido"],
+["slow","lento"],["clean","limpio"],["dirty","sucio"],["beautiful","hermoso"],
+["red","rojo"],["blue","azul"],["green","verde"],["yellow","amarillo"],
+["black","negro"],["white","blanco"],["brown","café"],["pink","rosado"],
+["one","uno"],["two","dos"],["three","tres"],["four","cuatro"],
+["five","cinco"],["six","seis"],["seven","siete"],["eight","ocho"],
+["nine","nueve"],["ten","diez"],["morning","mañana"],["afternoon","tarde"],
+["night","noche"],["today","hoy"],["tomorrow","mañana"],["yesterday","ayer"],
+["Monday","lunes"],["Tuesday","martes"],["Wednesday","miércoles"],["Thursday","jueves"],
+["Friday","viernes"],["Saturday","sábado"],["Sunday","domingo"],["time","tiempo"],
+["day","día"],["week","semana"],["month","mes"],["year","año"],
+["go","ir"],["come","venir"],["eat","comer"],["drink","beber"],
+["sleep","dormir"],["walk","caminar"],["run","correr"],["see","ver"],
+["look","mirar"],["hear","oír"],["listen","escuchar"],["speak","hablar"],
+["say","decir"],["read","leer"],["write","escribir"],["open","abrir"],
+["close","cerrar"],["sit","sentarse"],["stand","estar de pie"],["give","dar"],
+["take","tomar"],["make","hacer"],["help","ayudar"],["like","gustar"],
+["love","amar"],["want","querer"],["need","necesitar"],["know","saber"],
+["think","pensar"],["work","trabajar"],["play","jugar"],["study","estudiar"],
+["buy","comprar"],["pay","pagar"],["call","llamar"],["wait","esperar"],
+["live","vivir"],["start","empezar"],["finish","terminar"],["stop","parar"],
+["body","cuerpo"],["head","cabeza"],["face","cara"],["eye","ojo"],
+["ear","oreja"],["nose","nariz"],["mouth","boca"],["hand","mano"],
+["arm","brazo"],["leg","pierna"],["foot","pie"],["hair","cabello"],
+["shirt","camisa"],["pants","pantalones"],["shoes","zapatos"],["dress","vestido"],
+["hat","sombrero"],["coat","abrigo"],["phone","teléfono"],["computer","computadora"],
+["key","llave"],["bag","bolso"],["box","caja"],["ball","pelota"],
+["sun","sol"],["moon","luna"],["star","estrella"],["sky","cielo"],
+["tree","árbol"],["flower","flor"],["rain","lluvia"],["wind","viento"],
+["fire","fuego"],["earth","tierra"],["sea","mar"],["river","río"],
+["mountain","montaña"],["animal","animal"],["world","mundo"],["country","país"],
+["place","lugar"],["home","hogar"],["name","nombre"],["number","número"],
+["color","color"],["word","palabra"],["question","pregunta"],["answer","respuesta"],
+["yes","sí"],["no","no"],["hello","hola"],["goodbye","adiós"],
+["please","por favor"],["thanks","gracias"],["sorry","perdón"],["welcome","bienvenido"]
+];
+
+/* Palabras diferentes por lección */
+const lessonPools={
+A1:[
+[
+["hello","hola"],["name","nombre"],["friend","amigo"],["family","familia"],
+["mother","madre"],["father","padre"],["brother","hermano"],["sister","hermana"],
+["boy","niño"],["girl","niña"]
+],
+[
+["one","uno"],["two","dos"],["three","tres"],["four","cuatro"],
+["five","cinco"],["six","seis"],["seven","siete"],["eight","ocho"],
+["nine","nueve"],["ten","diez"]
+],
+[
+["house","casa"],["door","puerta"],["window","ventana"],["room","habitación"],
+["table","mesa"],["chair","silla"],["bed","cama"],["floor","piso"],
+["wall","pared"],["garden","jardín"]
+],
+[
+["water","agua"],["milk","leche"],["bread","pan"],["apple","manzana"],
+["banana","banano"],["orange","naranja"],["rice","arroz"],["egg","huevo"],
+["cheese","queso"],["juice","jugo"]
+],
+[
+["dog","perro"],["cat","gato"],["bird","pájaro"],["horse","caballo"],
+["cow","vaca"],["pig","cerdo"],["chicken","pollo"],["fish","pez"],
+["animal","animal"],["baby","bebé"]
+],
+[
+["school","escuela"],["teacher","maestro"],["student","estudiante"],["book","libro"],
+["pen","lapicero"],["pencil","lápiz"],["paper","papel"],["desk","escritorio"],
+["class","clase"],["lesson","lección"]
+],
+[
+["car","carro"],["bus","autobús"],["train","tren"],["bike","bicicleta"],
+["road","carretera"],["street","calle"],["city","ciudad"],["park","parque"],
+["store","tienda"],["hotel","hotel"]
+],
+[
+["red","rojo"],["blue","azul"],["green","verde"],["yellow","amarillo"],
+["black","negro"],["white","blanco"],["brown","café"],["pink","rosado"],
+["color","color"],["beautiful","hermoso"]
+],
+[
+["big","grande"],["small","pequeño"],["good","bueno"],["bad","malo"],
+["new","nuevo"],["old","viejo"],["young","joven"],["happy","feliz"],
+["sad","triste"],["easy","fácil"]
+],
+[
+["go","ir"],["come","venir"],["eat","comer"],["drink","beber"],
+["sleep","dormir"],["walk","caminar"],["run","correr"],["see","ver"],
+["read","leer"],["write","escribir"]
+]
+],
+A2:[],
+B1:[],
+B2:[]
+};
+
+/* Generamos grupos distintos para A2/B1/B2 usando palabras restantes */
+function makeLevelPool(start){
+  let arr=extraWords.slice(start);
+  let result=[];
+  for(let i=0;i<10;i++){
+    let group=[];
+    for(let j=0;j<10;j++){
+      group.push(arr[(i*10+j)%arr.length]);
+    }
+    result.push(group);
+  }
+  return result;
+}
+
+lessonPools.A2=makeLevelPool(70);
+lessonPools.B1=makeLevelPool(170);
+lessonPools.B2=[
+[
+["morning","mañana"],["afternoon","tarde"],["night","noche"],["today","hoy"],
+["tomorrow","mañana"],["yesterday","ayer"],["day","día"],["week","semana"],
+["month","mes"],["year","año"]
+],
+[
+["open","abrir"],["close","cerrar"],["sit","sentarse"],["stand","estar de pie"],
+["give","dar"],["take","tomar"],["make","hacer"],["help","ayudar"],
+["like","gustar"],["love","amar"]
+],
+[
+["want","querer"],["need","necesitar"],["know","saber"],["think","pensar"],
+["work","trabajar"],["play","jugar"],["study","estudiar"],["buy","comprar"],
+["pay","pagar"],["call","llamar"]
+],
+[
+["head","cabeza"],["face","cara"],["eye","ojo"],["ear","oreja"],
+["nose","nariz"],["mouth","boca"],["hand","mano"],["arm","brazo"],
+["leg","pierna"],["foot","pie"]
+],
+[
+["shirt","camisa"],["pants","pantalones"],["shoes","zapatos"],["dress","vestido"],
+["hat","sombrero"],["coat","abrigo"],["bag","bolso"],["key","llave"],
+["box","caja"],["ball","pelota"]
+],
+[
+["sun","sol"],["moon","luna"],["star","estrella"],["sky","cielo"],
+["tree","árbol"],["flower","flor"],["rain","lluvia"],["wind","viento"],
+["fire","fuego"],["earth","tierra"]
+],
+[
+["sea","mar"],["river","río"],["mountain","montaña"],["world","mundo"],
+["country","país"],["place","lugar"],["home","hogar"],["phone","teléfono"],
+["computer","computadora"],["number","número"]
+],
+[
+["question","pregunta"],["answer","respuesta"],["yes","sí"],["no","no"],
+["hello","hola"],["goodbye","adiós"],["please","por favor"],["thanks","gracias"],
+["sorry","perdón"],["welcome","bienvenido"]
+],
+[
+["fast","rápido"],["slow","lento"],["clean","limpio"],["dirty","sucio"],
+["hot","caliente"],["cold","frío"],["long","largo"],["short","corto"],
+["hard","difícil"],["beautiful","hermoso"]
+],
+[
+["wait","esperar"],["live","vivir"],["start","empezar"],["finish","terminar"],
+["stop","parar"],["read","leer"],["write","escribir"],["speak","hablar"],
+["listen","escuchar"],["hear","oír"]
+]
+];
+
+/* Frases fáciles */
+const phrases=[
+["Hello, how are you?","Hola, ¿cómo estás?"],
+["My name is Dennis.","Mi nombre es Dennis."],
+["Nice to meet you.","Mucho gusto."],
+["I am happy.","Estoy feliz."],
+["I like English.","Me gusta el inglés."],
+["I want water.","Quiero agua."],
+["Where is my house?","¿Dónde está mi casa?"],
+["This is my friend.","Este es mi amigo."],
+["I go to school.","Voy a la escuela."],
+["I have a dog.","Tengo un perro."],
+["Open the door.","Abre la puerta."],
+["Close the window.","Cierra la ventana."],
+["Good morning.","Buenos días."],
+["Good night.","Buenas noches."],
+["See you tomorrow.","Nos vemos mañana."]
+];
+
+/* =========================
+   ESTADO
+========================= */
+
+let state=JSON.parse(localStorage.getItem("englishWorldState")||"null")||{
+ xp:0,
+ streak:0,
+ record:0,
+ name:"",
+ theme:"dark",
+ completed:{},
+ lessonProgress:{},
+ lessonSession:{},
+ quizUnlocked:1,
+ quizRecord:{},
+ quizBest:0
+};
+
+function save(){
+ localStorage.setItem("englishWorldState",JSON.stringify(state));
+ updateStats();
+}
+
+function updateStats(){
+ document.getElementById("xp").textContent=state.xp;
+ document.getElementById("streak").textContent=state.streak;
+ document.getElementById("record").textContent=state.record;
+}
+
+function toggleTheme(){
+ state.theme=state.theme==="dark"?"light":"dark";
+ document.body.classList.toggle("light",state.theme==="light");
+ save();
+}
+
+if(state.theme==="light")document.body.classList.add("light");
+
+/* =========================
+   MENÚ / SECCIONES
+========================= */
+
+function openMenu(){
+ document.getElementById("menu").classList.add("open");
+ document.getElementById("overlay").classList.add("show");
+}
+function closeMenu(){
+ document.getElementById("menu").classList.remove("open");
+ document.getElementById("overlay").classList.remove("show");
+}
+
+function showSection(id){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+
+ if(id==="levels")renderLevels();
+ if(id==="lessons")showLevelLessons(getCurrentLevel());
+ if(id==="words")renderWords();
+ if(id==="phrases")renderPhrases();
+ if(id==="quiz")renderQuizHome();
+ if(id==="listening")renderListening();
+ if(id==="writing")renderWriting();
+ if(id==="progress")renderProgress();
+ if(id==="achievements")renderAchievements();
+ if(id==="profile")document.getElementById("nameInput").value=state.name||"";
+}
+
+function getCurrentLevel(){
+ for(let l of levels){
+   if(!isLevelComplete(l)) return l;
+ }
+ return "B2";
+}
+
+function isLessonComplete(level,index){
+ return !!state.completed[level+"-"+index];
+}
+
+function isLevelComplete(level){
+ return [...Array(10)].every((_,i)=>isLessonComplete(level,i));
+}
+
+function isLevelUnlocked(level){
+ let idx=levels.indexOf(level);
+ if(idx===0)return true;
+ return isLevelComplete(levels[idx-1]);
+}
+
+function lessonProgress(level,index){
+ return state.lessonProgress[level+"-"+index]||0;
+}
+
+/* =========================
+   NIVELES
+========================= */
+
+function renderLevels(){
+ const box=document.getElementById("levelsContainer");
+ box.innerHTML="";
+
+ levels.forEach((level,i)=>{
+   let complete=isLevelComplete(level);
+   let unlocked=isLevelUnlocked(level);
+   let count=[...Array(10)].filter((_,x)=>isLessonComplete(level,x)).length;
+   let percent=count*10;
+
+   box.innerHTML+=`
+   <div class="card level-card">
+     <span class="level-badge">${level}</span>
+     <h3>${levelNames[level]}</h3>
+     <p>${complete?"🎉 Nivel completado":"Progreso: "+count+"/10 lecciones"}</p>
+     <div class="progress"><div style="width:${percent}%"></div></div>
+     ${
+       !unlocked
+       ? `<button class="secondary" disabled>🔒 Bloqueado</button>`
+       : `<div class="actions">
+           <button class="primary" onclick="showLevelLessons('${level}')">
+             ${complete?"🔁 Ver / Rehacer":"▶️ Entrar"}
+           </button>
+         </div>`
+     }
+   </div>`;
+ });
+}
+
+function showLevelLessons(level){
+ if(!isLevelUnlocked(level)){
+   alert("Este nivel está bloqueado. Completa el nivel anterior.");
+   return;
+ }
+ showSection("lessons");
+
+ const area=document.getElementById("lessonArea");
+ area.innerHTML=`
+ <div class="card" style="margin-bottom:15px">
+   <span class="level-badge">${level}</span>
+   <h2>${levelNames[level]}</h2>
+   <p>Completa las 10 lecciones para desbloquear el siguiente nivel.</p>
+ </div>
+ <div class="lesson-list" id="lessonsForLevel"></div>
+ `;
+
+ const list=document.getElementById("lessonsForLevel");
+
+ for(let i=0;i<10;i++){
+   let complete=isLessonComplete(level,i);
+   let previous=i===0?true:isLessonComplete(level,i-1);
+   let unlocked=previous;
+   let p=complete?100:lessonProgress(level,i);
+
+   let title=`Lección ${i+1}`;
+
+   list.innerHTML+=`
+   <div class="lesson-card">
+     <div class="lesson-head">
+       <div>
+         <h3>${title}</h3>
+         <div class="small">${lessonPools[level][i].map(x=>x[0]).slice(0,4).join(" · ")}...</div>
+       </div>
+       <div class="status ${complete?"done":unlocked?"available":"locked"}">
+         ${complete?"✅ Completada":unlocked?"🟢 Disponible":"🔒 Bloqueada"}
+       </div>
+     </div>
+
+     <div class="progress"><div style="width:${p}%"></div></div>
+     <p>${p}% completado</p>
+
+     <div class="actions">
+       ${
+        complete
+        ? `<button class="secondary" onclick="startLesson('${level}',${i},true)">🔁 Rehacer</button>`
+        : unlocked
+        ? `<button class="primary" onclick="startLesson('${level}',${i},false)">
+             ${p>0?"▶️ Continuar":"▶️ Empezar"}
+           </button>`
+        : `<button class="secondary" disabled>🔒 Completa la anterior</button>`
+       }
+     </div>
+   </div>`;
+ }
+}
+
+/* =========================
+   LECCIONES
+========================= */
+
+let lessonRuntime=null;
+
+function startLesson(level,index,redo=false){
+ if(!isLevelUnlocked(level))return;
+
+ if(!redo && isLessonComplete(level,index)){
+   redo=true;
+ }
+
+ const key=level+"-"+index;
+ let session=state.lessonSession[key];
+
+ lessonRuntime={
+   level,
+   index,
+   key,
+   redo,
+   words:lessonPools[level][index],
+   preview:true,
+   exercise:session?.exercise||0,
+   question:session?.question||0,
+   wrong:session?.wrong||[],
+   answers:session?.answers||{}
+ };
+
+ renderLessonPreview();
+}
+
+function renderLessonPreview(){
+ showSection("lessons");
+
+ const area=document.getElementById("lessonArea");
+ const words=lessonRuntime.words;
+
+ area.innerHTML=`
+ <div class="preview">
+   <div class="card">
+     <span class="level-badge">${lessonRuntime.level}</span>
+     <h2>Lección ${lessonRuntime.index+1}</h2>
+     <p>Primero conoce las 10 palabras. Escucha cada palabra en inglés.</p>
+   </div>
+
+   <br>
+
+   <div class="word-grid">
+    ${words.map((w,i)=>`
+      <div class="word-card">
+        <div class="small">Palabra ${i+1}</div>
+        <div class="word-en">${w[0]}</div>
+        <div class="word-es">${w[1]}</div>
+        <button class="audio" onclick="speakEnglish('${escapeSpeech(w[0])}')">
+          🔊 Escuchar
+        </button>
+      </div>
+    `).join("")}
+   </div>
+
+   <br>
+
+   <div class="card center">
+     <p>Cuando hayas visto las 10 palabras, puedes comenzar.</p>
+     <br>
+     <button class="primary" onclick="beginLessonExercises()">
+       ✅ He visto las 10 palabras — Empezar ejercicio
+     </button>
+   </div>
+ </div>`;
+}
+
+function beginLessonExercises(){
+ lessonRuntime.preview=false;
+ saveLessonSession();
+ renderExercise();
+}
+
+function saveLessonSession(){
+ if(!lessonRuntime)return;
+
+ state.lessonSession[lessonRuntime.key]={
+   exercise:lessonRuntime.exercise,
+   question:lessonRuntime.question,
+   wrong:lessonRuntime.wrong,
+   answers:lessonRuntime.answers
+ };
+
+ save();
+}
+
+function clearLessonSession(){
+ delete state.lessonSession[lessonRuntime.key];
+ save();
+}
+
+function questionPattern(exercise){
+ /*
+   6-7 opción múltiple
+   2 escritura
+   1-2 audio
+   patrón diferente según ejercicio.
+ */
+ const patterns=[
+  ["mc","write","mc","audio","mc","write","mc","mc","audio","mc"],
+  ["audio","mc","write","mc","mc","audio","mc","write","mc","mc"],
+  ["mc","mc","audio","write","mc","mc","write","audio","mc","mc"],
+  ["write","mc","mc","audio","mc","write","mc","mc","mc","audio"],
+  ["mc","audio","mc","mc","write","mc","audio","mc","write","mc"],
+  ["mc","write","audio","mc","mc","mc","write","mc","audio","mc"],
+  ["audio","mc","mc","write","mc","audio","mc","mc","write","mc"],
+  ["mc","mc","write","mc","audio","mc","mc","write","mc","audio"],
+  ["write","mc","audio","mc","mc","write","mc","mc","audio","mc"],
+  ["mc","audio","mc","write","mc","mc","audio","mc","write","mc"]
+ ];
+ return patterns[exercise%patterns.length];
+}
+
+function getQuestionData(type,qIndex){
+ const words=lessonRuntime.words;
+ const correct=words[qIndex%words.length];
+
+ if(type==="mc"){
+   let options=[correct];
+   let candidates=[...words].filter(x=>x!==correct);
+   candidates.sort(()=>Math.random()-.5);
+   options.push(...candidates.slice(0,2));
+   options.sort(()=>Math.random()-.5);
+
+   return {
+    type,
+    word:correct,
+    prompt:`¿Qué significa <b>${correct[0]}</b>?`,
+    options
+   };
+ }
+
+ if(type==="write"){
+   return {
+    type,
+    word:correct,
+    prompt:`Escribe la palabra en inglés para:<br><b>${correct[1]}</b>`
+   };
+ }
+
+ return {
+   type:"audio",
+   word:correct,
+   prompt:`Escucha la palabra en inglés y elige su significado.`,
+   options:(()=>{
+      let opts=[correct];
+      let others=[...words].filter(x=>x!==correct).sort(()=>Math.random()-.5);
+      opts.push(...others.slice(0,2));
+      opts.sort(()=>Math.random()-.5);
+      return opts;
+   })()
+ };
+}
+
+function renderExercise(){
+ const {level,index,exercise,question}=lessonRuntime;
+ const pattern=questionPattern(exercise);
+ const type=pattern[question];
+ const q=getQuestionData(type,question);
+
+ const area=document.getElementById("lessonArea");
+
+ area.innerHTML=`
+ <div class="exercise-box">
+   <div class="card">
+     <div class="small">${level} · Lección ${index+1}</div>
+     <h2>Ejercicio ${exercise+1} de 10</h2>
+     <div class="progress">
+       <div style="width:${((question)/10)*100}%"></div>
+     </div>
+     <div class="question-number">Pregunta ${question+1} de 10</div>
+
+     <div class="question">${q.prompt}</div>
+
+     ${q.type==="audio"
+       ? `<div class="audio-big">
+            <button class="primary" onclick="speakEnglish('${escapeSpeech(q.word[0])}')">
+              🔊 Escuchar
+            </button>
+          </div>`
+       : ""}
+
+     ${
+       q.type==="write"
+       ? `
+         <button class="audio" onclick="speakEnglish('${escapeSpeech(q.word[0])}')">
+           🔊 Escuchar pronunciación en inglés
+         </button>
+         <br><br>
+         <input id="answerInput" class="answer-input" placeholder="Escribe la palabra en inglés..." autocomplete="off">
+         <button class="primary" onclick="checkWriting('${escapeSpeech(q.word[0])}')">
+           Comprobar
+         </button>
+       `
+       :
+       `<div class="options">
+         ${q.options.map((o,i)=>`
+           <button class="option" onclick="checkChoice(this,'${escapeSpeech(o[0])}','${escapeSpeech(q.word[0])}')">
+             ${String.fromCharCode(65+i)}) ${o[0]} — ${o[1]}
+           </button>
+         `).join("")}
+       </div>`
+     }
+
+     <div id="feedback" class="feedback"></div>
+     <div class="actions" id="nextArea"></div>
+   </div>
+ </div>`;
+
+ saveLessonSession();
+}
+
+function checkChoice(btn,answer,correct){
+ const buttons=document.querySelectorAll(".option");
+ buttons.forEach(b=>b.disabled=true);
+
+ const feedback=document.getElementById("feedback");
+ const ok=answer.toLowerCase()===correct.toLowerCase();
+
+ if(ok){
+   btn.classList.add("correct");
+   feedback.className="feedback show ok";
+   feedback.innerHTML="✅ ¡Correcto! Muy bien.";
+   addXP(10);
+   lessonRuntime.answers[lessonRuntime.question]=true;
+ }else{
+   btn.classList.add("wrong");
+   buttons.forEach(b=>{
+     if(b.textContent.toLowerCase().includes(correct.toLowerCase()))
+       b.classList.add("correct");
+   });
+   feedback.className="feedback show bad";
+   feedback.innerHTML=`❌ Incorrecto. La respuesta era <b>${correct}</b>.`;
+   lessonRuntime.wrong.push(lessonRuntime.question);
+   lessonRuntime.answers[lessonRuntime.question]=false;
+ }
+
+ showNextButton();
+ saveLessonSession();
+}
+
+function checkWriting(correct){
+ const input=document.getElementById("answerInput");
+ if(!input)return;
+
+ const value=input.value.trim().toLowerCase();
+ if(!value)return;
+
+ input.disabled=true;
+ const feedback=document.getElementById("feedback");
+ const ok=value===correct.toLowerCase();
+
+ if(ok){
+   feedback.className="feedback show ok";
+   feedback.innerHTML="✅ ¡Correcto!";
+   addXP(12);
+   lessonRuntime.answers[lessonRuntime.question]=true;
+ }else{
+   feedback.className="feedback show bad";
+   feedback.innerHTML=`❌ La respuesta correcta era <b>${correct}</b>.`;
+   lessonRuntime.wrong.push(lessonRuntime.question);
+   lessonRuntime.answers[lessonRuntime.question]=false;
+ }
+
+ showNextButton();
+ saveLessonSession();
+}
+
+function showNextButton(){
+ document.getElementById("nextArea").innerHTML=
+ `<button class="primary" onclick="nextLessonQuestion()">➡️ Siguiente palabra</button>`;
+}
+
+function nextLessonQuestion(){
+ lessonRuntime.question++;
+
+ if(lessonRuntime.question>=10){
+   finishExercise();
+   return;
+ }
+
+ saveLessonSession();
+ renderExercise();
+}
+
+function finishExercise(){
+ const wrong=[...new Set(lessonRuntime.wrong)];
+
+ if(wrong.length){
+   /*
+    No se permite saltar errores.
+    Se reinicia únicamente el ejercicio actual con las preguntas falladas.
+   */
+   lessonRuntime.retry=true;
+   lessonRuntime.retryQueue=wrong;
+   lessonRuntime.retryIndex=0;
+
+   renderRetry();
+   return;
+ }
+
+ const key=lessonRuntime.key;
+ const completedExercises=lessonRuntime.exercise+1;
+
+ state.lessonProgress[key]=completedExercises*10;
+
+ if(lessonRuntime.exercise>=9){
+   state.completed[key]=true;
+   state.lessonProgress[key]=100;
+   delete state.lessonSession[key];
+   addXP(100);
+   save();
+
+   document.getElementById("lessonArea").innerHTML=`
+    <div class="card center">
+      <h2>🎉 ¡Lección completada!</h2>
+      <p>Has completado las 10 actividades.</p>
+      <div class="progress"><div style="width:100%"></div></div>
+      <p>100%</p>
+      <br>
+      <button class="primary" onclick="showLevelLessons('${lessonRuntime.level}')">
+        📚 Volver a las lecciones
+      </button>
+    </div>`;
+   return;
+ }
+
+ lessonRuntime.exercise++;
+ lessonRuntime.question=0;
+ lessonRuntime.wrong=[];
+ saveLessonSession();
+
+ document.getElementById("lessonArea").innerHTML=`
+  <div class="card center">
+    <h2>✅ Ejercicio completado</h2>
+    <p>Has terminado el ejercicio ${completedExercises} de 10.</p>
+    <div class="progress"><div style="width:${completedExercises*10}%"></div></div>
+    <br>
+    <button class="primary" onclick="renderExercise()">➡️ Siguiente ejercicio</button>
+  </div>`;
+}
+
+function renderRetry(){
+ const qIndex=lessonRuntime.retryQueue[lessonRuntime.retryIndex];
+ const word=lessonRuntime.words[qIndex];
+
+ document.getElementById("lessonArea").innerHTML=`
+ <div class="exercise-box">
+  <div class="card">
+   <span class="level-badge">🔁 Repaso</span>
+   <h2>Vamos a repetir las que fallaste</h2>
+   <p>Debes corregirlas antes de avanzar.</p>
+   <br>
+   <div class="question">¿Qué significa <b>${word[0]}</b>?</div>
+   <div class="options">
+    ${shuffle([word,...lessonRuntime.words.filter(x=>x!==word).slice(0,2)])
+      .map((o,i)=>`
+       <button class="option" onclick="checkRetry(this,'${escapeSpeech(o[0])}','${escapeSpeech(word[0])}')">
+       ${String.fromCharCode(65+i)}) ${o[0]} — ${o[1]}
+       </button>
+      `).join("")}
+   </div>
+   <div id="retryFeedback" class="feedback"></div>
+   <div id="retryNext"></div>
+  </div>
+ </div>`;
+}
+
+function checkRetry(btn,answer,correct){
+ document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+ const feedback=document.getElementById("retryFeedback");
+
+ if(answer.toLowerCase()===correct.toLowerCase()){
+   btn.classList.add("correct");
+   feedback.className="feedback show ok";
+   feedback.innerHTML="✅ ¡Ahora sí!";
+   document.getElementById("retryNext").innerHTML=
+    `<br><button class="primary" onclick="nextRetry()">➡️ Continuar</button>`;
+ }else{
+   btn.classList.add("wrong");
+   feedback.className="feedback show bad";
+   feedback.innerHTML="❌ Inténtalo de nuevo.";
+   document.querySelectorAll(".option").forEach(b=>b.disabled=false);
+ }
+}
+
+function nextRetry(){
+ lessonRuntime.retryIndex++;
+
+ if(lessonRuntime.retryIndex>=lessonRuntime.retryQueue.length){
+   lessonRuntime.retry=[];
+   lessonRuntime.wrong=[];
+   lessonRuntime.retry=false;
+   lessonRuntime.retryQueue=[];
+   lessonRuntime.retryIndex=0;
+
+   lessonRuntime.exercise++;
+   lessonRuntime.question=0;
+
+   state.lessonProgress[lessonRuntime.key]=lessonRuntime.exercise*10;
+   saveLessonSession();
+
+   if(lessonRuntime.exercise>=10){
+     finishExercise();
+   }else{
+     renderExercise();
+   }
+ }else{
+   renderRetry();
+ }
+}
+
+/* =========================
+   PALABRAS
+========================= */
+
+function renderWords(){
+ const box=document.getElementById("wordList");
+ const search=(document.getElementById("wordSearch")?.value||"").toLowerCase();
+
+ const all=[...extraWords];
+
+ const filtered=all.filter(w=>
+   w[0].toLowerCase().includes(search) ||
+   w[1].toLowerCase().includes(search)
+ );
+
+ box.innerHTML=filtered.map(w=>`
+  <div class="word-card">
+   <div class="word-en">${w[0]}</div>
+   <div class="word-es">${w[1]}</div>
+   <button class="audio" onclick="speakEnglish('${escapeSpeech(w[0])}')">
+    🔊 Escuchar
+   </button>
+  </div>
+ `).join("");
+}
+
+/* =========================
+   FRASES
+========================= */
+
+function renderPhrases(){
+ document.getElementById("phraseList").innerHTML=
+ phrases.map(p=>`
+  <div class="word-card">
+   <div class="word-en">${p[0]}</div>
+   <div class="word-es">${p[1]}</div>
+   <button class="audio" onclick="speakEnglish('${escapeSpeech(p[0])}')">
+    🔊 Escuchar inglés
+   </button>
+  </div>
+ `).join("");
+}
+
+/* =========================
+   QUIZ
+========================= */
+
+const quizQuestions=[
+ ...extraWords.slice(0,30),
+ ...extraWords.slice(50,80),
+ ...extraWords.slice(100,130)
+];
+
+let quizRuntime=null;
+
+function renderQuizHome(){
+ const area=document.getElementById("quizArea");
+
+ area.innerHTML=`
+  <div class="card">
+   <h3>🎮 Mini Quiz</h3>
+   <p>Empieza fácil y desbloquea los niveles poco a poco.</p>
+  </div>
+  <br>
+  <div class="quiz-levels">
+   ${[1,2,3,4,5].map(i=>{
+     let unlocked=i<=state.quizUnlocked;
+     let best=state.quizRecord[i]||0;
+     let names=["Fácil","Fácil +","Medio","Difícil","Experto"];
+     return `
+      <div class="quiz-level ${unlocked?"":"locked"}">
+       <h3>Nivel ${i}</h3>
+       <p>${names[i-1]}</p>
+       <p>🏆 Mejor: ${best}</p>
+       <br>
+       <button class="${unlocked?"primary":"secondary"}"
+         ${unlocked?"":"disabled"}
+         onclick="startQuiz(${i})">
+         ${unlocked?"▶️ Jugar":"🔒 Bloqueado"}
+       </button>
+      </div>`;
+   }).join("")}
+  </div>`;
+}
+
+function startQuiz(level){
+ const questions=[];
+ const pool=[...quizQuestions].sort(()=>Math.random()-.5);
+
+ for(let i=0;i<10;i++){
+   const word=pool[i%pool.length];
+
+   let mode;
+   if(i%4===0)mode="audio";
+   else if(i%5===0)mode="reverse";
+   else mode="mc";
+
+   questions.push({word,mode});
+ }
+
+ quizRuntime={
+   level,
+   questions,
+   index:0,
+   score:0,
+   lives:3,
+   streak:0,
+   answered:false
+ };
+
+ renderQuizQuestion();
+}
+
+function renderQuizQuestion(){
+ const q=quizRuntime.questions[quizRuntime.index];
+ const area=document.getElementById("quizArea");
+
+ let options=[q.word,...quizQuestions.filter(x=>x!==q.word)
+   .sort(()=>Math.random()-.5).slice(0,2)];
+ options=shuffle(options);
+
+ let title="";
+ let content="";
+
+ if(q.mode==="audio"){
+   title="🎧 Escucha y elige";
+   content=`
+    <button class="primary" onclick="speakEnglish('${escapeSpeech(q.word[0])}')">
+      🔊 Escuchar
+    </button>
+    <br><br>
+    <p>¿Qué significa la palabra?</p>
+   `;
+ }else if(q.mode==="reverse"){
+   title="🔊 Escucha el inglés";
+   content=`
+    <button class="primary" onclick="speakEnglish('${escapeSpeech(q.word[0])}')">
+      🔊 Escuchar palabra
+    </button>
+    <br><br>
+    <p>¿Cuál es su significado?</p>
+   `;
+ }else{
+   title="❓ ¿Qué significa?";
+   content=`<p>¿Qué significa <b>${q.word[0]}</b>?</p>`;
+ }
+
+ area.innerHTML=`
+ <div class="exercise-box">
+  <div class="card">
+   <div class="small">Nivel ${quizRuntime.level} · Pregunta ${quizRuntime.index+1}/10</div>
+   <h2>${title}</h2>
+   <p>❤️ ${quizRuntime.lives} &nbsp; ⭐ ${quizRuntime.score} &nbsp; 🔥 ${quizRuntime.streak}</p>
+   <br>
+   ${content}
+   <br>
+   <div class="options">
+    ${options.map(o=>`
+      <button class="option" onclick="answerQuiz('${escapeSpeech(o[0])}','${escapeSpeech(q.word[0])}','${escapeSpeech(o[1])}')">
+       ${o[1]}
+      </button>
+    `).join("")}
+   </div>
+   <div id="quizFeedback" class="feedback"></div>
+   <div id="quizNext"></div>
+  </div>
+ </div>`;
+}
+
+function answerQuiz(answer,correct,meaning){
+ if(quizRuntime.answered)return;
+
+ quizRuntime.answered=true;
+ document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+
+ const feedback=document.getElementById("quizFeedback");
+ const ok=answer.toLowerCase()===correct.toLowerCase();
+
+ if(ok){
+   quizRuntime.score+=10+(quizRuntime.streak*2);
+   quizRuntime.streak++;
+   feedback.className="feedback show ok";
+   feedback.innerHTML="✅ ¡Correcto!";
+ }else{
+   quizRuntime.lives--;
+   quizRuntime.streak=0;
+   feedback.className="feedback show bad";
+   feedback.innerHTML=`❌ Era <b>${meaning}</b>.`;
+ }
+
+ document.getElementById("quizNext").innerHTML=
+  `<br><button class="primary" onclick="nextQuizQuestion()">➡️ Siguiente</button>`;
+
+ if(quizRuntime.lives<=0){
+   document.getElementById("quizNext").innerHTML=
+    `<br><button class="danger" onclick="finishQuiz()">💔 Terminar</button>`;
+ }
+}
+
+function nextQuizQuestion(){
+ if(quizRuntime.lives<=0){
+   finishQuiz();
+   return;
+ }
+
+ quizRuntime.index++;
+
+ if(quizRuntime.index>=10){
+   finishQuiz();
+   return;
+ }
+
+ quizRuntime.answered=false;
+ renderQuizQuestion();
+}
+
+function finishQuiz(){
+ const level=quizRuntime.level;
+ const score=quizRuntime.score;
+
+ state.quizRecord[level]=Math.max(state.quizRecord[level]||0,score);
+ state.record=Math.max(state.record,score);
+ state.xp+=score;
+
+ if(score>=70 && state.quizUnlocked===level && level<5){
+   state.quizUnlocked=level+1;
+ }
+
+ save();
+
+ document.getElementById("quizArea").innerHTML=`
+  <div class="card center">
+   <h2>🏆 Quiz terminado</h2>
+   <p>⭐ Puntos: <b>${score}</b></p>
+   <p>❤️ Vidas restantes: ${quizRuntime.lives}</p>
+   <br>
+   <button class="primary" onclick="renderQuizHome()">🔁 Volver al Quiz</button>
+  </div>`;
+}
+
+/* =========================
+   LISTENING
+========================= */
+
+let listeningIndex=0;
+
+function renderListening(){
+ const word=extraWords[listeningIndex%extraWords.length];
+
+ document.getElementById("listeningArea").innerHTML=`
+  <h3>Escucha y elige</h3>
+  <br>
+  <button class="primary" onclick="speakEnglish('${escapeSpeech(word[0])}')">
+   🔊 Escuchar
+  </button>
+  <br><br>
+  <div class="options">
+   ${shuffle([word,...extraWords.filter(x=>x!==word).slice(0,2)]).map(w=>`
+    <button class="option" onclick="listenAnswer('${escapeSpeech(w[0])}','${escapeSpeech(word[0])}')">
+      ${w[1]}
+    </button>
+   `).join("")}
+  </div>
+  <div id="listenFeedback" class="feedback"></div>
+  <br>
+  <button class="secondary" onclick="listeningIndex++;renderListening()">➡️ Otra palabra</button>
+ `;
+}
+
+function listenAnswer(a,c){
+ const f=document.getElementById("listenFeedback");
+ if(a===c){
+   f.className="feedback show ok";
+   f.innerHTML="✅ Correcto";
+   addXP(5);
+ }else{
+   f.className="feedback show bad";
+   f.innerHTML="❌ Incorrecto";
+ }
+}
+
+/* =========================
+   WRITING
+========================= */
+
+let writingIndex=20;
+
+function renderWriting(){
+ const word=extraWords[writingIndex%extraWords.length];
+
+ document.getElementById("writingArea").innerHTML=`
+  <p>Traduce:</p>
+  <h2>${word[1]}</h2>
+  <br>
+  <button class="audio" onclick="speakEnglish('${escapeSpeech(word[0])}')">
+    🔊 Escuchar pronunciación
+  </button>
+  <br><br>
+  <input id="writingInput" class="answer-input" placeholder="Escribe en inglés...">
+  <button class="primary" onclick="checkGeneralWriting('${escapeSpeech(word[0])}')">
+    Comprobar
+  </button>
+  <div id="writingFeedback" class="feedback"></div>
+  <br>
+  <button class="secondary" onclick="writingIndex++;renderWriting()">➡️ Otra palabra</button>
+ `;
+}
+
+function checkGeneralWriting(correct){
+ const value=document.getElementById("writingInput").value.trim().toLowerCase();
+ const f=document.getElementById("writingFeedback");
+
+ if(value===correct.toLowerCase()){
+   f.className="feedback show ok";
+   f.innerHTML="✅ Correcto";
+   addXP(8);
+ }else{
+   f.className="feedback show bad";
+   f.innerHTML=`❌ La respuesta era <b>${correct}</b>`;
+ }
+}
+
+/* =========================
+   PROGRESO
+========================= */
+
+function renderProgress(){
+ const area=document.getElementById("progressArea");
+
+ area.innerHTML=levels.map(level=>{
+   const count=[...Array(10)].filter((_,i)=>isLessonComplete(level,i)).length;
+   const percent=count*10;
+
+   return `
+    <div class="card" style="margin-bottom:12px">
+     <h3>${level} · ${levelNames[level]}</h3>
+     <p>${count}/10 lecciones completadas</p>
+     <div class="progress"><div style="width:${percent}%"></div></div>
+     <p>${percent}%</p>
+    </div>`;
+ }).join("");
+}
+
+/* =========================
+   LOGROS
+========================= */
+
+function renderAchievements(){
+ const total=levels.reduce((n,l)=>n+[...Array(10)].filter((_,i)=>isLessonComplete(l,i)).length,0);
+
+ const achievements=[
+  ["🌱","Primer paso",state.xp>0],
+  ["📖","10 palabras",state.xp>=50],
+  ["🔥","Racha",state.streak>=3],
+  ["📚","10 lecciones",total>=10],
+  ["🏆","20 lecciones",total>=20],
+  ["👑","Nivel completo",levels.some(isLevelComplete)],
+  ["🎮","Quiz 70 puntos",Object.values(state.quizRecord).some(x=>x>=70)]
+ ];
+
+ document.getElementById("achievementArea").innerHTML=
+ achievements.map(a=>`
+  <div class="card">
+   <h3>${a[0]} ${a[1]}</h3>
+   <p>${a[2]?"✅ Desbloqueado":"🔒 Bloqueado"}</p>
+  </div>
+ `).join("");
+}
+
+/* =========================
+   PERFIL
+========================= */
+
+function saveName(){
+ state.name=document.getElementById("nameInput").value.trim();
+ save();
+ alert("Nombre guardado.");
+}
+
+/* =========================
+   UTILIDADES
+========================= */
+
+function addXP(n){
+ state.xp+=n;
+ state.streak++;
+ state.record=Math.max(state.record,state.xp);
+ save();
+}
+
+function shuffle(arr){
+ return [...arr].sort(()=>Math.random()-.5);
+}
+
+function escapeSpeech(text){
+ return String(text).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+}
+
+function speakEnglish(text){
+ if(!("speechSynthesis" in window)){
+   alert("Tu navegador no admite pronunciación de texto.");
+   return;
+ }
+
+ speechSynthesis.cancel();
+
+ const utter=new SpeechSynthesisUtterance(text);
+ utter.lang="en-US";
+ utter.rate=.85;
+ utter.pitch=1;
+
+ speechSynthesis.speak(utter);
+}
+
+function resetAll(){
+ if(confirm("¿Seguro que quieres borrar todo tu progreso?")){
+   localStorage.removeItem("englishWorldState");
+   location.reload();
+ }
+}
+
+/* =========================
+   INICIO
+========================= */
+
+function updateHome(){
+ const current=getCurrentLevel();
+ const count=[...Array(10)].filter((_,i)=>isLessonComplete(current,i)).length;
+
+ document.getElementById("homeLevel").textContent=
+   `${current} · ${levelNames[current]}`;
+
+ document.getElementById("homeProgress").style.width=
+   `${count*10}%`;
+}
+
+updateStats();
+updateHome();
+renderWords();
+renderPhrases();
+renderQuizHome();
+renderLevels();
+</script>
+
+</body>
+</html>

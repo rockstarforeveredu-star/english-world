@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>English World — Panel</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0f172a;
+  color:#f8fafc;
+}
+
+header{
+  padding:22px 18px;
+  background:#111827;
+  border-bottom:1px solid #334155;
+}
+
+header h1{
+  margin:0;
+  font-size:24px;
+}
+
+header p{
+  margin:6px 0 0;
+  color:#94a3b8;
+}
+
+main{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:#1e293b;
+  border:1px solid #334155;
+  border-radius:16px;
+  padding:20px;
+}
+
+.icon{
+  font-size:28px;
+}
+
+.label{
+  color:#94a3b8;
+  margin-top:10px;
+}
+
+.number{
+  font-size:32px;
+  font-weight:bold;
+  margin-top:5px;
+}
+
+section{
+  margin-top:20px;
+}
+
+h2{
+  font-size:19px;
+}
+
+.info{
+  background:#172033;
+  border-radius:14px;
+  padding:16px;
+  color:#cbd5e1;
+  line-height:1.6;
+}
+
+button{
+  border:0;
+  border-radius:12px;
+  padding:13px 18px;
+  background:#2563eb;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+.warning{
+  margin-top:15px;
+  color:#fbbf24;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🌎 English World — Panel</h1>
+  <p>Panel privado de administración</p>
+</header>
+
+<main>
+
+<section>
+  <div class="grid">
+
+    <div class="card">
+      <div class="icon">👥</div>
+      <div class="label">Usuarios</div>
+      <div class="number" id="usuarios">0</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">👀</div>
+      <div class="label">Visitas</div>
+      <div class="number" id="visitas">0</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">⭐</div>
+      <div class="label">XP generada</div>
+      <div class="number" id="xp">0</div>
+    </div>
+
+    <div class="card">
+      <div class="icon">🔥</div>
+      <div class="label">Racha máxima</div>
+      <div class="number" id="racha">0</div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>📊 Estado del sitio</h2>
+
+  <div class="info">
+    <b>English World</b><br>
+    Estado: 🟢 En línea<br>
+    Plataforma: GitHub Pages<br>
+    Panel: Activo
+  </div>
+</section>
+
+<section>
+  <h2>⚙️ Estadísticas</h2>
+
+  <div class="info">
+    Por ahora estas estadísticas son locales.
+    <br><br>
+    En el siguiente paso conectaremos el panel a un sistema real para poder saber cuántas personas visitan English World.
+  </div>
+
+  <p class="warning">
+    🔒 No publiques este panel como si fuera público. Después agregaremos protección de administrador.
+  </p>
+</section>
+
+<section>
+  <button onclick="actualizar()">🔄 Actualizar panel</button>
+</section>
+
+</main>
+
+<script>
+
+function actualizar(){
+
+  const usuarios =
+    Number(localStorage.getItem("ew_admin_usuarios") || 0);
+
+  const visitas =
+    Number(localStorage.getItem("ew_admin_visitas") || 0);
+
+  const xp =
+    Number(localStorage.getItem("ew_admin_xp") || 0);
+
+  const racha =
+    Number(localStorage.getItem("ew_admin_racha") || 0);
+
+  document.getElementById("usuarios").textContent = usuarios;
+  document.getElementById("visitas").textContent = visitas;
+  document.getElementById("xp").textContent = xp;
+  document.getElementById("racha").textContent = racha;
+}
+
+actualizar();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,5692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>English World</title>
+
+<style>
+:root{
+ --bg:#f4f7fb;
+ --card:#ffffff;
+ --text:#18202a;
+ --muted:#6b7280;
+ --primary:#4f46e5;
+ --primary2:#6366f1;
+ --green:#16a34a;
+ --red:#dc2626;
+ --gold:#f5b301;
+ --border:#e5e7eb;
+ --shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+*{
+ box-sizing:border-box;
+ margin:0;
+ padding:0;
+}
+
+body{
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+}
+
+body.dark{
+ --bg:#10131a;
+ --card:#191e28;
+ --text:#f3f4f6;
+ --muted:#9ca3af;
+ --border:#2b3240;
+ --shadow:0 8px 25px rgba(0,0,0,.35);
+}
+
+button,
+input,
+select{
+ font:inherit;
+}
+
+button{
+ cursor:pointer;
+ border:0;
+}
+
+.topbar{
+ position:sticky;
+ top:0;
+ z-index:100;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:12px 15px;
+ background:var(--card);
+ border-bottom:1px solid var(--border);
+ box-shadow:var(--shadow);
+}
+
+.menuBtn{
+ width:42px;
+ height:42px;
+ border-radius:12px;
+ background:var(--primary);
+ color:white;
+ font-size:22px;
+}
+
+.logo{
+ font-weight:800;
+ font-size:19px;
+ flex:1;
+}
+
+.stats{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ justify-content:flex-end;
+}
+
+.stat{
+ background:var(--bg);
+ border:1px solid var(--border);
+ border-radius:10px;
+ padding:7px 9px;
+ font-size:12px;
+ font-weight:bold;
+}
+
+.sidebar{
+ position:fixed;
+ top:0;
+ left:-290px;
+ width:280px;
+ height:100vh;
+ z-index:200;
+ background:var(--card);
+ border-right:1px solid var(--border);
+ padding:20px 14px;
+ overflow-y:auto;
+ transition:.25s;
+ box-shadow:var(--shadow);
+}
+
+.sidebar.open{
+ left:0;
+}
+
+.sidebar h2{
+ margin-bottom:15px;
+}
+
+.nav{
+ display:grid;
+ gap:6px;
+}
+
+.nav button{
+ text-align:left;
+ padding:11px 12px;
+ border-radius:10px;
+ background:transparent;
+ color:var(--text);
+}
+
+.nav button:hover{
+ background:var(--bg);
+}
+
+.overlay{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.45);
+ z-index:150;
+ display:none;
+}
+
+.overlay.show{
+ display:block;
+}
+
+main{
+ width:min(1100px,94%);
+ margin:20px auto 60px;
+}
+
+.page{
+ display:none;
+}
+
+.page.active{
+ display:block;
+}
+
+.hero{
+ background:linear-gradient(135deg,var(--primary),var(--primary2));
+ color:white;
+ border-radius:22px;
+ padding:25px;
+ box-shadow:var(--shadow);
+ margin-bottom:20px;
+}
+
+.hero h1{
+ font-size:30px;
+ margin-bottom:8px;
+}
+
+.hero p{
+ opacity:.9;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+ gap:14px;
+}
+
+.card{
+ background:var(--card);
+ border:1px solid var(--border);
+ border-radius:17px;
+ padding:18px;
+ box-shadow:var(--shadow);
+}
+
+.card h2,
+.card h3{
+ margin-bottom:8px;
+}
+
+.muted{
+ color:var(--muted);
+}
+
+.btn{
+ background:var(--primary);
+ color:white;
+ padding:11px 15px;
+ border-radius:10px;
+ font-weight:bold;
+ margin-top:8px;
+}
+
+.btn:hover{
+ opacity:.9;
+}
+
+.btn.secondary{
+ background:var(--bg);
+ color:var(--text);
+ border:1px solid var(--border);
+}
+
+.btn.green{
+ background:var(--green);
+}
+
+.btn.red{
+ background:var(--red);
+}
+
+.btn.gold{
+ background:var(--gold);
+ color:#111;
+}
+
+.progress{
+ height:10px;
+ background:var(--bg);
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:10px;
+}
+
+.progressBar{
+ height:100%;
+ background:var(--primary);
+ border-radius:20px;
+ transition:.3s;
+}
+
+.lessonWords{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+ gap:10px;
+ margin-top:15px;
+}
+
+.word{
+ border:1px solid var(--border);
+ border-radius:12px;
+ padding:12px;
+ background:var(--bg);
+}
+
+.word strong{
+ display:block;
+ font-size:18px;
+}
+
+.word button{
+ margin-top:7px;
+}
+
+.questionBox{
+ max-width:650px;
+ margin:20px auto;
+}
+
+.question{
+ font-size:25px;
+ font-weight:bold;
+ margin:18px 0;
+}
+
+.choices{
+ display:grid;
+ gap:10px;
+}
+
+.choice{
+ width:100%;
+ text-align:left;
+ padding:14px;
+ border-radius:12px;
+ background:var(--bg);
+ color:var(--text);
+ border:1px solid var(--border);
+}
+
+.choice:hover{
+ border-color:var(--primary);
+}
+
+.choice.correct{
+ background:#dcfce7;
+ color:#166534;
+ border-color:#16a34a;
+}
+
+.choice.wrong{
+ background:#fee2e2;
+ color:#991b1b;
+ border-color:#dc2626;
+}
+
+body.dark .choice.correct{
+ background:#12351f;
+ color:#86efac;
+}
+
+body.dark .choice.wrong{
+ background:#3b1717;
+ color:#fca5a5;
+}
+
+.feedback{
+ padding:12px;
+ border-radius:10px;
+ margin-top:12px;
+ display:none;
+}
+
+.feedback.show{
+ display:block;
+}
+
+.feedback.good{
+ background:#dcfce7;
+ color:#166534;
+}
+
+.feedback.bad{
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+body.dark .feedback.good{
+ background:#12351f;
+ color:#86efac;
+}
+
+body.dark .feedback.bad{
+ background:#3b1717;
+ color:#fca5a5;
+}
+
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.65);
+ z-index:500;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:18px;
+}
+
+.modal.show{
+ display:flex;
+}
+
+.modalBox{
+ width:min(600px,100%);
+ max-height:90vh;
+ overflow-y:auto;
+ background:var(--card);
+ color:var(--text);
+ border-radius:20px;
+ padding:22px;
+ box-shadow:var(--shadow);
+}
+
+input,
+select{
+ width:100%;
+ padding:12px;
+ border-radius:10px;
+ border:1px solid var(--border);
+ background:var(--bg);
+ color:var(--text);
+ margin-top:7px;
+ outline:none;
+}
+
+input:focus,
+select:focus{
+ border-color:var(--primary);
+}
+
+.searchRow{
+ display:grid;
+ grid-template-columns:1fr 180px;
+ gap:10px;
+ margin-bottom:15px;
+}
+
+.badge{
+ display:inline-block;
+ padding:5px 9px;
+ border-radius:20px;
+ background:var(--bg);
+ border:1px solid var(--border);
+ font-size:12px;
+ font-weight:bold;
+}
+
+.lessonCard{
+ position:relative;
+}
+
+.lessonNumber{
+ position:absolute;
+ right:15px;
+ top:15px;
+ font-size:30px;
+ opacity:.15;
+ font-weight:900;
+}
+
+.locked{
+ opacity:.55;
+}
+
+.completed{
+ border:2px solid var(--green);
+}
+
+.favorite{
+ color:#f5b301;
+}
+
+.profileAvatar{
+ width:90px;
+ height:90px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:50px;
+ background:var(--bg);
+ border:3px solid var(--primary);
+ margin-bottom:12px;
+ overflow:hidden;
+}
+
+.profileAvatar img{
+ width:100%;
+ height:100%;
+ object-fit:cover;
+}
+
+.toast{
+ position:fixed;
+ bottom:20px;
+ left:50%;
+ transform:translateX(-50%);
+ z-index:1000;
+ background:#111827;
+ color:white;
+ padding:12px 18px;
+ border-radius:12px;
+ display:none;
+ box-shadow:var(--shadow);
+}
+
+.toast.show{
+ display:block;
+}
+
+@media(max-width:700px){
+
+ .topbar{
+  flex-wrap:wrap;
+ }
+
+ .logo{
+  font-size:17px;
+ }
+
+ .stats{
+  width:100%;
+  justify-content:flex-start;
+ }
+
+ .stat{
+  font-size:11px;
+ }
+
+ .searchRow{
+  grid-template-columns:1fr;
+ }
+
+ .hero h1{
+  font-size:25px;
+ }
+
+}
+
+@media(min-width:900px){
+
+ main{
+  margin-top:30px;
+ }
+
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+<button class="menuBtn" onclick="toggleMenu()">☰</button>
+
+<div class="logo">
+🌎 English World
+</div>
+
+<div class="stats">
+
+<div class="stat">
+👤 <span id="topName">Estudiante</span>
+</div>
+
+<div class="stat">
+⭐ <span id="topXP">0</span> XP
+</div>
+
+<div class="stat">
+🪙 <span id="topCoins">0</span>
+</div>
+
+<div class="stat">
+📚 Nivel <span id="topLevel">1</span>
+</div>
+
+<div class="stat">
+🔥 <span id="topStreak">0</span>
+</div>
+
+</div>
+
+</header>
+
+
+<div id="overlay"
+     class="overlay"
+     onclick="toggleMenu()">
+</div>
+
+
+<aside id="sidebar"
+       class="sidebar">
+
+<h2>🌎 English World</h2>
+
+<nav class="nav">
+
+<button onclick="go('home')">🏠 Inicio</button>
+<button onclick="go('levels')">📚 Niveles</button>
+<button onclick="go('lessons')">📖 Lecciones</button>
+<button onclick="go('phrases')">💬 Frases</button>
+<button onclick="go('words')">🔤 Palabras</button>
+<button onclick="go('quiz')">🧠 Quiz</button>
+<button onclick="go('listening')">🎧 Listening</button>
+<button onclick="go('writing')">✍️ Writing</button>
+<button onclick="go('achievements')">🏆 Logros</button>
+<button onclick="go('profile')">👤 Perfil</button>
+<button onclick="go('shop')">🛒 Tienda</button>
+<button onclick="go('inventory')">🎒 Inventario</button>
+<button onclick="go('missions')">🎯 Misiones</button>
+<button onclick="go('calendar')">📅 Calendario</button>
+<button onclick="go('collection')">🏅 Colección</button>
+<button onclick="go('review')">🔄 Repaso</button>
+<button onclick="toggleTheme()">🌙 Tema</button>
+
+</nav>
+
+</aside>
+
+
+<main>
+
+
+<!-- INICIO -->
+
+<section id="page-home"
+         class="page active">
+
+<div class="hero">
+
+<h1>
+¡Bienvenido a English World! 🌎
+</h1>
+
+<p>
+Aprende inglés paso a paso y construye tu camino hasta convertirte en maestro.
+</p>
+
+<div style="
+ margin-top:18px;
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+">
+
+<button class="btn"
+        style="background:white;color:#4f46e5"
+        onclick="go('lessons')">
+📖 Continuar aprendiendo
+</button>
+
+<button class="btn"
+        style="background:#f5b301;color:#111"
+        onclick="claimDailyReward()">
+🎁 Recompensa diaria
+</button>
+
+</div>
+
+</div>
+
+
+<div class="grid">
+
+<div class="card">
+<h3>⭐ XP</h3>
+<p id="homeXP">0</p>
+</div>
+
+<div class="card">
+<h3>🪙 Monedas</h3>
+<p id="homeCoins">0</p>
+</div>
+
+<div class="card">
+<h3>📚 Nivel</h3>
+<p id="homeLevel">1</p>
+</div>
+
+<div class="card">
+<h3>🔥 Racha</h3>
+<p id="homeStreak">0 días</p>
+</div>
+
+</div>
+
+
+<div class="grid"
+     style="margin-top:15px">
+
+<div class="card">
+
+<h3>📖 Tu aprendizaje</h3>
+
+<p class="muted">
+Completa las lecciones en orden.
+</p>
+
+<div class="progress">
+
+<div id="homeProgressBar"
+     class="progressBar"
+     style="width:0%">
+</div>
+
+</div>
+
+<p id="homeProgressText"
+   class="muted"
+   style="margin-top:8px">
+0 / 10 lecciones
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🎁 Cofre diario</h3>
+
+<p class="muted">
+Abre un cofre cada día para recibir recompensas.
+</p>
+
+<button class="btn gold"
+        onclick="openDailyChest()">
+🎁 Abrir cofre
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- NIVELES -->
+
+<section id="page-levels"
+         class="page">
+
+<div class="hero">
+
+<h1>📚 Niveles</h1>
+
+<p>
+Avanza desde A1 hasta B2.
+</p>
+
+</div>
+
+<div id="levelsContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- LECCIONES -->
+
+<section id="page-lessons"
+         class="page">
+
+<div class="hero">
+
+<h1>📖 Lecciones</h1>
+
+<p>
+Completa cada lección para desbloquear la siguiente.
+</p>
+
+</div>
+
+<div id="lessonsContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- FRASES -->
+
+<section id="page-phrases"
+         class="page">
+
+<div class="hero">
+
+<h1>💬 Frases</h1>
+
+<p>
+Aprende frases útiles en inglés.
+</p>
+
+</div>
+
+<div class="searchRow">
+
+<input id="phraseSearch"
+       placeholder="🔎 Buscar frase..."
+       oninput="renderPhrases()">
+
+<select id="phraseCategory"
+        onchange="renderPhrases()">
+
+<option value="all">Todas las categorías</option>
+
+</select>
+
+</div>
+
+<div id="phrasesContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- PALABRAS -->
+
+<section id="page-words"
+         class="page">
+
+<div class="hero">
+
+<h1>🔤 Palabras</h1>
+
+<p>
+Descubre y practica cientos de palabras.
+</p>
+
+</div>
+
+<div class="searchRow">
+
+<input id="wordSearch"
+       placeholder="🔎 Buscar palabra..."
+       oninput="renderWords()">
+
+<select id="wordCategory"
+        onchange="renderWords()">
+
+<option value="all">Todas las categorías</option>
+
+</select>
+
+</div>
+
+<div id="wordsContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section id="page-quiz"
+         class="page">
+
+<div class="hero">
+
+<h1>🧠 Quiz</h1>
+
+<p>
+Pon a prueba tus conocimientos.
+</p>
+
+</div>
+
+<div id="quizContainer">
+</div>
+
+</section>
+
+
+<!-- LISTENING -->
+
+<section id="page-listening"
+         class="page">
+
+<div class="hero">
+
+<h1>🎧 Listening</h1>
+
+<p>
+Escucha inglés y selecciona su significado.
+</p>
+
+</div>
+
+<div id="listeningContainer">
+</div>
+
+</section>
+
+
+<!-- WRITING -->
+
+<section id="page-writing"
+         class="page">
+
+<div class="hero">
+
+<h1>✍️ Writing</h1>
+
+<p>
+Escribe la palabra correcta en inglés.
+</p>
+
+</div>
+
+<div id="writingContainer">
+</div>
+
+</section>
+
+
+<!-- LOGROS -->
+
+<section id="page-achievements"
+         class="page">
+
+<div class="hero">
+
+<h1>🏆 Logros</h1>
+
+<p>
+Colecciona todos los logros de English World.
+</p>
+
+</div>
+
+<div id="achievementsContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- PERFIL -->
+
+<section id="page-profile"
+         class="page">
+
+<div class="hero">
+
+<h1>👤 Perfil</h1>
+
+<p>
+Tu progreso y estadísticas.
+</p>
+
+</div>
+
+<div id="profileContainer">
+</div>
+
+</section>
+
+
+<!-- TIENDA -->
+
+<section id="page-shop"
+         class="page">
+
+<div class="hero">
+
+<h1>🛒 Tienda</h1>
+
+<p>
+Usa tus monedas para conseguir objetos especiales.
+</p>
+
+</div>
+
+<div id="shopContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- INVENTARIO -->
+
+<section id="page-inventory"
+         class="page">
+
+<div class="hero">
+
+<h1>🎒 Inventario</h1>
+
+<p>
+Aquí aparecen tus objetos desbloqueados.
+</p>
+
+</div>
+
+<div id="inventoryContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- MISIONES -->
+
+<section id="page-missions"
+         class="page">
+
+<div class="hero">
+
+<h1>🎯 Misiones</h1>
+
+<p>
+Completa objetivos diarios y semanales.
+</p>
+
+</div>
+
+<div id="missionsContainer"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- CALENDARIO -->
+
+<section id="page-calendar"
+         class="page">
+
+<div class="hero">
+
+<h1>📅 Calendario</h1>
+
+<p>
+Mira tus días de estudio.
+</p>
+
+</div>
+
+<div id="calendarContainer">
+</div>
+
+</section>
+
+
+<!-- COLECCIÓN -->
+
+<section id="page-collection"
+         class="page">
+
+<div class="hero">
+
+<h1>🏅 Colección</h1>
+
+<p>
+Tus logros y objetos coleccionados.
+</p>
+
+</div>
+
+<h2 style="margin:18px 0 10px">
+🏆 Logros
+</h2>
+
+<div id="collectionAchievements"
+     class="grid">
+</div>
+
+<h2 style="margin:25px 0 10px">
+🎒 Objetos
+</h2>
+
+<div id="collectionItems"
+     class="grid">
+</div>
+
+</section>
+
+
+<!-- REPASO -->
+
+<section id="page-review"
+         class="page">
+
+<div class="hero">
+
+<h1>🔄 Repaso</h1>
+
+<p>
+Practica las palabras que más necesitas reforzar.
+</p>
+
+</div>
+
+<div id="reviewArea"
+     class="grid">
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- MODAL -->
+
+<div id="modal"
+     class="modal">
+
+<div id="modalBox"
+     class="modalBox">
+
+</div>
+
+</div>
+
+
+<div id="toast"
+     class="toast">
+</div>
+
+
+<script>
+
+const STORAGE=
+ "englishWorld_FINAL_2026";
+
+
+let state=
+ JSON.parse(
+  localStorage.getItem(STORAGE)
+ ) || {
+
+  name:"Estudiante",
+
+  avatarImage:"",
+
+  equippedAvatar:"🙂",
+
+  equippedItem:"",
+
+  xp:0,
+
+  coins:100,
+
+  level:1,
+
+  streak:0,
+
+  lastStudyDay:"",
+
+  studyDays:[],
+
+  lessonProgress:{},
+
+  lessonPosition:{},
+
+  lessonMistakes:{},
+
+  lessonRewarded:{},
+
+  mastered:[],
+
+  difficult:[],
+
+  errors:[],
+
+  favorites:[],
+
+  completedWords:0,
+
+  examPassed:false,
+
+  quizLevel:1,
+
+  quizRecord:0,
+
+  quizLives:3,
+
+  quizStreak:0,
+
+  achievements:[],
+
+  inventory:[],
+
+  streakProtection:0,
+
+  missions:{},
+
+  lastDailyReward:"",
+
+  lastChestDate:"",
+
+  theme:"light",
+
+  phraseFavorites:[],
+
+  settings:{
+   audio:true
+  }
+
+ };
+
+
+function saveState(){
+
+ localStorage.setItem(
+  STORAGE,
+  JSON.stringify(state)
+ );
+
+}
+
+
+function normalizeText(text){
+
+ return String(text)
+  .trim()
+  .toLowerCase()
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"");
+
+}
+
+
+function shuffle(array){
+
+ const a=[...array];
+
+ for(let i=a.length-1;i>0;i--){
+
+  const j=
+   Math.floor(Math.random()*(i+1));
+
+  [a[i],a[j]]=
+   [a[j],a[i]];
+
+ }
+
+ return a;
+
+}
+
+
+function todayKey(){
+
+ const d=new Date();
+
+ return d.getFullYear()+"-"+
+  String(d.getMonth()+1).padStart(2,"0")+"-"+
+  String(d.getDate()).padStart(2,"0");
+
+}
+
+
+function registerStudyDay(){
+
+ const today=todayKey();
+
+ if(!state.studyDays.includes(today)){
+
+  state.studyDays.push(today);
+
+ }
+
+ if(state.lastStudyDay!==today){
+
+  if(state.lastStudyDay){
+
+   const yesterday=
+    new Date();
+
+   yesterday.setDate(
+    yesterday.getDate()-1
+   );
+
+   const y=
+    yesterday.getFullYear()+"-"+
+    String(yesterday.getMonth()+1).padStart(2,"0")+"-"+
+    String(yesterday.getDate()).padStart(2,"0");
+
+   if(state.lastStudyDay===y){
+
+    state.streak++;
+
+   }else{
+
+    state.streak=1;
+
+   }
+
+  }else{
+
+   state.streak=1;
+
+  }
+
+  state.lastStudyDay=today;
+
+ }
+
+ saveState();
+
+ updateStats();
+
+}
+
+
+function speakEnglish(text){
+
+ if(!("speechSynthesis" in window)){
+
+  toast("🔊 Tu navegador no admite audio");
+
+  return;
+
+ }
+
+ speechSynthesis.cancel();
+
+ const u=
+  new SpeechSynthesisUtterance(text);
+
+ u.lang="en-US";
+
+ u.rate=.85;
+
+ u.pitch=1;
+
+ speechSynthesis.speak(u);
+
+}
+
+
+function toast(message){
+
+ const box=
+  document.getElementById("toast");
+
+ box.textContent=message;
+
+ box.classList.add("show");
+
+ clearTimeout(window.toastTimer);
+
+ window.toastTimer=
+  setTimeout(
+   ()=>box.classList.remove("show"),
+   2200
+  );
+
+}
+
+
+function showModal(html){
+
+ document.getElementById("modalBox")
+  .innerHTML=html;
+
+ document.getElementById("modal")
+  .classList.add("show");
+
+}
+
+
+function closeModal(){
+
+ document.getElementById("modal")
+  .classList.remove("show");
+
+}
+
+
+function toggleMenu(){
+
+ document.getElementById("sidebar")
+  .classList.toggle("open");
+
+ document.getElementById("overlay")
+  .classList.toggle("show");
+
+}
+
+
+function go(page){
+
+ document
+  .querySelectorAll(".page")
+  .forEach(p=>
+   p.classList.remove("active")
+  );
+
+ const target=
+  document.getElementById(
+   "page-"+page
+  );
+
+ if(target){
+
+  target.classList.add("active");
+
+ }
+
+ document.getElementById("sidebar")
+  .classList.remove("open");
+
+ document.getElementById("overlay")
+  .classList.remove("show");
+
+
+ if(page==="levels")renderLevels();
+ if(page==="lessons")renderLessons();
+ if(page==="phrases")renderPhrases();
+ if(page==="words")renderWords();
+ if(page==="quiz")renderQuiz();
+ if(page==="listening")renderListening();
+ if(page==="writing")renderWriting();
+ if(page==="achievements")renderAchievements();
+ if(page==="profile")renderProfile();
+ if(page==="shop")renderShop();
+ if(page==="inventory")renderInventory();
+ if(page==="missions")renderMissions();
+ if(page==="calendar")renderCalendar();
+ if(page==="collection")renderCollection();
+ if(page==="review")renderReview();
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+
+}
+
+
+function toggleTheme(){
+
+ state.theme=
+  state.theme==="dark"
+  ?"light"
+  :"dark";
+
+ applyTheme();
+
+ saveState();
+
+}
+
+
+function applyTheme(){
+
+ document.body.classList.toggle(
+  "dark",
+  state.theme==="dark"
+ );
+
+}
+
+
+function updateStats(){
+
+ const ids={
+
+  topName:state.name||"Estudiante",
+  topXP:state.xp,
+  topCoins:state.coins,
+  topLevel:state.level,
+  topStreak:state.streak,
+
+  homeXP:state.xp,
+  homeCoins:state.coins,
+  homeLevel:state.level,
+  homeStreak:state.streak+" días"
+
+ };
+
+
+ Object.entries(ids).forEach(
+  ([id,value])=>{
+
+   const el=
+    document.getElementById(id);
+
+   if(el)el.textContent=value;
+
+  }
+ );
+
+}
+
+
+function isLessonComplete(index){
+
+ return state.lessonProgress[
+  "A1-"+index
+ ]===100;
+
+}
+
+
+function lessonProgress(index){
+
+ return state.lessonProgress[
+  "A1-"+index
+ ] || 0;
+
+}
+
+
+function countCompletedLessons(){
+
+ let n=0;
+
+ for(let i=0;i<10;i++){
+
+  if(isLessonComplete(i))n++;
+
+ }
+
+ return n;
+
+}
+
+
+function isLessonUnlocked(index){
+
+ if(index===0)return true;
+
+ return isLessonComplete(index-1);
+
+}
+
+
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape"){
+    const modal = document.getElementById("modal");
+    if(modal && modal.classList.contains("show")){
+      exitLesson();
+    }
+  }
+});
+</script>
+<script>
+
+/* =========================================
+   DATOS DE LECCIONES A1
+========================================= */
+
+const lessons = [
+
+{
+ title:"Saludos básicos",
+ words:[
+  ["hello","hola"],
+  ["goodbye","adiós"],
+  ["please","por favor"],
+  ["thanks","gracias"],
+  ["yes","sí"],
+  ["no","no"],
+  ["sorry","perdón"],
+  ["welcome","bienvenido"],
+  ["morning","mañana"],
+  ["night","noche"]
+ ]
+},
+
+{
+ title:"La casa",
+ words:[
+  ["house","casa"],
+  ["room","habitación"],
+  ["door","puerta"],
+  ["window","ventana"],
+  ["table","mesa"],
+  ["chair","silla"],
+  ["bed","cama"],
+  ["kitchen","cocina"],
+  ["bathroom","baño"],
+  ["garden","jardín"]
+ ]
+},
+
+{
+ title:"La familia",
+ words:[
+  ["mother","madre"],
+  ["father","padre"],
+  ["brother","hermano"],
+  ["sister","hermana"],
+  ["family","familia"],
+  ["son","hijo"],
+  ["daughter","hija"],
+  ["child","niño"],
+  ["man","hombre"],
+  ["woman","mujer"]
+ ]
+},
+
+{
+ title:"Comida y bebidas",
+ words:[
+  ["water","agua"],
+  ["food","comida"],
+  ["bread","pan"],
+  ["milk","leche"],
+  ["coffee","café"],
+  ["tea","té"],
+  ["apple","manzana"],
+  ["banana","banana"],
+  ["rice","arroz"],
+  ["meat","carne"]
+ ]
+},
+
+{
+ title:"La escuela",
+ words:[
+  ["school","escuela"],
+  ["teacher","maestro"],
+  ["student","estudiante"],
+  ["book","libro"],
+  ["pen","bolígrafo"],
+  ["pencil","lápiz"],
+  ["class","clase"],
+  ["lesson","lección"],
+  ["question","pregunta"],
+  ["answer","respuesta"]
+ ]
+},
+
+{
+ title:"Transporte y lugares",
+ words:[
+  ["car","carro"],
+  ["bus","autobús"],
+  ["train","tren"],
+  ["road","carretera"],
+  ["street","calle"],
+  ["city","ciudad"],
+  ["country","país"],
+  ["airport","aeropuerto"],
+  ["station","estación"],
+  ["ticket","boleto"]
+ ]
+},
+
+{
+ title:"Personas y trabajos",
+ words:[
+  ["friend","amigo"],
+  ["work","trabajo"],
+  ["job","empleo"],
+  ["money","dinero"],
+  ["shop","tienda"],
+  ["market","mercado"],
+  ["doctor","médico"],
+  ["hospital","hospital"],
+  ["police","policía"],
+  ["restaurant","restaurante"]
+ ]
+},
+
+{
+ title:"Adjetivos",
+ words:[
+  ["big","grande"],
+  ["small","pequeño"],
+  ["good","bueno"],
+  ["bad","malo"],
+  ["hot","caliente"],
+  ["cold","frío"],
+  ["happy","feliz"],
+  ["sad","triste"],
+  ["fast","rápido"],
+  ["slow","lento"]
+ ]
+},
+
+{
+ title:"Tiempo",
+ words:[
+  ["day","día"],
+  ["week","semana"],
+  ["month","mes"],
+  ["year","año"],
+  ["today","hoy"],
+  ["tomorrow","mañana"],
+  ["yesterday","ayer"],
+  ["time","tiempo"],
+  ["hour","hora"],
+  ["minute","minuto"]
+ ]
+},
+
+{
+ title:"Acciones",
+ words:[
+  ["go","ir"],
+  ["come","venir"],
+  ["eat","comer"],
+  ["drink","beber"],
+  ["sleep","dormir"],
+  ["read","leer"],
+  ["write","escribir"],
+  ["speak","hablar"],
+  ["listen","escuchar"],
+  ["learn","aprender"]
+ ]
+}
+
+];
+
+
+/* =========================================
+   PALABRAS EXTRA
+========================================= */
+
+const extraWords = [
+
+["family","familia","familia"],
+["parent","padre/madre","familia"],
+["parents","padres","familia"],
+["baby","bebé","familia"],
+["boy","niño","familia"],
+["girl","niña","familia"],
+["person","persona","personas"],
+["people","personas","personas"],
+["home","hogar","casa"],
+["floor","piso","casa"],
+["wall","pared","casa"],
+["roof","techo","casa"],
+["window","ventana","casa"],
+["door","puerta","casa"],
+["food","comida","comida"],
+["water","agua","comida"],
+["juice","jugo","comida"],
+["fruit","fruta","comida"],
+["orange","naranja","comida"],
+["egg","huevo","comida"],
+["school","escuela","escuela"],
+["teacher","maestro","escuela"],
+["student","estudiante","escuela"],
+["class","clase","escuela"],
+["car","carro","transporte"],
+["bus","autobús","transporte"],
+["train","tren","transporte"],
+["bike","bicicleta","transporte"],
+["road","carretera","transporte"],
+["city","ciudad","lugares"],
+["town","pueblo","lugares"],
+["country","país","lugares"],
+["park","parque","lugares"],
+["hotel","hotel","lugares"],
+["doctor","médico","trabajo"],
+["teacher","maestro","trabajo"],
+["driver","conductor","trabajo"],
+["worker","trabajador","trabajo"],
+["shop","tienda","trabajo"],
+["happy","feliz","emociones"],
+["sad","triste","emociones"],
+["angry","enojado","emociones"],
+["tired","cansado","emociones"],
+["good","bueno","adjetivos"],
+["bad","malo","adjetivos"],
+["big","grande","adjetivos"],
+["small","pequeño","adjetivos"],
+["hot","caliente","adjetivos"],
+["cold","frío","adjetivos"],
+["red","rojo","colores"],
+["blue","azul","colores"],
+["green","verde","colores"],
+["yellow","amarillo","colores"],
+["black","negro","colores"],
+["white","blanco","colores"],
+["one","uno","números"],
+["two","dos","números"],
+["three","tres","números"],
+["four","cuatro","números"],
+["five","cinco","números"],
+["six","seis","números"],
+["seven","siete","números"],
+["eight","ocho","números"],
+["nine","nueve","números"],
+["ten","diez","números"],
+["morning","mañana","tiempo"],
+["afternoon","tarde","tiempo"],
+["evening","noche","tiempo"],
+["today","hoy","tiempo"],
+["tomorrow","mañana","tiempo"],
+["yesterday","ayer","tiempo"],
+["go","ir","verbos"],
+["come","venir","verbos"],
+["eat","comer","verbos"],
+["drink","beber","verbos"],
+["read","leer","verbos"],
+["write","escribir","verbos"],
+["speak","hablar","verbos"],
+["listen","escuchar","verbos"],
+["learn","aprender","verbos"],
+["open","abrir","verbos"],
+["close","cerrar","verbos"],
+["start","empezar","verbos"],
+["stop","parar","verbos"],
+["run","correr","verbos"],
+["walk","caminar","verbos"],
+["sleep","dormir","verbos"],
+["work","trabajar","verbos"],
+["love","amar","verbos"],
+["like","gustar","verbos"],
+["want","querer","verbos"],
+["need","necesitar","verbos"],
+["have","tener","verbos"],
+["make","hacer","verbos"],
+["help","ayudar","verbos"],
+["look","mirar","verbos"],
+["see","ver","verbos"],
+["know","saber","verbos"],
+["think","pensar","verbos"],
+["speak","hablar","verbos"],
+["beautiful","bonito","adjetivos"],
+["easy","fácil","adjetivos"],
+["difficult","difícil","adjetivos"],
+["new","nuevo","adjetivos"],
+["old","viejo","adjetivos"],
+["young","joven","adjetivos"],
+["fast","rápido","adjetivos"],
+["slow","lento","adjetivos"]
+
+];
+
+
+/* =========================================
+   FRASES
+========================================= */
+
+const phrases = [
+
+["Hello!","¡Hola!","Saludos"],
+["Good morning!","¡Buenos días!","Saludos"],
+["Good afternoon!","¡Buenas tardes!","Saludos"],
+["Good night!","¡Buenas noches!","Saludos"],
+["How are you?","¿Cómo estás?","Conversación"],
+["I am fine.","Estoy bien.","Conversación"],
+["What is your name?","¿Cómo te llamas?","Conversación"],
+["My name is...","Me llamo...","Conversación"],
+["Nice to meet you.","Mucho gusto.","Conversación"],
+["See you later.","Hasta luego.","Despedidas"],
+["See you tomorrow.","Hasta mañana.","Despedidas"],
+["Thank you.","Gracias.","Conversación"],
+["You're welcome.","De nada.","Conversación"],
+["Excuse me.","Disculpe.","Conversación"],
+["I'm sorry.","Lo siento.","Conversación"],
+["Please help me.","Por favor, ayúdame.","Situaciones"],
+["Where is the bathroom?","¿Dónde está el baño?","Casa"],
+["I am hungry.","Tengo hambre.","Comida"],
+["I am thirsty.","Tengo sed.","Comida"],
+["How much is it?","¿Cuánto cuesta?","Compras"],
+["I want this.","Quiero esto.","Compras"],
+["I don't understand.","No entiendo.","Conversación"],
+["Can you repeat?","¿Puedes repetir?","Conversación"],
+["Speak slowly, please.","Habla despacio, por favor.","Conversación"],
+["What time is it?","¿Qué hora es?","Tiempo"],
+["I need help.","Necesito ayuda.","Situaciones"],
+["Where is the station?","¿Dónde está la estación?","Transporte"],
+["Where is the hotel?","¿Dónde está el hotel?","Viajes"],
+["I have a ticket.","Tengo un boleto.","Viajes"],
+["Let's go!","¡Vamos!","Actividades"]
+
+];
+
+
+/* =========================================
+   LECCIONES
+========================================= */
+
+let currentLesson=0;
+let currentQuestion=0;
+let lessonMistakes=[];
+let lessonQueue=[];
+let lessonReviewIndex=0;
+let lessonReviewRound=false;
+let currentAnswered=false;
+
+
+/* =========================================
+   RENDER LECCIONES
+========================================= */
+
+function renderLessons(){
+
+ const box=
+  document.getElementById(
+   "lessonsContainer"
+  );
+
+ if(!box)return;
+
+ box.innerHTML="";
+
+ lessons.forEach((lesson,index)=>{
+
+  const unlocked=
+   isLessonUnlocked(index);
+
+  const complete=
+   isLessonComplete(index);
+
+  const progress=
+   lessonProgress(index);
+
+  const card=
+   document.createElement("div");
+
+  card.className=
+   "card lessonCard "+
+   (!unlocked?"locked ":"")+
+   (complete?"completed":"");
+
+  card.innerHTML=`
+
+   <div class="lessonNumber">
+    ${index+1}
+   </div>
+
+   <h2>
+    ${complete?"✅ ":""}
+    Lección ${index+1}
+   </h2>
+
+   <h3>
+    ${lesson.title}
+   </h3>
+
+   <p class="muted">
+    10 palabras
+   </p>
+
+   <div class="progress">
+    <div class="progressBar"
+      style="width:${progress}%">
+    </div>
+   </div>
+
+   <p class="muted"
+      style="margin-top:7px">
+    ${progress}%
+   </p>
+
+   ${
+    unlocked
+    ?
+    `<button class="btn"
+       onclick="openLesson(${index})">
+       ${
+        complete
+        ?"🔄 Repetir lección"
+        :"▶️ Abrir lección"
+       }
+     </button>`
+    :
+    `<button class="btn secondary"
+       disabled>
+       🔒 Bloqueada
+     </button>`
+   }
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================
+   ABRIR LECCIÓN
+========================================= */
+
+function openLesson(index){
+
+ if(index<0 || index>=lessons.length)return;
+
+ if(!isLessonUnlocked(index)){
+
+  toast(
+   "🔒 Completa la lección anterior primero"
+  );
+
+  return;
+
+ }
+
+ currentLesson=index;
+
+ currentAnswered=false;
+
+ lessonReviewRound=false;
+
+ lessonReviewIndex=0;
+
+ lessonQueue=[];
+
+ lessonMistakes=[];
+
+
+ const key=
+  "A1-"+index;
+
+
+ if(isLessonComplete(index)){
+
+  /*
+   Al repetir una lección comenzamos
+   nuevamente desde cero.
+  */
+
+  currentQuestion=0;
+
+  delete state.lessonPosition[key];
+
+  delete state.lessonMistakes[key];
+
+ }else{
+
+  currentQuestion=
+   Number.isInteger(
+    state.lessonPosition[key]
+   )
+   ?
+   state.lessonPosition[key]
+   :0;
+
+  lessonMistakes=
+   Array.isArray(
+    state.lessonMistakes[key]
+   )
+   ?
+   [...state.lessonMistakes[key]]
+   :[];
+
+ }
+
+
+ saveState();
+
+ showLessonIntro();
+
+}
+
+
+/* =========================================
+   INTRO DE LECCIÓN
+========================================= */
+
+function showLessonIntro(){
+
+ const lesson=
+  lessons[currentLesson];
+
+ let html=`
+
+  <h2>
+   📖 Lección ${currentLesson+1}
+  </h2>
+
+  <h3 style="margin-top:6px">
+   ${lesson.title}
+  </h3>
+
+  <p class="muted"
+     style="margin-top:8px">
+   Aprende estas 10 palabras antes
+   de comenzar los ejercicios.
+  </p>
+
+  <div class="lessonWords">
+
+ `;
+
+ lesson.words.forEach(word=>{
+
+  html+=`
+
+   <div class="word">
+
+    <strong>
+     ${word[0]}
+    </strong>
+
+    <span>
+     🇪🇸 ${word[1]}
+    </span>
+
+    <button
+     class="btn secondary"
+     onclick="speakEnglish('${word[0]}')">
+
+     🔊 Escuchar
+
+    </button>
+
+   </div>
+
+  `;
+
+ });
+
+ html+=`
+
+  </div>
+
+  <button
+   class="btn"
+   style="width:100%;margin-top:18px"
+   onclick="startLessonExercises()">
+
+   🚀 Comenzar ejercicios
+
+  </button>
+
+ `;
+
+ showModal(html);
+
+}
+
+
+/* =========================================
+   COMENZAR EJERCICIOS
+========================================= */
+
+function startLessonExercises(){
+
+ closeModal();
+
+ currentAnswered=false;
+
+ renderLessonQuestion();
+
+}
+
+
+/* =========================================
+   GENERAR PREGUNTA
+========================================= */
+
+function renderLessonQuestion(){
+
+ const lesson=
+  lessons[currentLesson];
+
+ const key=
+  "A1-"+currentLesson;
+
+
+ /*
+  Si todavía quedan preguntas normales
+ */
+ if(currentQuestion<lesson.words.length){
+
+  renderNormalLessonQuestion();
+
+  return;
+
+ }
+
+
+ /*
+  Terminamos las preguntas normales.
+  Si hay errores, comenzamos la ronda
+  de repaso.
+ */
+
+ if(lessonMistakes.length>0){
+
+  if(!lessonReviewRound){
+
+   lessonReviewRound=true;
+
+   lessonQueue=
+    shuffle([...lessonMistakes]);
+
+   lessonReviewIndex=0;
+
+  }
+
+  if(
+   lessonReviewIndex<
+   lessonQueue.length
+  ){
+
+   renderReviewLessonQuestion();
+
+   return;
+
+  }
+
+  /*
+   Si llegamos aquí significa que
+   completamos una ronda de errores.
+  */
+
+  lessonMistakes=[];
+
+  lessonQueue=[];
+
+  lessonReviewIndex=0;
+
+  lessonReviewRound=false;
+
+  currentQuestion=lesson.words.length;
+
+  /*
+   Volvemos a comprobar por seguridad.
+  */
+
+  if(lessonMistakes.length===0){
+
+   finishLesson();
+
+   return;
+
+  }
+
+ }
+
+
+ finishLesson();
+
+}
+
+
+/* =========================================
+   PREGUNTA NORMAL
+========================================= */
+
+function renderNormalLessonQuestion(){
+
+ const lesson=
+  lessons[currentLesson];
+
+ const item=
+  lesson.words[currentQuestion];
+
+ const choices=
+  buildChoices(
+   item[1],
+   lesson.words.map(w=>w[1])
+  );
+
+
+ showModal(`
+
+  <div class="questionBox">
+
+   <span class="badge">
+    Lección ${currentLesson+1}
+   </span>
+
+   <span class="badge">
+    ${currentQuestion+1}/10
+   </span>
+
+   <h2 style="margin-top:15px">
+    ¿Qué significa esta palabra?
+   </h2>
+
+   <div class="question">
+    ${item[0]}
+   </div>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${item[0]}')">
+
+    🔊 Escuchar
+
+   </button>
+
+   <div class="choices"
+        style="margin-top:16px">
+
+    ${choices.map((choice,i)=>`
+
+     <button
+      class="choice"
+      id="lessonChoice${i}"
+      onclick="answerLesson('${encodeURIComponent(choice)}')">
+
+      ${choice}
+
+     </button>
+
+    `).join("")}
+
+   </div>
+
+   <div id="lessonFeedback"
+        class="feedback">
+   </div>
+
+   <div id="lessonNext"
+        style="display:none;margin-top:12px">
+
+    <button
+     class="btn"
+     style="width:100%"
+     onclick="nextLessonQuestion()">
+
+     ➡️ Siguiente palabra
+
+    </button>
+
+   </div>
+
+  </div>
+
+ `);
+
+}
+
+
+/* =========================================
+   PREGUNTA DE REPASO
+========================================= */
+
+function renderReviewLessonQuestion(){
+
+ const lesson=
+  lessons[currentLesson];
+
+ const item=
+  lessonQueue[lessonReviewIndex];
+
+ const choices=
+  buildChoices(
+   item[1],
+   lesson.words.map(w=>w[1])
+  );
+
+
+ showModal(`
+
+  <div class="questionBox">
+
+   <span class="badge">
+    🔄 Repaso de errores
+   </span>
+
+   <span class="badge">
+    ${lessonReviewIndex+1}/${lessonQueue.length}
+   </span>
+
+   <h2 style="margin-top:15px">
+    Vamos a repetir esta palabra
+   </h2>
+
+   <div class="question">
+    ${item[0]}
+   </div>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${item[0]}')">
+
+    🔊 Escuchar
+
+   </button>
+
+   <div class="choices"
+        style="margin-top:16px">
+
+    ${choices.map((choice,i)=>`
+
+     <button
+      class="choice"
+      id="lessonChoice${i}"
+      onclick="answerLessonReview('${encodeURIComponent(choice)}')">
+
+      ${choice}
+
+     </button>
+
+    `).join("")}
+
+   </div>
+
+   <div id="lessonFeedback"
+        class="feedback">
+   </div>
+
+   <div id="lessonNext"
+        style="display:none;margin-top:12px">
+
+    <button
+     class="btn"
+     style="width:100%"
+     onclick="nextLessonReviewQuestion()">
+
+     ➡️ Siguiente palabra
+
+    </button>
+
+   </div>
+
+  </div>
+
+ `);
+
+}
+
+
+/* =========================================
+   OPCIONES
+========================================= */
+
+function buildChoices(correct,all){
+
+ const wrong=
+  shuffle(
+   all.filter(
+    x=>normalizeText(x)!==
+       normalizeText(correct)
+   )
+  ).slice(0,3);
+
+ return shuffle([
+  correct,
+  ...wrong
+ ]);
+
+}
+
+
+/* =========================================
+   RESPONDER NORMAL
+========================================= */
+
+function answerLesson(encoded){
+
+ if(currentAnswered)return;
+
+ currentAnswered=true;
+
+ const answer=
+  decodeURIComponent(encoded);
+
+ const lesson=
+  lessons[currentLesson];
+
+ const item=
+  lesson.words[currentQuestion];
+
+ const correct=
+  normalizeText(answer)===
+  normalizeText(item[1]);
+
+ const feedback=
+  document.getElementById(
+   "lessonFeedback"
+  );
+
+ if(correct){
+
+  feedback.className=
+   "feedback show good";
+
+  feedback.innerHTML=
+   "✅ ¡Correcto!";
+
+  registerWordCorrect(
+   item[0]
+  );
+
+ }else{
+
+  feedback.className=
+   "feedback show bad";
+
+  feedback.innerHTML=
+   `❌ Incorrecto.<br>
+    La respuesta era:
+    <strong>${item[1]}</strong>`;
+
+  if(!lessonMistakes.includes(item)){
+
+   lessonMistakes.push(item);
+
+  }
+
+  registerWordWrong(item[0]);
+
+ }
+
+
+ document
+  .querySelectorAll(".choice")
+  .forEach(btn=>{
+
+   btn.disabled=true;
+
+   if(
+    normalizeText(btn.textContent)===
+    normalizeText(item[1])
+   ){
+
+    btn.classList.add("correct");
+
+   }
+
+  });
+
+
+ const next=
+  document.getElementById(
+   "lessonNext"
+  );
+
+ if(next)next.style.display="block";
+
+
+ saveLessonPosition();
+
+}
+
+
+/* =========================================
+   RESPONDER REPASO
+========================================= */
+
+function answerLessonReview(encoded){
+
+ if(currentAnswered)return;
+
+ currentAnswered=true;
+
+ const answer=
+  decodeURIComponent(encoded);
+
+ const item=
+  lessonQueue[lessonReviewIndex];
+
+ const correct=
+  normalizeText(answer)===
+  normalizeText(item[1]);
+
+ const feedback=
+  document.getElementById(
+   "lessonFeedback"
+  );
+
+
+ if(correct){
+
+  feedback.className=
+   "feedback show good";
+
+  feedback.innerHTML=
+   "✅ ¡Ahora sí!";
+
+  /*
+   El error desaparece.
+  */
+
+  lessonMistakes=
+   lessonMistakes.filter(
+    w=>w!==item
+   );
+
+  registerWordCorrect(
+   item[0]
+  );
+
+ }else{
+
+  feedback.className=
+   "feedback show bad";
+
+  feedback.innerHTML=
+   `❌ Todavía no.<br>
+    Era:
+    <strong>${item[1]}</strong>`;
+
+ }
+
+ document
+  .querySelectorAll(".choice")
+  .forEach(btn=>{
+
+   btn.disabled=true;
+
+   if(
+    normalizeText(btn.textContent)===
+    normalizeText(item[1])
+   ){
+
+    btn.classList.add("correct");
+
+   }
+
+  });
+
+
+ const next=
+  document.getElementById(
+   "lessonNext"
+  );
+
+ if(next)next.style.display="block";
+
+
+ saveLessonPosition();
+
+}
+
+
+/* =========================================
+   SIGUIENTE PREGUNTA
+========================================= */
+
+function nextLessonQuestion(){
+
+ currentAnswered=false;
+
+ currentQuestion++;
+
+ saveLessonPosition();
+
+ renderLessonQuestion();
+
+}
+
+
+/* =========================================
+   SIGUIENTE REPASO
+========================================= */
+
+function nextLessonReviewQuestion(){
+
+ currentAnswered=false;
+
+ lessonReviewIndex++;
+
+ /*
+  Si terminamos esta ronda y todavía
+  hay errores, hacemos otra ronda.
+ */
+
+ if(
+  lessonReviewIndex>=
+  lessonQueue.length
+ ){
+
+  if(lessonMistakes.length>0){
+
+   lessonQueue=
+    shuffle([...lessonMistakes]);
+
+   lessonReviewIndex=0;
+
+  }else{
+
+   finishLesson();
+
+   return;
+
+  }
+
+ }
+
+ saveLessonPosition();
+
+ renderLessonQuestion();
+
+}
+
+
+/* =========================================
+   GUARDAR POSICIÓN
+========================================= */
+
+function exitLesson(){
+  saveLessonPosition();
+  saveState();
+  currentAnswered = false;
+  closeModal();
+  go("lessons");
+}
+
+function saveLessonPosition(){
+
+ const key=
+  "A1-"+currentLesson;
+
+ state.lessonPosition[key]=
+  currentQuestion;
+
+ state.lessonMistakes[key]=
+  [...lessonMistakes];
+
+ saveState();
+
+}
+
+
+/* =========================================
+   PALABRA CORRECTA
+========================================= */
+
+function registerWordCorrect(word){
+
+ if(!state.mastered.includes(word)){
+
+  state.mastered.push(word);
+
+ }
+
+ if(!state.difficult.includes(word)){
+
+  /*
+   Solo quitamos una palabra
+   de dificultad cuando se responde
+   correctamente.
+  */
+
+ }else{
+
+  state.difficult=
+   state.difficult.filter(
+    x=>x!==word
+   );
+
+ }
+
+ state.xp+=5;
+
+ state.coins+=1;
+
+ registerStudyDay();
+
+ saveState();
+
+ updateStats();
+
+}
+
+
+/* =========================================
+   PALABRA INCORRECTA
+========================================= */
+
+function registerWordWrong(word){
+
+ if(!state.errors.includes(word)){
+
+  state.errors.push(word);
+
+ }
+
+ if(!state.difficult.includes(word)){
+
+  state.difficult.push(word);
+
+ }
+
+ saveState();
+
+}
+
+
+/* =========================================
+   FINALIZAR LECCIÓN
+========================================= */
+
+function finishLesson(){
+
+ const index=
+  currentLesson;
+
+ const key=
+  "A1-"+index;
+
+ state.lessonProgress[key]=100;
+
+ delete state.lessonPosition[key];
+
+ delete state.lessonMistakes[key];
+
+
+ if(!state.lessonRewarded[key]){
+
+  state.lessonRewarded[key]=true;
+
+  state.xp+=25;
+
+  state.coins+=10;
+
+ }
+
+
+ registerStudyDay();
+
+ saveState();
+
+ updateStats();
+
+ renderLessons();
+
+ showModal(`
+
+  <div style="text-align:center">
+
+   <div style="font-size:70px">
+    🎉
+   </div>
+
+   <h1>
+    ¡Lección completada!
+   </h1>
+
+   <p style="margin-top:10px">
+    ${lessons[index].title}
+   </p>
+
+   <p style="margin-top:15px">
+    ⭐ +25 XP
+    <br>
+    🪙 +10 monedas
+   </p>
+
+   <div style="
+    display:grid;
+    gap:8px;
+    margin-top:18px">
+
+    ${
+     index<9
+     ?
+     `<button
+       class="btn"
+       onclick="goNextLesson()">
+       ➡️ Siguiente lección
+      </button>`
+     :
+     `<button
+       class="btn gold"
+       onclick="startA1Exam()">
+       🏆 Ir al examen A1
+      </button>`
+    }
+
+    <button
+     class="btn secondary"
+     onclick="closeModal()">
+
+     Salir
+
+    </button>
+
+   </div>
+
+  </div>
+
+ `);
+
+}
+
+
+function goNextLesson(){
+
+ closeModal();
+
+ if(currentLesson<9){
+
+  const next=
+   currentLesson+1;
+
+  if(isLessonUnlocked(next)){
+
+   openLesson(next);
+
+  }else{
+
+   toast(
+    "🔒 Completa la lección actual primero"
+   );
+
+  }
+
+ }else{
+
+  startA1Exam();
+
+ }
+
+}
+
+
+/* =========================================
+   NIVELES
+========================================= */
+
+function renderLevels(){
+
+ const box=
+  document.getElementById(
+   "levelsContainer"
+  );
+
+ if(!box)return;
+
+ const levels=[
+  ["A1","Principiante","10 lecciones"],
+  ["A2","Básico","10 lecciones"],
+  ["B1","Intermedio","10 lecciones"],
+  ["B2","Intermedio alto","10 lecciones"]
+ ];
+
+ box.innerHTML="";
+
+ levels.forEach((level,index)=>{
+
+  const unlocked=
+   index===0 ||
+   (
+    index===1 &&
+    state.examPassed
+   );
+
+  const card=
+   document.createElement("div");
+
+  card.className=
+   "card "+(!unlocked?"locked":"");
+
+  card.innerHTML=`
+
+   <div style="font-size:45px">
+    ${
+     unlocked
+     ?"📚"
+     :"🔒"
+    }
+   </div>
+
+   <h2>${level[0]}</h2>
+
+   <h3>${level[1]}</h3>
+
+   <p class="muted">
+    ${level[2]}
+   </p>
+
+   <p style="margin-top:10px">
+    ${
+     unlocked
+     ?"✅ Desbloqueado"
+     :"🔒 Bloqueado"
+    }
+   </p>
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================
+   PALABRAS
+========================================= */
+
+function renderWords(){
+
+ const box=
+  document.getElementById(
+   "wordsContainer"
+  );
+
+ if(!box)return;
+
+ const search=
+  normalizeText(
+   document.getElementById(
+    "wordSearch"
+   )?.value || ""
+  );
+
+ const category=
+  document.getElementById(
+   "wordCategory"
+  )?.value || "all";
+
+ const data=
+  extraWords.filter(w=>{
+
+   const matchesSearch=
+    !search ||
+    normalizeText(w[0]).includes(search) ||
+    normalizeText(w[1]).includes(search);
+
+   const matchesCategory=
+    category==="all" ||
+    w[2]===category;
+
+   return matchesSearch &&
+          matchesCategory;
+
+  });
+
+ box.innerHTML="";
+
+ data.forEach(w=>{
+
+  const favorite=
+   state.favorites.includes(w[0]);
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  card.innerHTML=`
+
+   <h2>${w[0]}</h2>
+
+   <p>
+    🇪🇸 ${w[1]}
+   </p>
+
+   <p class="muted">
+    ${w[2]}
+   </p>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${w[0]}')">
+
+    🔊 Escuchar
+
+   </button>
+
+   <button
+    class="btn secondary"
+    onclick="toggleFavorite('${w[0]}')">
+
+    ${favorite?"⭐ Favorita":"☆ Favorito"}
+
+   </button>
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+function toggleFavorite(word){
+
+ if(state.favorites.includes(word)){
+
+  state.favorites=
+   state.favorites.filter(
+    x=>x!==word
+   );
+
+ }else{
+
+  state.favorites.push(word);
+
+ }
+
+ saveState();
+
+ renderWords();
+
+}
+
+
+/* =========================================
+   FRASES
+========================================= */
+
+function renderPhrases(){
+
+ const box=
+  document.getElementById(
+   "phrasesContainer"
+  );
+
+ if(!box)return;
+
+ const search=
+  normalizeText(
+   document.getElementById(
+    "phraseSearch"
+   )?.value || ""
+  );
+
+ const category=
+  document.getElementById(
+   "phraseCategory"
+  )?.value || "all";
+
+ const data=
+  phrases.filter(p=>{
+
+   const matchesSearch=
+    !search ||
+    normalizeText(p[0]).includes(search) ||
+    normalizeText(p[1]).includes(search);
+
+   const matchesCategory=
+    category==="all" ||
+    p[2]===category;
+
+   return matchesSearch &&
+          matchesCategory;
+
+  });
+
+ box.innerHTML="";
+
+ data.forEach(p=>{
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  card.innerHTML=`
+
+   <h3>${p[0]}</h3>
+
+   <p style="margin-top:8px">
+    🇪🇸 ${p[1]}
+   </p>
+
+   <p class="muted"
+      style="margin-top:5px">
+    ${p[2]}
+   </p>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${p[0]}')">
+
+    🔊 Escuchar
+
+   </button>
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================
+   CATEGORÍAS
+========================================= */
+
+function setupCategories(){
+
+ const wordSelect=
+  document.getElementById(
+   "wordCategory"
+  );
+
+ const phraseSelect=
+  document.getElementById(
+   "phraseCategory"
+  );
+
+ if(wordSelect){
+
+  const categories=
+   [...new Set(
+    extraWords.map(w=>w[2])
+   )].sort();
+
+  categories.forEach(c=>{
+
+   const option=
+    document.createElement("option");
+
+   option.value=c;
+
+   option.textContent=c;
+
+   wordSelect.appendChild(option);
+
+  });
+
+ }
+
+ if(phraseSelect){
+
+  const categories=
+   [...new Set(
+    phrases.map(p=>p[2])
+   )].sort();
+
+  categories.forEach(c=>{
+
+   const option=
+    document.createElement("option");
+
+   option.value=c;
+
+   option.textContent=c;
+
+   phraseSelect.appendChild(option);
+
+  });
+
+ }
+
+}
+
+
+/* =========================================
+   INICIO
+========================================= */
+
+applyTheme();
+
+setupCategories();
+
+updateStats();
+
+renderLessons();
+
+renderLevels();
+
+renderWords();
+
+renderPhrases();
+
+</script>
+<script>
+
+/* =========================================
+   QUIZ
+========================================= */
+
+let quizQuestion=0;
+let quizCorrect=0;
+let quizLives=3;
+let quizCurrent=[];
+let quizAnswered=false;
+
+function quizWords(){
+
+ return lessons.flatMap(
+  lesson=>lesson.words
+ );
+
+}
+
+function renderQuiz(){
+
+ const box=
+  document.getElementById("quizContainer");
+
+ if(!box)return;
+
+ if(!quizCurrent.length){
+
+  box.innerHTML=`
+
+   <div class="card">
+
+    <h2>🧠 Quiz</h2>
+
+    <p class="muted">
+     Nivel ${state.quizLevel}/5
+    </p>
+
+    <p style="margin-top:10px">
+     ❤️ 3 vidas · 10 preguntas
+    </p>
+
+    <button
+     class="btn"
+     onclick="startQuiz()">
+
+     🚀 Comenzar Quiz
+
+    </button>
+
+   </div>
+
+  `;
+
+  return;
+
+ }
+
+ renderQuizQuestion();
+
+}
+
+function startQuiz(){
+
+ quizQuestion=0;
+ quizCorrect=0;
+ quizLives=3;
+ quizAnswered=false;
+
+ quizCurrent=
+  shuffle(quizWords()).slice(0,10);
+
+ renderQuizQuestion();
+
+}
+
+function renderQuizQuestion(){
+
+ if(quizQuestion>=10){
+
+  finishQuiz();
+
+  return;
+
+ }
+
+ const item=
+  quizCurrent[quizQuestion];
+
+ const choices=
+  buildChoices(
+   item[1],
+   quizWords().map(w=>w[1])
+  );
+
+ const box=
+  document.getElementById(
+   "quizContainer"
+  );
+
+ box.innerHTML=`
+
+  <div class="card questionBox">
+
+   <span class="badge">
+    Nivel ${state.quizLevel}
+   </span>
+
+   <span class="badge">
+    ${quizQuestion+1}/10
+   </span>
+
+   <span class="badge">
+    ❤️ ${quizLives}
+   </span>
+
+   <h2 style="margin-top:18px">
+    ¿Qué significa?
+   </h2>
+
+   <div class="question">
+    ${item[0]}
+   </div>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${item[0]}')">
+
+    🔊 Escuchar
+
+   </button>
+
+   <div class="choices"
+        style="margin-top:16px">
+
+    ${choices.map((c,i)=>`
+
+     <button
+      class="choice"
+      onclick="answerQuiz('${encodeURIComponent(c)}')">
+
+      ${c}
+
+     </button>
+
+    `).join("")}
+
+   </div>
+
+  </div>
+
+ `;
+
+}
+
+function answerQuiz(encoded){
+
+ if(quizAnswered)return;
+
+ quizAnswered=true;
+
+ const answer=
+  decodeURIComponent(encoded);
+
+ const item=
+  quizCurrent[quizQuestion];
+
+ const correct=
+  normalizeText(answer)===
+  normalizeText(item[1]);
+
+ if(correct){
+
+  quizCorrect++;
+
+  state.xp+=10;
+
+  state.coins+=2;
+
+  toast("✅ ¡Correcto!");
+
+ }else{
+
+  quizLives--;
+
+  toast("❌ Incorrecto");
+
+ }
+
+ registerStudyDay();
+
+ saveState();
+
+ updateStats();
+
+ setTimeout(()=>{
+
+  quizAnswered=false;
+
+  if(quizLives<=0){
+
+   finishQuiz();
+
+   return;
+
+  }
+
+  quizQuestion++;
+
+  renderQuizQuestion();
+
+ },700);
+
+}
+
+function finishQuiz(){
+
+ const box=
+  document.getElementById(
+   "quizContainer"
+  );
+
+ const score=
+  quizCorrect*10;
+
+ if(score>=70){
+
+  if(
+   state.quizLevel<5
+  ){
+
+   state.quizLevel++;
+
+  }
+
+  if(score>state.quizRecord){
+
+   state.quizRecord=score;
+
+  }
+
+  state.xp+=25;
+
+  state.coins+=10;
+
+  saveState();
+
+  updateStats();
+
+  box.innerHTML=`
+
+   <div class="card"
+        style="text-align:center">
+
+    <div style="font-size:65px">
+     🏆
+    </div>
+
+    <h1>¡Quiz completado!</h1>
+
+    <h2 style="margin-top:10px">
+     ${score}%
+    </h2>
+
+    <p style="margin-top:10px">
+     ${quizCorrect}/10 correctas
+    </p>
+
+    <p style="margin-top:10px">
+     ⭐ +25 XP · 🪙 +10
+    </p>
+
+    <button
+     class="btn"
+     onclick="startQuiz()">
+
+     🔄 Jugar otra vez
+
+    </button>
+
+   </div>
+
+  `;
+
+ }else{
+
+  saveState();
+
+  box.innerHTML=`
+
+   <div class="card"
+        style="text-align:center">
+
+    <div style="font-size:60px">
+     📖
+    </div>
+
+    <h1>Quiz terminado</h1>
+
+    <h2 style="margin-top:10px">
+     ${score}%
+    </h2>
+
+    <p style="margin-top:10px">
+     Necesitas 70% para desbloquear
+     el siguiente nivel.
+    </p>
+
+    <button
+     class="btn"
+     onclick="startQuiz()">
+
+     🔄 Intentar nuevamente
+
+    </button>
+
+   </div>
+
+  `;
+
+ }
+
+}
+
+
+/* =========================================
+   LISTENING
+========================================= */
+
+let listeningCurrent=null;
+let listeningAnswered=false;
+
+function renderListening(){
+
+ const box=
+  document.getElementById(
+   "listeningContainer"
+  );
+
+ if(!box)return;
+
+ const item=
+  listeningCurrent ||
+  quizWords()[
+   Math.floor(
+    Math.random()*quizWords().length
+   )
+  ];
+
+ listeningCurrent=item;
+
+ const choices=
+  buildChoices(
+   item[1],
+   quizWords().map(w=>w[1])
+  );
+
+ box.innerHTML=`
+
+  <div class="card questionBox">
+
+   <span class="badge">
+    🎧 Listening
+   </span>
+
+   <h2 style="margin-top:18px">
+    Escucha y selecciona la traducción
+   </h2>
+
+   <button
+    class="btn"
+    style="font-size:18px"
+    onclick="speakEnglish('${item[0]}')">
+
+    🔊 Escuchar inglés
+
+   </button>
+
+   <div class="choices"
+        style="margin-top:18px">
+
+    ${choices.map(c=>`
+
+     <button
+      class="choice"
+      onclick="answerListening('${encodeURIComponent(c)}')">
+
+      ${c}
+
+     </button>
+
+    `).join("")}
+
+   </div>
+
+  </div>
+
+ `;
+
+}
+
+function answerListening(encoded){
+
+ if(listeningAnswered)return;
+
+ listeningAnswered=true;
+
+ const answer=
+  decodeURIComponent(encoded);
+
+ const correct=
+  normalizeText(answer)===
+  normalizeText(listeningCurrent[1]);
+
+ if(correct){
+
+  state.xp+=8;
+
+  state.coins+=2;
+
+  addMissionProgress(
+   "daily_listen",
+   1
+  );
+
+  toast("🎧 ✅ ¡Correcto!");
+
+ }else{
+
+  toast(
+   "🎧 ❌ Era: "+
+   listeningCurrent[1]
+  );
+
+ }
+
+ registerStudyDay();
+
+ saveState();
+
+ updateStats();
+
+ setTimeout(()=>{
+
+  listeningAnswered=false;
+
+  listeningCurrent=null;
+
+  renderListening();
+
+ },800);
+
+}
+
+
+/* =========================================
+   WRITING
+========================================= */
+
+let writingCurrent=null;
+
+function renderWriting(){
+
+ const box=
+  document.getElementById(
+   "writingContainer"
+  );
+
+ if(!box)return;
+
+ const item=
+  writingCurrent ||
+  quizWords()[
+   Math.floor(
+    Math.random()*quizWords().length
+   )
+  ];
+
+ writingCurrent=item;
+
+ box.innerHTML=`
+
+  <div class="card questionBox">
+
+   <span class="badge">
+    ✍️ Writing
+   </span>
+
+   <h2 style="margin-top:18px">
+    Escribe la palabra en inglés
+   </h2>
+
+   <div class="question">
+    🇪🇸 ${item[1]}
+   </div>
+
+   <input
+    id="writingInput"
+    placeholder="Escribe en inglés..."
+    autocomplete="off">
+
+   <button
+    class="btn"
+    onclick="checkWriting()">
+
+    ✅ Comprobar
+
+   </button>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${item[0]}')">
+
+    🔊 Escuchar respuesta
+
+   </button>
+
+  </div>
+
+ `;
+
+}
+
+function checkWriting(){
+
+ const input=
+  document.getElementById(
+   "writingInput"
+  );
+
+ if(!input)return;
+
+ const answer=
+  normalizeText(input.value);
+
+ const correct=
+  normalizeText(writingCurrent[0]);
+
+ if(!answer){
+
+  toast("✍️ Escribe una respuesta");
+
+  return;
+
+ }
+
+ if(answer===correct){
+
+  state.xp+=10;
+
+  state.coins+=2;
+
+  registerWordCorrect(
+   writingCurrent[0]
+  );
+
+  toast("✍️ ✅ ¡Correcto!");
+
+ }else{
+
+  registerWordWrong(
+   writingCurrent[0]
+  );
+
+  toast(
+   "❌ Respuesta correcta: "+
+   writingCurrent[0]
+  );
+
+ }
+
+ registerStudyDay();
+
+ saveState();
+
+ updateStats();
+
+ setTimeout(()=>{
+
+  writingCurrent=null;
+
+  renderWriting();
+
+ },900);
+
+}
+
+
+/* =========================================
+   PERFIL
+========================================= */
+
+function renderProfile(){
+
+ const box=
+  document.getElementById(
+   "profileContainer"
+  );
+
+ if(!box)return;
+
+ const completed=
+  countCompletedLessons();
+
+ const mastered=
+  state.mastered.length;
+
+ box.innerHTML=`
+
+  <div class="grid">
+
+   <div class="card">
+
+    <div class="profileAvatar">
+
+     ${
+      state.avatarImage
+      ?
+      `<img src="${state.avatarImage}">`
+      :
+      state.equippedAvatar || "🙂"
+     }
+
+    </div>
+
+    <h2>
+     ${state.name || "Estudiante"}
+    </h2>
+
+    <p class="muted">
+     Miembro de English World
+    </p>
+
+    <button
+     class="btn"
+     onclick="changeName()">
+
+     ✏️ Cambiar nombre
+
+    </button>
+
+    <button
+     class="btn secondary"
+     onclick="chooseAvatar()">
+
+     🙂 Cambiar avatar
+
+    </button>
+
+   </div>
+
+
+   <div class="card">
+
+    <h2>📊 Estadísticas</h2>
+
+    <p style="margin-top:10px">
+     ⭐ XP: ${state.xp}
+    </p>
+
+    <p style="margin-top:8px">
+     🪙 Monedas: ${state.coins}
+    </p>
+
+    <p style="margin-top:8px">
+     📚 Nivel: ${state.level}
+    </p>
+
+    <p style="margin-top:8px">
+     🔥 Racha: ${state.streak} días
+    </p>
+
+    <p style="margin-top:8px">
+     📖 Lecciones: ${completed}/10
+    </p>
+
+    <p style="margin-top:8px">
+     🔤 Palabras dominadas: ${mastered}
+    </p>
+
+    <p style="margin-top:8px">
+     🧠 Récord Quiz: ${state.quizRecord}%
+    </p>
+
+   </div>
+
+  </div>
+
+  <div class="card"
+       style="margin-top:15px">
+
+   <h2>💾 Progreso</h2>
+
+   <button
+    class="btn"
+    onclick="exportProgress()">
+
+    📤 Exportar progreso
+
+   </button>
+
+   <input
+    type="file"
+    accept=".json"
+    onchange="importProgress(event)">
+
+  </div>
+
+ `;
+
+}
+
+function changeName(){
+
+ const name=
+  prompt(
+   "Escribe tu nombre:",
+   state.name
+  );
+
+ if(name===null)return;
+
+ const clean=
+  name.trim();
+
+ if(!clean)return;
+
+ state.name=
+  clean.substring(0,25);
+
+ saveState();
+
+ updateStats();
+
+ renderProfile();
+
+ toast("👤 Nombre actualizado");
+
+}
+
+function chooseAvatar(){
+
+ const avatars=[
+  "🙂","😎","🤓","😄","🦁",
+  "🐯","🐼","🦊","🐸","🤖",
+  "👽","🐉","👑"
+ ];
+
+ showModal(`
+
+  <h2>🙂 Elige tu avatar</h2>
+
+  <div style="
+   display:grid;
+   grid-template-columns:
+   repeat(4,1fr);
+   gap:10px;
+   margin-top:18px">
+
+   ${avatars.map(a=>`
+
+    <button
+     class="btn secondary"
+     style="font-size:35px"
+     onclick="setAvatar('${a}')">
+
+     ${a}
+
+    </button>
+
+   `).join("")}
+
+  </div>
+
+ `);
+
+}
+
+function setAvatar(avatar){
+
+ state.equippedAvatar=avatar;
+
+ state.avatarImage="";
+
+ saveState();
+
+ closeModal();
+
+ renderProfile();
+
+ toast("🙂 Avatar actualizado");
+
+}
+
+
+/* =========================================
+   TIENDA
+========================================= */
+
+const shopItems=[
+
+ {
+  id:"avatar_crown",
+  name:"Avatar Corona",
+  icon:"👑",
+  type:"avatar",
+  price:100
+ },
+
+ {
+  id:"avatar_robot",
+  name:"Avatar Robot",
+  icon:"🤖",
+  type:"avatar",
+  price:150
+ },
+
+ {
+  id:"avatar_dragon",
+  name:"Avatar Dragón",
+  icon:"🐉",
+  type:"avatar",
+  price:200
+ },
+
+ {
+  id:"avatar_alien",
+  name:"Avatar Alien",
+  icon:"👽",
+  type:"avatar",
+  price:250
+ },
+
+ {
+  id:"frame_gold",
+  name:"Marco Dorado",
+  icon:"🟡",
+  type:"frame",
+  price:150
+ },
+
+ {
+  id:"frame_fire",
+  name:"Marco Fuego",
+  icon:"🔥",
+  type:"frame",
+  price:200
+ },
+
+ {
+  id:"background_space",
+  name:"Fondo Espacial",
+  icon:"🌌",
+  type:"background",
+  price:250
+ },
+
+ {
+  id:"background_forest",
+  name:"Fondo Bosque",
+  icon:"🌲",
+  type:"background",
+  price:200
+ },
+
+ {
+  id:"effect_star",
+  name:"Efecto Estrellas",
+  icon:"✨",
+  type:"effect",
+  price:300
+ },
+
+ {
+  id:"effect_fire",
+  name:"Efecto Fuego",
+  icon:"🔥",
+  type:"effect",
+  price:350
+ },
+
+ {
+  id:"protection",
+  name:"Protección de racha",
+  icon:"🛡️",
+  type:"protection",
+  price:200
+ }
+
+];
+
+function renderShop(){
+
+ const box=
+  document.getElementById(
+   "shopContainer"
+  );
+
+ if(!box)return;
+
+ box.innerHTML="";
+
+ shopItems.forEach(item=>{
+
+  const owned=
+   state.inventory.includes(item.id);
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  card.innerHTML=`
+
+   <div style="font-size:45px">
+    ${item.icon}
+   </div>
+
+   <h3>${item.name}</h3>
+
+   <p class="muted">
+    ${item.type}
+   </p>
+
+   <p style="margin-top:10px">
+    🪙 ${item.price}
+   </p>
+
+   ${
+    owned
+    ?
+    `<button
+      class="btn secondary"
+      onclick="equipItem('${item.id}')">
+      ✨ Equipar
+     </button>`
+    :
+    `<button
+      class="btn gold"
+      onclick="buyItem('${item.id}')">
+      🛒 Comprar
+     </button>`
+   }
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+function buyItem(id){
+
+ const item=
+  shopItems.find(x=>x.id===id);
+
+ if(!item)return;
+
+ if(state.inventory.includes(id)){
+
+  toast("Ya tienes este objeto");
+
+  return;
+
+ }
+
+ if(state.coins<item.price){
+
+  toast("🪙 No tienes suficientes monedas");
+
+  return;
+
+ }
+
+ state.coins-=item.price;
+
+ state.inventory.push(id);
+
+ if(item.type==="protection"){
+
+  state.streakProtection++;
+
+ }
+
+ saveState();
+
+ updateStats();
+
+ renderShop();
+
+ renderInventory();
+
+ renderCollection();
+
+ toast(
+  "🎉 Compraste "+item.name
+ );
+
+}
+
+function equipItem(id){
+
+ const item=
+  shopItems.find(x=>x.id===id);
+
+ if(!item)return;
+
+ if(!state.inventory.includes(id))return;
+
+ state.equippedItem=id;
+
+ if(item.type==="avatar"){
+
+  state.equippedAvatar=item.icon;
+
+  state.avatarImage="";
+
+ }
+
+ saveState();
+
+ renderInventory();
+
+ renderProfile();
+
+ toast("✨ Objeto equipado");
+
+}
+
+
+/* =========================================
+   INVENTARIO
+========================================= */
+
+function renderInventory(){
+
+ const box=
+  document.getElementById(
+   "inventoryContainer"
+  );
+
+ if(!box)return;
+
+ box.innerHTML="";
+
+ if(!state.inventory.length){
+
+  box.innerHTML=`
+
+   <div class="card">
+
+    <h2>🎒 Inventario vacío</h2>
+
+    <p class="muted">
+     Compra objetos en la tienda.
+    </p>
+
+   </div>
+
+  `;
+
+  return;
+
+ }
+
+ state.inventory.forEach(id=>{
+
+  const item=
+   shopItems.find(
+    x=>x.id===id
+   );
+
+  if(!item)return;
+
+  const equipped=
+   state.equippedItem===id;
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  card.innerHTML=`
+
+   <div style="font-size:45px">
+    ${item.icon}
+   </div>
+
+   <h3>${item.name}</h3>
+
+   <p class="muted">
+    ${
+     equipped
+     ?"✨ Equipado"
+     :"Disponible"
+    }
+   </p>
+
+   ${
+    !equipped
+    ?
+    `<button
+      class="btn"
+      onclick="equipItem('${id}')">
+      Equipar
+     </button>`
+    :""
+   }
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================
+   MISIONES
+========================================= */
+
+function missionData(){
+
+ return [
+
+  {
+   id:"daily_lesson",
+   title:"📖 Completa una lección",
+   target:1,
+   rewardXP:30,
+   rewardCoins:15
+  },
+
+  {
+   id:"daily_words",
+   title:"🔤 Practica 10 palabras",
+   target:10,
+   rewardXP:20,
+   rewardCoins:10
+  },
+
+  {
+   id:"daily_listen",
+   title:"🎧 Practica Listening",
+   target:3,
+   rewardXP:25,
+   rewardCoins:15
+  },
+
+  {
+   id:"weekly_lessons",
+   title:"🏆 Completa 5 lecciones",
+   target:5,
+   rewardXP:100,
+   rewardCoins:50
+  },
+
+  {
+   id:"weekly_words",
+   title:"📚 Practica 30 palabras",
+   target:30,
+   rewardXP:100,
+   rewardCoins:60
+  }
+
+ ];
+
+}
+
+function missionKey(id){
+
+ return todayKey()+"_"+id;
+
+}
+
+function addMissionProgress(id,amount=1){
+
+ const key=
+  missionKey(id);
+
+ state.missions[key]=
+  (state.missions[key]||0)+amount;
+
+ saveState();
+
+}
+
+function renderMissions(){
+
+ const box=
+  document.getElementById(
+   "missionsContainer"
+  );
+
+ if(!box)return;
+
+ box.innerHTML="";
+
+ missionData().forEach(m=>{
+
+  const key=
+   missionKey(m.id);
+
+  const progress=
+   state.missions[key]||0;
+
+  const done=
+   progress>=m.target;
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  card.innerHTML=`
+
+   <h3>${m.title}</h3>
+
+   <p style="margin-top:8px">
+    ${Math.min(progress,m.target)}
+    / ${m.target}
+   </p>
+
+   <div class="progress">
+
+    <div class="progressBar"
+     style="width:${
+      Math.min(
+       progress/m.target*100,
+       100
+      )
+     }%">
+    </div>
+
+   </div>
+
+   <p class="muted"
+      style="margin-top:8px">
+
+    ⭐ ${m.rewardXP}
+    · 🪙 ${m.rewardCoins}
+
+   </p>
+
+   ${
+    done
+    ?
+    `<p style="
+      color:var(--green);
+      font-weight:bold;
+      margin-top:8px">
+      ✅ Completada
+     </p>`
+    :""
+   }
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================
+   RECOMPENSA DIARIA
+========================================= */
+
+function claimDailyReward(){
+
+ const today=
+  todayKey();
+
+ if(
+  state.lastDailyReward===today
+ ){
+
+  toast(
+   "🎁 Ya reclamaste la recompensa de hoy"
+  );
+
+  return;
+
+ }
+
+ state.lastDailyReward=today;
+
+ state.xp+=30;
+
+ state.coins+=20;
+
+ registerStudyDay();
+
+ saveState();
+
+ updateStats();
+
+ showModal(`
+
+  <div style="text-align:center">
+
+   <div style="font-size:65px">
+    🎁
+   </div>
+
+   <h1>
+    ¡Recompensa diaria!
+   </h1>
+
+   <p style="margin-top:12px">
+    ⭐ +30 XP
+    <br>
+    🪙 +20 monedas
+   </p>
+
+   <button
+    class="btn"
+    onclick="closeModal()">
+
+    Continuar
+
+   </button>
+
+  </div>
+
+ `);
+
+}
+
+
+/* =========================================
+   COFRE
+========================================= */
+
+function openDailyChest(){
+
+ const today=
+  todayKey();
+
+ if(state.lastChestDate===today){
+
+  toast(
+   "🎁 Ya abriste tu cofre de hoy"
+  );
+
+  return;
+
+ }
+
+ state.lastChestDate=today;
+
+ const rewards=[
+  [20,20],
+  [30,30],
+  [50,40],
+  [70,50]
+ ];
+
+ const reward=
+  rewards[
+   Math.floor(
+    Math.random()*rewards.length
+   )
+  ];
+
+ state.xp+=reward[0];
+
+ state.coins+=reward[1];
+
+ saveState();
+
+ updateStats();
+
+ showModal(`
+
+  <div style="text-align:center">
+
+   <div style="font-size:70px">
+    🎁
+   </div>
+
+   <h1>
+    ¡Cofre abierto!
+   </h1>
+
+   <p style="margin-top:12px">
+    ⭐ +${reward[0]} XP
+    <br>
+    🪙 +${reward[1]} monedas
+   </p>
+
+   <button
+    class="btn"
+    onclick="closeModal()">
+
+    ¡Genial!
+
+   </button>
+
+  </div>
+
+ `);
+
+}
+
+
+/* =========================================
+   CALENDARIO
+========================================= */
+
+function renderCalendar(){
+
+ const box=
+  document.getElementById(
+   "calendarContainer"
+  );
+
+ if(!box)return;
+
+ const now=
+  new Date();
+
+ const year=
+  now.getFullYear();
+
+ const month=
+  now.getMonth();
+
+ const first=
+  new Date(year,month,1)
+   .getDay();
+
+ const days=
+  new Date(
+   year,
+   month+1,
+   0
+  ).getDate();
+
+ const monthName=
+  now.toLocaleDateString(
+   "es",
+   {
+    month:"long",
+    year:"numeric"
+   }
+  );
+
+ let html=`
+
+  <div class="card">
+
+   <h2 style="text-transform:capitalize">
+    📅 ${monthName}
+   </h2>
+
+   <div style="
+    display:grid;
+    grid-template-columns:
+    repeat(7,1fr);
+    gap:5px;
+    margin-top:18px">
+
+ `;
+
+ ["D","L","M","X","J","V","S"]
+ .forEach(d=>{
+
+  html+=`
+
+   <div style="
+    text-align:center;
+    font-weight:bold;
+    color:var(--muted)">
+
+    ${d}
+
+   </div>
+
+  `;
+
+ });
+
+ for(let i=0;i<first;i++){
+
+  html+=`<div></div>`;
+
+ }
+
+ for(let d=1;d<=days;d++){
+
+  const key=
+   year+"-"+
+   String(month+1).padStart(2,"0")+
+   "-"+
+   String(d).padStart(2,"0");
+
+  const studied=
+   state.studyDays.includes(key);
+
+  const isToday=
+   d===now.getDate();
+
+  html+=`
+
+   <div style="
+    aspect-ratio:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:${
+     studied
+     ?"var(--green)"
+     :"var(--bg)"
+    };
+    color:${
+     studied
+     ?"white"
+     :"var(--text)"
+    };
+    border:${
+     isToday
+     ?"2px solid var(--primary)"
+     :"1px solid var(--border)"
+    };
+    font-weight:bold">
+
+    ${d}
+
+   </div>
+
+  `;
+
+ }
+
+ html+=`
+
+   </div>
+
+   <p class="muted"
+      style="margin-top:15px">
+
+    🟢 Día estudiado
+
+   </p>
+
+  </div>
+
+ `;
+
+ box.innerHTML=html;
+
+}
+
+
+/* =========================================
+   LOGROS
+========================================= */
+
+const achievementsList=[
+
+ {
+  id:"first_lesson",
+  icon:"🌟",
+  title:"Primer paso",
+  desc:"Completa tu primera lección.",
+  xp:50,
+  coins:20
+ },
+
+ {
+  id:"five_lessons",
+  icon:"📚",
+  title:"Estudiante dedicado",
+  desc:"Completa 5 lecciones.",
+  xp:100,
+  coins:50
+ },
+
+ {
+  id:"ten_lessons",
+  icon:"🏆",
+  title:"Maestro A1",
+  desc:"Completa las 10 lecciones A1.",
+  xp:200,
+  coins:100
+ },
+
+ {
+  id:"words_50",
+  icon:"🔤",
+  title:"Cazador de palabras",
+  desc:"Domina 50 palabras.",
+  xp:150,
+  coins:75
+ },
+
+ {
+  id:"streak_7",
+  icon:"🔥",
+  title:"Una semana",
+  desc:"Consigue una racha de 7 días.",
+  xp:100,
+  coins:50
+ },
+
+ {
+  id:"quiz_master",
+  icon:"🧠",
+  title:"Experto del Quiz",
+  desc:"Desbloquea el nivel 5 del Quiz.",
+  xp:150,
+  coins:75
+ },
+
+ {
+  id:"master",
+  icon:"👑",
+  title:"Maestro de English World",
+  desc:"Completa todo el contenido disponible.",
+  xp:500,
+  coins:500
+ }
+
+];
+
+function checkAchievements(){
+
+ const completed=
+  countCompletedLessons();
+
+ const conditions={
+
+  first_lesson:
+   completed>=1,
+
+  five_lessons:
+   completed>=5,
+
+  ten_lessons:
+   completed>=10,
+
+  words_50:
+   state.mastered.length>=50,
+
+  streak_7:
+   state.streak>=7,
+
+  quiz_master:
+   state.quizLevel>=5,
+
+  master:
+   completed>=10 &&
+   state.examPassed===true
+
+ };
+
+ achievementsList.forEach(a=>{
+
+  if(
+   conditions[a.id] &&
+   !state.achievements.includes(a.id)
+  ){
+
+   state.achievements.push(a.id);
+
+   state.xp+=a.xp;
+
+   state.coins+=a.coins;
+
+   if(a.id==="master"){
+
+    state.equippedItem=
+     "master_effect";
+
+    showMasterCelebration();
+
+   }else{
+
+    toast(
+     "🏆 Logro desbloqueado: "+
+     a.title
+    );
+
+   }
+
+  }
+
+ });
+
+ saveState();
+
+ updateStats();
+
+}
+
+function renderAchievements(){
+
+ checkAchievements();
+
+ const box=
+  document.getElementById(
+   "achievementsContainer"
+  );
+
+ if(!box)return;
+
+ box.innerHTML="";
+
+ achievementsList.forEach(a=>{
+
+  const unlocked=
+   state.achievements.includes(
+    a.id
+   );
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  if(
+   a.id==="master" &&
+   unlocked
+  ){
+
+   card.style.border=
+    "3px solid #f5b301";
+
+   card.style.boxShadow=
+    "0 0 25px rgba(245,179,1,.4)";
+
+  }
+
+  card.innerHTML=`
+
+   <div style="font-size:48px">
+    ${a.icon}
+   </div>
+
+   <h3>
+    ${a.title}
+   </h3>
+
+   <p class="muted"
+      style="margin-top:7px">
+    ${a.desc}
+   </p>
+
+   <p style="margin-top:10px">
+    ${
+     unlocked
+     ?"🏆 Desbloqueado"
+     :"🔒 Bloqueado"
+    }
+   </p>
+
+   <p class="muted"
+      style="margin-top:7px">
+
+    ⭐ ${a.xp}
+    · 🪙 ${a.coins}
+
+   </p>
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+function showMasterCelebration(){
+
+ showModal(`
+
+  <div style="
+   text-align:center">
+
+   <div style="
+    font-size:80px;
+    animation:masterPulse 1s infinite">
+
+    👑
+
+   </div>
+
+   <h1 style="
+    color:#f5b301">
+
+    ¡MAESTRO DE ENGLISH WORLD!
+
+   </h1>
+
+   <p style="
+    margin-top:12px;
+    font-size:18px">
+
+    ¡Completaste todo el contenido A1!
+
+   </p>
+
+   <p style="margin-top:12px">
+
+    ⭐ +500 XP
+    <br>
+    🪙 +500 monedas
+
+   </p>
+
+   <button
+    class="btn gold"
+    onclick="closeModal()">
+
+    👑 Continuar
+
+   </button>
+
+  </div>
+
+ `);
+
+}
+
+
+/* =========================================
+   COLECCIÓN
+========================================= */
+
+function renderCollection(){
+
+ const achievements=
+  document.getElementById(
+   "collectionAchievements"
+  );
+
+ const items=
+  document.getElementById(
+   "collectionItems"
+  );
+
+ if(achievements){
+
+  achievements.innerHTML="";
+
+  achievementsList.forEach(a=>{
+
+   const unlocked=
+    state.achievements.includes(
+     a.id
+    );
+
+   const card=
+    document.createElement("div");
+
+   card.className="card";
+
+   card.innerHTML=`
+
+    <div style="font-size:38px">
+     ${unlocked?a.icon:"❔"}
+    </div>
+
+    <b>
+     ${unlocked?a.title:"???"}
+    </b>
+
+   `;
+
+   achievements.appendChild(card);
+
+  });
+
+ }
+
+ if(items){
+
+  items.innerHTML="";
+
+  if(!state.inventory.length){
+
+   items.innerHTML=`
+
+    <div class="card">
+
+     <p class="muted">
+      Todavía no tienes objetos.
+     </p>
+
+    </div>
+
+   `;
+
+  }else{
+
+   state.inventory.forEach(id=>{
+
+    const item=
+     shopItems.find(
+      x=>x.id===id
+     );
+
+    if(!item)return;
+
+    const card=
+     document.createElement("div");
+
+    card.className="card";
+
+    card.innerHTML=`
+
+     <div style="font-size:40px">
+      ${item.icon}
+     </div>
+
+     <b>${item.name}</b>
+
+    `;
+
+    items.appendChild(card);
+
+   });
+
+  }
+
+ }
+
+}
+
+
+/* =========================================
+   REPASO
+========================================= */
+
+function renderReview(){
+
+ const box=
+  document.getElementById(
+   "reviewArea"
+  );
+
+ if(!box)return;
+
+ const difficult=
+  state.difficult || [];
+
+ if(!difficult.length){
+
+  box.innerHTML=`
+
+   <div class="card">
+
+    <h2>🎉 ¡Todo bien!</h2>
+
+    <p class="muted"
+       style="margin-top:8px">
+
+     No tienes palabras pendientes
+     de repaso.
+
+    </p>
+
+   </div>
+
+  `;
+
+  return;
+
+ }
+
+ box.innerHTML="";
+
+ difficult.forEach(word=>{
+
+  const card=
+   document.createElement("div");
+
+  card.className="card";
+
+  const found=
+   quizWords().find(
+    w=>w[0]===word
+   );
+
+  const spanish=
+   found
+   ?found[1]
+   :"Palabra";
+
+  card.innerHTML=`
+
+   <h2>${word}</h2>
+
+   <p>
+    🇪🇸 ${spanish}
+   </p>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${word}')">
+
+    🔊 Escuchar
+
+   </button>
+
+  `;
+
+  box.appendChild(card);
+
+ });
+
+}
+
+
+/* =========================================
+   EXPORTAR / IMPORTAR
+========================================= */
+
+function exportProgress(){
+
+ const data=
+  JSON.stringify(
+   state,
+   null,
+   2
+  );
+
+ const blob=
+  new Blob(
+   [data],
+   {type:"application/json"}
+  );
+
+ const url=
+  URL.createObjectURL(blob);
+
+ const a=
+  document.createElement("a");
+
+ a.href=url;
+
+ a.download=
+  "english-world-progreso.json";
+
+ a.click();
+
+ URL.revokeObjectURL(url);
+
+ toast("📤 Progreso exportado");
+
+}
+
+function importProgress(event){
+
+ const file=
+  event.target.files[0];
+
+ if(!file)return;
+
+ const reader=
+  new FileReader();
+
+ reader.onload=function(){
+
+  try{
+
+   const imported=
+    JSON.parse(
+     reader.result
+    );
+
+   if(
+    typeof imported!=="object" ||
+    imported===null
+   ){
+
+    throw new Error();
+
+   }
+
+   state={
+    ...state,
+    ...imported
+   };
+
+   saveState();
+
+   location.reload();
+
+  }catch(e){
+
+   toast(
+    "❌ Archivo inválido"
+   );
+
+  }
+
+ };
+
+ reader.readAsText(file);
+
+}
+
+
+/* =========================================
+   EXAMEN A1
+========================================= */
+
+let examQuestions=[];
+let examQuestion=0;
+let examCorrect=0;
+
+function startA1Exam(){
+
+ const all=
+  quizWords();
+
+ examQuestions=
+  shuffle(all).slice(0,20);
+
+ examQuestion=0;
+
+ examCorrect=0;
+
+ renderExamQuestion();
+
+}
+
+function renderExamQuestion(){
+
+ if(examQuestion>=20){
+
+  finishA1Exam();
+
+  return;
+
+ }
+
+ const item=
+  examQuestions[examQuestion];
+
+ const choices=
+  buildChoices(
+   item[1],
+   quizWords().map(w=>w[1])
+  );
+
+ showModal(`
+
+  <div class="questionBox">
+
+   <span class="badge">
+    📝 Examen A1
+   </span>
+
+   <span class="badge">
+    ${examQuestion+1}/20
+   </span>
+
+   <h2 style="margin-top:18px">
+    ¿Qué significa?
+   </h2>
+
+   <div class="question">
+    ${item[0]}
+   </div>
+
+   <button
+    class="btn secondary"
+    onclick="speakEnglish('${item[0]}')">
+
+    🔊 Escuchar
+
+   </button>
+
+   <div class="choices"
+        style="margin-top:18px">
+
+    ${choices.map(c=>`
+
+     <button
+      class="choice"
+      onclick="answerExam('${encodeURIComponent(c)}')">
+
+      ${c}
+
+     </button>
+
+    `).join("")}
+
+   </div>
+
+  </div>
+
+ `);
+
+}
+
+function answerExam(encoded){
+
+ const answer=
+  decodeURIComponent(encoded);
+
+ const item=
+  examQuestions[examQuestion];
+
+ if(
+  normalizeText(answer)===
+  normalizeText(item[1])
+ ){
+
+  examCorrect++;
+
+ }
+
+ examQuestion++;
+
+ renderExamQuestion();
+
+}
+
+function finishA1Exam(){
+
+ const score=
+  Math.round(
+   examCorrect/20*100
+  );
+
+ if(score>=70){
+
+  state.examPassed=true;
+
+  state.xp+=200;
+
+  state.coins+=100;
+
+  state.level=
+   Math.max(
+    state.level,
+    11
+   );
+
+  saveState();
+
+  updateStats();
+
+  checkAchievements();
+
+  showModal(`
+
+   <div style="text-align:center">
+
+    <div style="font-size:70px">
+     🏆
+    </div>
+
+    <h1>
+     ¡A1 aprobado!
+    </h1>
+
+    <h2 style="margin-top:10px">
+     ${score}%
+    </h2>
+
+    <p style="margin-top:12px">
+     Necesitabas 70%.
+    </p>
+
+    <p style="margin-top:12px">
+     ⭐ +200 XP
+     <br>
+     🪙 +100 monedas
+    </p>
+
+    <button
+     class="btn"
+     onclick="closeModal();go('levels')">
+
+     📚 Continuar
+
+    </button>
+
+   </div>
+
+  `);
+
+ }else{
+
+  showModal(`
+
+   <div style="text-align:center">
+
+    <div style="font-size:60px">
+     📖
+    </div>
+
+    <h1>
+     Aún no aprobado
+    </h1>
+
+    <h2 style="margin-top:10px">
+     ${score}%
+    </h2>
+
+    <p style="margin-top:12px">
+     Necesitas al menos 70%.
+    </p>
+
+    <button
+     class="btn"
+     onclick="startA1Exam()">
+
+     🔄 Repetir examen
+
+    </button>
+
+   </div>
+
+  `);
+
+ }
+
+}
+
+
+/* =========================================
+   ANIMACIONES
+========================================= */
+
+const finalStyle=
+ document.createElement("style");
+
+finalStyle.textContent=`
+
+@keyframes masterPulse{
+
+ 0%{
+  transform:scale(1);
+ }
+
+ 50%{
+  transform:scale(1.12);
+ }
+
+ 100%{
+  transform:scale(1);
+ }
+
+}
+
+`;
+
+document.head.appendChild(finalStyle);
+
+
+/* =========================================
+   ACTUALIZAR TODO
+========================================= */
+
+function refreshEverything(){
+
+ updateStats();
+ renderLevels();
+ renderLessons();
+ renderWords();
+ renderPhrases();
+ renderAchievements();
+ renderProfile();
+ renderShop();
+ renderInventory();
+ renderMissions();
+ renderCalendar();
+ renderCollection();
+ renderReview();
+
+}
+
+
+/* =========================================
+   PROTECCIÓN CONTRA DATOS ANTIGUOS
+========================================= */
+
+if(!Array.isArray(state.studyDays))
+ state.studyDays=[];
+
+if(!Array.isArray(state.mastered))
+ state.mastered=[];
+
+if(!Array.isArray(state.difficult))
+ state.difficult=[];
+
+if(!Array.isArray(state.errors))
+ state.errors=[];
+
+if(!Array.isArray(state.favorites))
+ state.favorites=[];
+
+if(!Array.isArray(state.achievements))
+ state.achievements=[];
+
+if(!Array.isArray(state.inventory))
+ state.inventory=[];
+
+if(!state.lessonProgress)
+ state.lessonProgress={};
+
+if(!state.lessonPosition)
+ state.lessonPosition={};
+
+if(!state.lessonMistakes)
+ state.lessonMistakes={};
+
+if(!state.lessonRewarded)
+ state.lessonRewarded={};
+
+if(!state.missions)
+ state.missions={};
+
+
+/* =========================================
+   INICIO FINAL
+========================================= */
+
+applyTheme();
+
+setupCategories();
+
+updateStats();
+
+renderLevels();
+
+renderLessons();
+
+renderWords();
+
+renderPhrases();
+
+renderQuiz();
+
+renderListening();
+
+renderWriting();
+
+renderAchievements();
+
+renderProfile();
+
+renderShop();
+
+renderInventory();
+
+renderMissions();
+
+renderCalendar();
+
+renderCollection();
+
+renderReview();
+
+saveState();
+
+</script>
+
+</body>
+</html>
