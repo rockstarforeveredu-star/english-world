@@ -72,17 +72,24 @@ body{
 .stats{
   margin-left:auto;
   display:flex;
-  gap:8px;
+  align-items:center;
+  gap:7px;
   flex-wrap:wrap;
   justify-content:flex-end;
 }
 
 .stat{
-  background:var(--bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  background:var(--card);
   border:1px solid var(--border);
-  padding:7px 10px;
-  border-radius:10px;
+  padding:8px 11px;
+  border-radius:12px;
   font-size:13px;
+  font-weight:700;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
   white-space:nowrap;
 }
 
@@ -486,12 +493,26 @@ body.dark .feedback.bad{
   }
 
   .stats{
-    gap:4px;
+    gap:5px;
+    max-width:100%;
   }
 
   .stat{
-    padding:5px 7px;
+    gap:4px;
+    padding:6px 8px;
     font-size:11px;
+    border-radius:10px;
+  }
+
+  .stat.profileTop{
+    max-width:135px;
+    overflow:hidden;
+  }
+
+  #topName{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
 
   .hero h1{
@@ -544,10 +565,6 @@ body.dark .feedback.bad{
 
     <div class="stat">
       🪙 <span id="topCoins">100</span>
-    </div>
-
-    <div class="stat">
-      📚 <span id="topLevel">A1</span>
     </div>
 
     <div class="stat">
@@ -924,17 +941,61 @@ body.dark .feedback.bad{
 
 </section>
 
+
 <!-- SHOP -->
 
 <section id="shop" class="page">
 
   <h1>🛒 Tienda</h1>
 
-  <p style="color:var(--muted);margin:8px 0 20px">
-    Usa tus monedas para conseguir objetos especiales.
-  </p>
+  <div class="card" style="
+    margin-top:20px;
+    padding:28px 20px;
+    text-align:center;
+    border:1px solid rgba(245,158,11,.35);
+    background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(249,115,22,.08));
+    border-radius:18px;
+  ">
 
-  <div id="shopList" class="grid"></div>
+    <div style="font-size:56px;margin-bottom:12px">
+      🛠️
+    </div>
+
+    <h2 style="margin:0 0 12px">
+      ¡Tienda en mantenimiento!
+    </h2>
+
+    <p style="
+      color:var(--muted);
+      line-height:1.7;
+      margin:0 0 18px;
+    ">
+      Estamos preparando nuevas mejoras para English World.
+      Pronto podrás volver a disfrutar de nuevos artículos
+      y recompensas.
+    </p>
+
+    <div style="
+      display:inline-block;
+      padding:10px 16px;
+      border-radius:12px;
+      background:rgba(245,158,11,.15);
+      color:#f59e0b;
+      font-weight:bold;
+      font-size:13px;
+    ">
+      🔒 TIENDA TEMPORALMENTE CERRADA
+    </div>
+
+    <p style="
+      color:var(--muted);
+      font-size:13px;
+      margin:18px 0 0;
+    ">
+      ¡Gracias por tu paciencia! ❤️
+    </p>
+
+  </div>
 
 </section>
 
@@ -972,9 +1033,27 @@ body.dark .feedback.bad{
 
 <section id="collection" class="page">
 
-  <h1>✨ Colección</h1>
+  <div class="card" style="max-width:650px;margin:35px auto;text-align:center;padding:30px 22px;border-radius:20px;background:#dbeafe">
 
-  <div id="collectionList" class="grid" style="margin-top:18px"></div>
+    <div style="font-size:65px;margin-bottom:15px">🏆</div>
+
+    <h1 style="margin-bottom:12px">¡Se está preparando algo especial!</h1>
+
+    <p style="color:var(--muted);line-height:1.8;margin:15px 0">
+      Estamos creando una nueva experiencia para tu colección.
+      Muy pronto podrás descubrir sorpresas, reunir elementos especiales
+      y celebrar cada paso de tu aventura aprendiendo inglés.
+    </p>
+
+    <div style="display:inline-block;margin:12px 0;padding:10px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--border);font-weight:bold">
+      ✨ NUEVAS SORPRESAS EN CAMINO
+    </div>
+
+    <p style="margin-top:16px">
+      Sigue aprendiendo: ¡cada palabra te acerca a algo grande! 🌎
+    </p>
+
+  </div>
 
 </section>
 
@@ -1223,7 +1302,7 @@ function updateStats(){
 
   document.getElementById("topXP").textContent=state.xp;
   document.getElementById("topCoins").textContent=state.coins;
-  document.getElementById("topLevel").textContent=state.level;
+  if(document.getElementById("topLevel")) document.getElementById("topLevel").textContent=state.level;
   document.getElementById("topStreak").textContent=state.streak;
 
   document.getElementById("homeXP").textContent=state.xp+" XP";
@@ -1830,6 +1909,107 @@ const extraWords=[
 ["worried","preocupado","Emociones"],
 ["love","amor","Emociones"],
 ["hope","esperanza","Emociones"],
+
+["dog","perro","Animales"],
+["cat","gato","Animales"],
+["puppy","cachorro de perro","Animales"],
+["kitten","gatito","Animales"],
+["cow","vaca","Animales"],
+["bull","toro","Animales"],
+["calf","ternero","Animales"],
+["horse","caballo","Animales"],
+["pony","poni","Animales"],
+["donkey","burro","Animales"],
+["mule","mula","Animales"],
+["pig","cerdo","Animales"],
+["boar","jabalí","Animales"],
+["sheep","oveja","Animales"],
+["lamb","cordero","Animales"],
+["goat","cabra","Animales"],
+["chicken","pollo","Animales"],
+["rooster","gallo","Animales"],
+["hen","gallina","Animales"],
+["chick","pollito","Animales"],
+["duck","pato","Animales"],
+["goose","ganso","Animales"],
+["turkey","pavo","Animales"],
+["pigeon","paloma","Animales"],
+["dove","tórtola","Animales"],
+["parrot","loro","Animales"],
+["canary","canario","Animales"],
+["eagle","águila","Animales"],
+["hawk","halcón","Animales"],
+["owl","búho","Animales"],
+["crow","cuervo","Animales"],
+["sparrow","gorrión","Animales"],
+["swan","cisne","Animales"],
+["flamingo","flamenco","Animales"],
+["penguin","pingüino","Animales"],
+["ostrich","avestruz","Animales"],
+["peacock","pavo real","Animales"],
+["bat","murciélago","Animales"],
+["rabbit","conejo","Animales"],
+["hare","liebre","Animales"],
+["mouse","ratón","Animales"],
+["rat","rata","Animales"],
+["squirrel","ardilla","Animales"],
+["hamster","hámster","Animales"],
+["guinea pig","cobaya","Animales"],
+["beaver","castor","Animales"],
+["deer","venado","Animales"],
+["moose","alce","Animales"],
+["elk","ciervo","Animales"],
+["reindeer","reno","Animales"],
+["bear","oso","Animales"],
+["panda","panda","Animales"],
+["polar bear","oso polar","Animales"],
+["wolf","lobo","Animales"],
+["fox","zorro","Animales"],
+["coyote","coyote","Animales"],
+["jackal","chacal","Animales"],
+["lion","león","Animales"],
+["tiger","tigre","Animales"],
+["leopard","leopardo","Animales"],
+["cheetah","guepardo","Animales"],
+["jaguar","jaguar","Animales"],
+["panther","pantera","Animales"],
+["lynx","lince","Animales"],
+["hyena","hiena","Animales"],
+["elephant","elefante","Animales"],
+["giraffe","jirafa","Animales"],
+["zebra","cebra","Animales"],
+["rhinoceros","rinoceronte","Animales"],
+["hippopotamus","hipopótamo","Animales"],
+["kangaroo","canguro","Animales"],
+["koala","koala","Animales"],
+["wombat","wombat","Animales"],
+["monkey","mono","Animales"],
+["gorilla","gorila","Animales"],
+["chimpanzee","chimpancé","Animales"],
+["orangutan","orangután","Animales"],
+["lemur","lémur","Animales"],
+["sloth","perezoso","Animales"],
+["anteater","oso hormiguero","Animales"],
+["armadillo","armadillo","Animales"],
+["porcupine","puercoespín","Animales"],
+["hedgehog","erizo","Animales"],
+["otter","nutria","Animales"],
+["seal","foca","Animales"],
+["sea lion","león marino","Animales"],
+["walrus","morsa","Animales"],
+["dolphin","delfín","Animales"],
+["whale","ballena","Animales"],
+["shark","tiburón","Animales"],
+["octopus","pulpo","Animales"],
+["squid","calamar","Animales"],
+["crab","cangrejo","Animales"],
+["lobster","langosta","Animales"],
+["shrimp","camarón","Animales"],
+["jellyfish","medusa","Animales"],
+["starfish","estrella de mar","Animales"],
+["seahorse","caballito de mar","Animales"],
+["turtle","tortuga","Animales"],
+["tortoise","tortuga terrestre","Animales"],
 
 ["big","grande","Adjetivos"],
 ["small","pequeño","Adjetivos"],
@@ -4827,6 +5007,14 @@ function renderWords(){
 
     return categoryOK && searchOK;
 
+  }).sort((a,b)=>{
+    const aNum=/^\d/.test(a[1].trim());
+    const bNum=/^\d/.test(b[1].trim());
+
+    if(aNum && !bNum) return 1;
+    if(!aNum && bNum) return -1;
+
+    return a[1].localeCompare(b[1],"es",{sensitivity:"base"});
   });
 
   const box=document.getElementById("wordsList");
@@ -5833,6 +6021,18 @@ function getListeningChoices(item){
   return shuffle([item,...others]);
 }
 
+
+function closeListening(){
+  if("speechSynthesis" in window){
+    speechSynthesis.cancel();
+  }
+
+  listeningCurrent = null;
+  listeningAnswered = false;
+
+  renderListening();
+}
+
 function renderListeningQuestion(){
 
   if(!listeningCurrent){
@@ -5868,6 +6068,14 @@ function renderListeningQuestion(){
         <span style="color:var(--muted)">
           ${number} / ${total}
         </span>
+
+        <button
+          class="closeBtn"
+          onclick="closeListening()"
+          aria-label="Salir de Listening"
+          title="Salir de Listening">
+          ×
+        </button>
 
       </div>
 
@@ -7818,6 +8026,66 @@ function addRandomSpecial(){
 
 
 function renderInventory(){
+
+  const inventoryBox = document.getElementById("inventoryList");
+
+  if (inventoryBox) {
+    inventoryBox.innerHTML = `
+      <div class="card" style="
+        grid-column:1/-1;
+        padding:28px 20px;
+        text-align:center;
+        border:1px solid rgba(52,211,153,.30);
+        border-radius:18px;
+        background:linear-gradient(
+          135deg,
+          rgba(16,185,129,.12),
+          rgba(20,184,166,.06)
+        );
+      ">
+        <div style="font-size:56px;margin-bottom:14px">
+          🎒
+        </div>
+
+        <h2 style="margin:0 0 12px">
+          ¡Preparamos algo nuevo!
+        </h2>
+
+        <p style="
+          color:var(--muted);
+          line-height:1.7;
+          margin:0 0 18px;
+        ">
+          Tu inventario está evolucionando.
+          Estamos preparando nuevas utilidades,
+          objetos especiales y recompensas para
+          acompañarte en tu aprendizaje de inglés.
+        </p>
+
+        <div style="
+          display:inline-block;
+          padding:10px 16px;
+          border-radius:12px;
+          background:rgba(52,211,153,.12);
+          color:#34d399;
+          font-weight:bold;
+          font-size:13px;
+        ">
+          ✨ NUEVAS FUNCIONES PRÓXIMAMENTE
+        </div>
+
+        <p style="
+          color:var(--muted);
+          font-size:13px;
+          margin:18px 0 0;
+        ">
+          ¡Gracias por seguir aprendiendo con nosotros! 💚
+        </p>
+      </div>
+    `;
+  }
+
+  return;
 
   if(!state.inventory.length){
 
