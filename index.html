@@ -527,10 +527,1073 @@ body.dark .feedback.bad{
     grid-template-columns:1fr;
   }
 }
+
+/* ===== ENGLISH WORLD: DASHBOARD REDISENADO ===== */
+.ewHome{max-width:100%;color:var(--text)}
+.ewHero{
+  position:relative;isolation:isolate;overflow:hidden;
+  padding:clamp(25px,5vw,42px);
+  border-radius:27px;
+  color:#fff;
+  background:linear-gradient(118deg,#32216f 0%,#6342c7 52%,#2678cb 100%);
+  border:1px solid rgba(255,255,255,.17);
+  box-shadow:0 18px 48px rgba(72,53,157,.22);
+}
+.ewHeroOrb{
+  position:absolute;z-index:-1;right:-60px;top:-95px;
+  width:270px;height:270px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);
+  box-shadow:0 0 0 28px rgba(255,255,255,.045),0 0 0 62px rgba(255,255,255,.03);
+}
+.ewEyebrow{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:1.7px;color:#ddd6fe;margin-bottom:21px}
+.ewLiveDot{width:8px;height:8px;border-radius:50%;background:#67e8f9;box-shadow:0 0 12px #67e8f9}
+.ewHero h1{font-size:clamp(29px,5vw,43px);line-height:1.13;letter-spacing:-1px;margin-bottom:14px}
+.ewHero h1 span{color:#d8ccff}
+.ewHero>p{max-width:540px;font-size:15px;line-height:1.75;color:#eeeaff}
+.ewHeroActions{display:flex;align-items:center;gap:17px;flex-wrap:wrap;margin-top:25px}
+.ewHero .ewMainAction{background:#fff;color:#39257e;border:0;border-radius:13px;padding:13px 17px;font-weight:800;box-shadow:0 7px 20px rgba(18,10,56,.2)}
+.ewMainAction span{margin-left:8px;font-size:18px}
+.ewHeroHint{font-size:12px;color:#e4ddff}
+.ewHeroDecoration{position:absolute;right:35px;bottom:24px;font-weight:900;font-size:32px;letter-spacing:8px;color:rgba(255,255,255,.14);transform:rotate(-8deg)}
+.ewHeroDecoration span{color:rgba(255,255,255,.5)}
+.ewSectionHeading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:30px 0 15px}
+.ewSectionHeading h2{font-size:22px;letter-spacing:-.4px;margin-top:4px}
+.ewKicker{font-size:10px;letter-spacing:1.7px;font-weight:800;color:#8b78ed}
+.ewHeadingIcon{display:grid;place-items:center;width:37px;height:37px;border:1px solid var(--border);border-radius:12px;color:#9a86ff;background:var(--card)}
+.ewStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ewStatCard{
+  min-width:0;padding:18px;border:1px solid var(--border);border-radius:19px;
+  background:var(--card);box-shadow:0 7px 22px rgba(30,41,75,.055);
+}
+.ewStatTop{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:17px}
+.ewStatIcon{display:grid;place-items:center;width:39px;height:39px;border-radius:13px;background:rgba(139,92,246,.13);font-size:20px}
+.ewStatTag{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--muted)}
+.ewStatLabel{font-size:12px;color:var(--muted);margin-bottom:7px}
+.ewStatCard strong{display:block;font-size:clamp(22px,3vw,29px);line-height:1.25;letter-spacing:-.5px;color:var(--text);overflow-wrap:anywhere}
+.ewStatCard small{display:block;margin-top:9px;font-size:11px;color:var(--muted)}
+.ewStreakCard{border-top:3px solid #fb923c}
+.ewXpCard{border-top:3px solid #8b5cf6}
+.ewLessonCard{border-top:3px solid #38bdf8}
+.ewPracticeHeading{margin-top:34px}
+.ewHeadingSub{font-size:12px;color:var(--muted)}
+.ewQuickGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ewQuickCard{
+  min-width:0;display:grid;grid-template-columns:49px minmax(0,1fr);gap:0 13px;
+  padding:19px;border:1px solid var(--border);border-radius:19px;background:var(--card);
+  box-shadow:0 7px 22px rgba(30,41,75,.045);transition:transform .18s,border-color .18s;
+}
+.ewQuickIcon{width:47px;height:47px;display:grid;place-items:center;border-radius:15px;background:rgba(139,92,246,.13);font-size:23px}
+.ewQuickText h3{font-size:16px;margin:3px 0 7px}
+.ewQuickText p{font-size:12px;line-height:1.65;color:var(--muted)}
+.ewQuickButton{
+  grid-column:2;margin-top:15px;justify-self:start;display:flex;align-items:center;gap:12px;
+  padding:8px 12px;border:1px solid var(--border);border-radius:10px;
+  color:var(--text);background:var(--bg);font:700 12px Arial,sans-serif;cursor:pointer;
+}
+.ewQuickButton span{font-size:16px;color:#9b85ff}
+.ewListening .ewQuickIcon{background:rgba(56,189,248,.14)}
+.ewWriting .ewQuickIcon{background:rgba(251,191,36,.15)}
+.ewQuiz .ewQuickIcon{background:rgba(167,139,250,.17)}
+.ewDictionary .ewQuickIcon{background:rgba(52,211,153,.14)}
+.ewEncouragement{display:flex;align-items:center;gap:14px;margin-top:18px;padding:17px;border:1px solid var(--border);border-radius:17px;background:var(--card)}
+.ewEncouragementIcon{flex-shrink:0;width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:rgba(139,92,246,.14);color:#a78bfa;font-size:22px}
+.ewEncouragement strong{font-size:13px}
+.ewEncouragement p{font-size:12px;color:var(--muted);line-height:1.6;margin-top:5px}
+body.dark .ewStatCard,body.dark .ewQuickCard,body.dark .ewEncouragement{box-shadow:0 9px 28px rgba(0,0,0,.16)}
+@media(hover:hover){
+  .ewQuickCard:hover{transform:translateY(-3px);border-color:#9380f3}
+  .ewQuickButton:hover{border-color:#9380f3}
+}
+@media(max-width:700px){
+  .ewHero{padding:25px 19px;border-radius:22px}
+  .ewEyebrow{font-size:9px;letter-spacing:1.2px;margin-bottom:17px}
+  .ewHero h1{font-size:29px;letter-spacing:-.6px}
+  .ewHero>p{font-size:13px}
+  .ewHeroActions{align-items:flex-start;gap:12px;margin-top:21px}
+  .ewHeroHint{align-self:center}
+  .ewHeroDecoration{right:15px;bottom:14px;font-size:24px}
+  .ewSectionHeading{margin-top:25px}
+  .ewSectionHeading h2{font-size:20px}
+  .ewStats{gap:8px}
+  .ewStatCard{padding:12px 10px;border-radius:15px}
+  .ewStatTop{align-items:flex-start;flex-direction:column;gap:8px;margin-bottom:12px}
+  .ewStatIcon{width:34px;height:34px;border-radius:11px;font-size:18px}
+  .ewStatTag{font-size:8px;letter-spacing:.5px}
+  .ewStatLabel{font-size:10px;min-height:25px}
+  .ewStatCard strong{font-size:clamp(17px,5vw,23px)}
+  .ewStatCard small{font-size:10px;line-height:1.4}
+  .ewQuickGrid{grid-template-columns:1fr;gap:10px}
+  .ewQuickCard{padding:16px;border-radius:16px}
+  .ewHeadingSub{display:none}
+}
+
+
+/* ===== ENGLISH WORLD: RESTO DE LA APP PREMIUM ===== */
+.page > h1{
+  font-size:clamp(25px,4vw,32px);
+  letter-spacing:-.6px;
+  line-height:1.25;
+  margin-bottom:9px;
+}
+.page > p{
+  line-height:1.7;
+}
+.page .sectionTitle{
+  letter-spacing:-.3px;
+}
+.page .card{
+  position:relative;
+  overflow:hidden;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.page .card h3{
+  line-height:1.4;
+}
+.page .card p{
+  font-size:14px;
+}
+.page .word{
+  padding:15px 12px;
+  gap:12px;
+  transition:background .15s ease;
+}
+.page .word:hover{
+  background:var(--bg);
+}
+.page .wordEnglish{
+  font-size:15px;
+  line-height:1.5;
+}
+.page .wordSpanish{
+  font-size:13px;
+  line-height:1.5;
+}
+.page .search{
+  min-height:47px;
+  font:inherit;
+  border-radius:14px;
+  transition:border-color .18s,box-shadow .18s;
+}
+.page .search:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(128,100,255,.14);
+}
+.page .filter{
+  transition:background .15s,border-color .15s;
+}
+.page .choice{
+  border-radius:14px;
+  line-height:1.5;
+  transition:border-color .15s,transform .15s,background .15s;
+}
+.page .audioBtn{
+  flex-shrink:0;
+  transition:transform .15s,border-color .15s;
+}
+.page .btn{
+  transition:filter .15s,transform .15s,box-shadow .15s;
+}
+.page .progress{
+  height:12px;
+  border-radius:30px;
+}
+.page .progressBar{
+  border-radius:30px;
+  transition:width .35s ease;
+}
+.page .lessonCard{
+  align-items:flex-start;
+  padding:18px;
+}
+.page .lessonNumber{
+  flex-shrink:0;
+}
+.sidebar{
+  box-shadow:12px 0 38px rgba(15,23,42,.08);
+}
+.sidebar h3{
+  letter-spacing:1px;
+}
+.navBtn{
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.overlay{
+  backdrop-filter:blur(3px);
+}
+.modal{
+  max-width:700px;
+  border:1px solid var(--border);
+  box-shadow:0 24px 70px rgba(15,23,42,.20);
+}
+.modalHeader{
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+.feedback{
+  line-height:1.6;
+}
+.toast{
+  max-width:calc(100vw - 30px);
+  text-align:center;
+  line-height:1.5;
+}
+body.dark .sidebar{
+  box-shadow:12px 0 38px rgba(0,0,0,.22);
+}
+body.dark .modal{
+  box-shadow:0 24px 70px rgba(0,0,0,.35);
+}
+@media(hover:hover){
+  .page .card:hover{
+    transform:translateY(-2px);
+    border-color:var(--primary);
+    box-shadow:0 12px 28px rgba(37,49,85,.09);
+  }
+  .page .choice:hover{
+    transform:translateY(-1px);
+    border-color:var(--primary);
+  }
+  .page .audioBtn:hover{
+    transform:scale(1.04);
+    border-color:var(--primary);
+  }
+  .page .btn:hover{
+    transform:translateY(-1px);
+  }
+}
+@media(max-width:700px){
+  .page > h1{
+    font-size:25px;
+  }
+  .page .card p{
+    font-size:13px;
+  }
+  .page .word{
+    padding:13px 8px;
+  }
+  .page .lessonCard{
+    padding:15px;
+    gap:12px;
+  }
+  .modal{
+    padding:17px;
+    border-radius:18px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .page .card,.page .btn,.page .choice,.page .audioBtn,
+  .page .search,.page .progressBar{
+    transition:none;
+  }
+}
+
+
+/* ===== ENGLISH WORLD: APP BAR Y NAVEGACION ===== */
+
+/* El tema claro conserva una apariencia clara y legible */
+:root{
+  --bg:#f3f5fc;
+  --card:#ffffff;
+  --text:#18223a;
+  --muted:#64718a;
+  --primary:#7052e8;
+  --primary2:#593bd0;
+  --border:#e0e5f0;
+  --success:#16a777;
+  --danger:#e34e69;
+  --gold:#f4b52c;
+}
+body:not(.dark){
+  background:
+    radial-gradient(ellipse at 0% 0%,rgba(125,95,245,.09),transparent 38%),
+    radial-gradient(ellipse at 100% 10%,rgba(47,142,230,.07),transparent 34%),
+    var(--bg);
+  color:var(--text);
+}
+body.dark{
+  --bg:#080d1b;
+  --card:#111a2e;
+  --text:#f1f5ff;
+  --muted:#9aa9c5;
+  --primary:#8064ff;
+  --primary2:#6747e8;
+  --border:#273451;
+  --success:#22c997;
+  --danger:#fb7185;
+  --gold:#fbbf24;
+}
+
+/* Barra superior */
+.topbar{
+  min-height:64px;
+  padding:10px 16px;
+  gap:12px;
+  background:rgba(13,20,38,.94);
+  border-bottom:1px solid rgba(137,153,198,.2);
+  box-shadow:0 5px 22px rgba(15,23,42,.08);
+  backdrop-filter:blur(16px);
+}
+.logo{
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:-.35px;
+}
+.menuBtn{
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  width:42px;
+  height:42px;
+  border:1px solid rgba(167,139,250,.22);
+  border-radius:13px;
+  background:rgba(128,100,255,.14);
+  color:#e9e3ff;
+  transition:background .18s,transform .18s;
+}
+.stats{gap:7px}
+.stat{
+  border-radius:13px;
+  background:linear-gradient(145deg,#1a2540,#111a2e);
+  border-color:#2c3958;
+  color:#f1f5ff;
+}
+.stat.profileTop{gap:7px}
+
+/* Navegación lateral */
+.sidebar{
+  width:min(290px,86vw);
+  padding:76px 14px 24px;
+  background:#0e172a;
+  border-right:1px solid #293653;
+  box-shadow:14px 0 40px rgba(0,0,0,.2);
+}
+.sidebar h3{
+  margin:18px 10px 9px;
+  font-size:10px;
+  letter-spacing:1.5px;
+  color:#8f9fbe;
+}
+.navBtn{
+  min-height:46px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px 13px;
+  margin-bottom:5px;
+  border:1px solid transparent;
+  border-radius:13px;
+  color:#dce5fb;
+  font-size:14px;
+  font-weight:600;
+  transition:background .18s,border-color .18s,transform .18s;
+}
+.navBtn:hover,.navBtn:focus-visible{
+  background:linear-gradient(100deg,rgba(128,100,255,.2),rgba(45,112,200,.1));
+  border-color:rgba(154,135,255,.24);
+  outline:none;
+}
+.overlay{
+  background:rgba(3,7,18,.65);
+  backdrop-filter:blur(4px);
+}
+
+/* Ajustes para que el tema claro cambie también los componentes */
+body:not(.dark) .topbar{
+  background:rgba(255,255,255,.94);
+  border-bottom-color:#e0e5f0;
+}
+body:not(.dark) .logo{color:#18223a}
+body:not(.dark) .menuBtn{
+  color:#6548d9;
+  background:#f0ebff;
+  border-color:#e0d8ff;
+}
+body:not(.dark) .stat{
+  background:#fff;
+  border-color:#e0e5f0;
+  color:#18223a;
+  box-shadow:0 4px 14px rgba(37,50,90,.06);
+}
+body:not(.dark) .sidebar{
+  background:#fff;
+  border-right-color:#e0e5f0;
+  box-shadow:12px 0 35px rgba(30,41,59,.12);
+}
+body:not(.dark) .sidebar h3{color:#7a6bb3}
+body:not(.dark) .navBtn{color:#28334c}
+body:not(.dark) .navBtn:hover,
+body:not(.dark) .navBtn:focus-visible{
+  background:#f0edff;
+  border-color:#e0d8ff;
+}
+body:not(.dark) .card{
+  background:#fff;
+  border-color:#e0e5f0;
+  box-shadow:0 7px 22px rgba(30,41,75,.055);
+}
+body:not(.dark) .ewStatCard,
+body:not(.dark) .ewQuickCard,
+body:not(.dark) .ewEncouragement{
+  background:#fff;
+  border-color:#e0e5f0;
+  box-shadow:0 7px 22px rgba(30,41,75,.055);
+}
+body:not(.dark) .search,
+body:not(.dark) .choice,
+body:not(.dark) .audioBtn,
+body:not(.dark) .filter{
+  background:#fff;
+  color:#18223a;
+  border-color:#dce3ef;
+}
+body:not(.dark) .ewQuickButton{
+  background:#f5f6fc;
+  color:#26324a;
+  border-color:#e0e5f0;
+}
+body:not(.dark) .modal{
+  background:#fff;
+  border-color:#e0e5f0;
+}
+body:not(.dark) .progress{
+  background:#e9edf7;
+  border-color:#dce3ef;
+}
+
+/* Toques y navegación en pantallas pequeñas */
+@media(hover:hover){
+  .menuBtn:hover{background:rgba(128,100,255,.25)}
+  .navBtn:hover{transform:translateX(2px)}
+}
+@media(max-width:700px){
+  .topbar{
+    min-height:57px;
+    padding:8px 10px;
+    gap:8px;
+  }
+  .logo{font-size:15px}
+  .menuBtn{width:38px;height:38px;border-radius:12px;font-size:22px}
+  .stats{gap:4px}
+  .stat{padding:5px 7px}
+  .sidebar{padding-top:68px}
+}
+@media(prefers-reduced-motion:reduce){
+  .menuBtn,.navBtn{transition:none}
+}
+
+
+/* English World: acceso y cuenta Google */
+#ewAuthGate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(135deg,#0f172a,#1d4ed8);color:#172033;font-family:Arial,Helvetica,sans-serif}
+#ewAuthGate[hidden]{display:none!important}
+.ew-auth-card{width:min(100%,430px);background:#fff;border-radius:24px;padding:28px;box-shadow:0 24px 70px #0005;text-align:center}
+.ew-auth-logo{font-size:42px;margin-bottom:8px}.ew-auth-card h1{font-size:27px;margin:8px 0 10px}.ew-auth-card p{color:#64748b;line-height:1.5;margin:8px 0 18px}
+.ew-auth-btn{width:100%;border:0;border-radius:12px;padding:14px 16px;font-size:16px;font-weight:700;cursor:pointer;background:#2563eb;color:#fff;margin-top:8px}
+.ew-auth-btn.secondary{background:#e2e8f0;color:#172033}.ew-auth-status{font-size:13px;min-height:20px;color:#475569;margin-top:12px;overflow-wrap:anywhere}
+.ew-auth-user{font-size:13px;color:#64748b;margin-top:10px;overflow-wrap:anywhere}
+
 </style>
+
+<style>
+/* ENGLISH WORLD - PERFIL SUPERIOR PREMIUM */
+
+.topbar{
+  gap:12px !important;
+  align-items:center !important;
+  padding:12px 16px !important;
+  flex-wrap:nowrap;
+}
+
+.topbar .logo{
+  font-weight:850 !important;
+  letter-spacing:-.4px;
+  white-space:nowrap;
+}
+
+.topbar .stats{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:flex-end;
+  gap:8px !important;
+  min-width:0;
+  margin-left:auto;
+}
+
+.topbar .stats .stat{
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  min-height:38px;
+  padding:6px 11px !important;
+  border-radius:14px !important;
+  font-size:13px;
+  font-weight:750;
+  white-space:nowrap;
+  border:1px solid rgba(167,139,250,.24) !important;
+  background:rgba(124,92,220,.12) !important;
+  box-shadow:0 3px 12px rgba(30,20,70,.06);
+}
+
+.topbar .stats .profileTop{
+  justify-content:flex-start;
+  gap:9px !important;
+  max-width:175px;
+  padding:5px 12px 5px 6px !important;
+  border-radius:24px !important;
+  background:linear-gradient(135deg,rgba(124,92,220,.20),rgba(59,130,246,.10)) !important;
+}
+
+#topAvatar{
+  width:38px !important;
+  height:38px !important;
+  min-width:38px;
+  border:2px solid #A78BFA;
+  box-shadow:0 0 0 3px rgba(167,139,250,.13);
+  font-size:23px !important;
+  background:linear-gradient(135deg,#352565,#253d72);
+}
+
+#topAvatar img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover;
+}
+
+#topName{
+  display:block;
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-weight:800;
+  font-size:13px;
+}
+
+#topXP{
+  color:#A78BFA;
+  font-weight:850;
+  font-variant-numeric:tabular-nums;
+}
+
+#topCoins{
+  color:#EABF55;
+  font-weight:850;
+  font-variant-numeric:tabular-nums;
+}
+
+#topStreak{
+  color:#FB923C;
+  font-weight:850;
+  font-variant-numeric:tabular-nums;
+}
+
+body:not(.dark) .topbar .stats .stat{
+  background:rgba(124,92,220,.07) !important;
+  border-color:rgba(109,88,190,.16) !important;
+  box-shadow:0 3px 12px rgba(50,40,90,.05);
+}
+
+body:not(.dark) .topbar .stats .profileTop{
+  background:linear-gradient(135deg,#F0EAFE,#EAF1FF) !important;
+}
+
+/* Pantallas de celular: indicadores compactos debajo de la marca */
+@media(max-width:650px){
+  .topbar{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    gap:9px !important;
+    padding:10px 12px !important;
+  }
+
+  .topbar .menuBtn{
+    flex-shrink:0;
+  }
+
+  .topbar .logo{
+    font-size:16px !important;
+    margin-right:auto;
+  }
+
+  .topbar .stats{
+    order:3;
+    width:100%;
+    flex:0 0 100%;
+    display:grid !important;
+    grid-template-columns:minmax(0,1.45fr) repeat(3,minmax(0,.68fr));
+    gap:6px !important;
+    margin:0 !important;
+  }
+
+  .topbar .stats .stat{
+    min-width:0;
+    min-height:35px;
+    padding:5px 6px !important;
+    gap:4px;
+    border-radius:12px !important;
+    font-size:12px;
+  }
+
+  .topbar .stats .profileTop{
+    max-width:none;
+    padding:4px 7px !important;
+    gap:7px !important;
+    border-radius:20px !important;
+  }
+
+  #topAvatar{
+    width:32px !important;
+    height:32px !important;
+    min-width:32px;
+    font-size:20px !important;
+  }
+
+  #topName{
+    font-size:12px;
+  }
+}
+
+@media(max-width:360px){
+  .topbar .logo{
+    font-size:14px !important;
+  }
+
+  .topbar .stats{
+    grid-template-columns:minmax(0,1.3fr) repeat(3,minmax(0,.7fr));
+    gap:4px !important;
+  }
+
+  .topbar .stats .stat{
+    padding:5px 4px !important;
+    font-size:11px;
+  }
+
+  #topName{
+    font-size:11px;
+  }
+}
+</style>
+
+
+<style>
+/* ENGLISH WORLD - MENU LATERAL PREMIUM V2 */
+.sidebar h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 23px 8px 10px;
+  padding: 0 5px 9px;
+  border-bottom: 1px solid rgba(148,163,184,.18);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.sidebar .navBtn {
+  width: 100%;
+  min-height: 47px;
+  margin: 0 0 6px;
+  padding: 11px 13px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: rgba(128,100,255,.055);
+  color: #dce5fb;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .18s ease, border-color .18s ease,
+              box-shadow .18s ease, transform .18s ease;
+}
+
+.sidebar .navBtn:active {
+  transform: scale(.985);
+  background: rgba(128,100,255,.22);
+}
+
+.sidebar .navBtn:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+}
+
+.sidebar .navBtn.active {
+  background: linear-gradient(
+    105deg, rgba(128,100,255,.25), rgba(45,112,200,.13)
+  );
+  border-color: rgba(167,139,250,.42);
+  box-shadow: inset 3px 0 0 #9b87ff;
+}
+
+body:not(.dark) .sidebar .navBtn {
+  background: #f7f6ff;
+  color: #28334c;
+  border-color: #ece9fb;
+  box-shadow: 0 2px 7px rgba(37,50,90,.025);
+}
+
+body:not(.dark) .sidebar .navBtn:active,
+body:not(.dark) .sidebar .navBtn.active {
+  background: linear-gradient(105deg,#eee9ff,#edf4ff);
+  border-color: #d8ceff;
+  box-shadow: inset 3px 0 0 #8064ff;
+}
+
+body:not(.dark) .sidebar h3 {
+  border-bottom-color: #e9e5f5;
+}
+
+@media (hover:hover) {
+  .sidebar .navBtn:hover {
+    transform: translateX(3px);
+    background: linear-gradient(
+      100deg, rgba(128,100,255,.19), rgba(45,112,200,.10)
+    );
+    border-color: rgba(154,135,255,.3);
+    box-shadow: 0 5px 14px rgba(0,0,0,.08);
+  }
+
+  body:not(.dark) .sidebar .navBtn:hover {
+    background: linear-gradient(100deg,#f0edff,#edf4ff);
+    border-color: #ded6ff;
+    box-shadow: 0 5px 14px rgba(66,50,130,.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar .navBtn {
+    transition: none;
+  }
+  .sidebar .navBtn:hover,
+  .sidebar .navBtn:active {
+    transform: none;
+  }
+}
+/* FIN ENGLISH WORLD - MENU LATERAL PREMIUM V2 */
+</style>
+
+
+<style>
+/* ENGLISH WORLD - TARJETAS LECCIONES PREMIUM */
+
+#lessonsList .card,
+#levelsList .card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(139, 124, 246, .22);
+  border-radius: 20px;
+  background: linear-gradient(
+    145deg,
+    rgba(128, 100, 255, .075),
+    rgba(45, 112, 200, .025) 65%,
+    var(--card)
+  );
+  box-shadow: 0 8px 24px rgba(30, 41, 90, .065);
+  transition: transform .2s ease, border-color .2s ease,
+              box-shadow .2s ease;
+}
+
+#lessonsList .lessonCard {
+  gap: 15px;
+  padding: 19px;
+  align-items: center;
+}
+
+#lessonsList .lessonNumber {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(140deg, #8064ff, #3478e5);
+  color: #fff;
+  box-shadow: 0 6px 15px rgba(91, 78, 220, .25);
+  font-size: 18px;
+  font-weight: 850;
+}
+
+#lessonsList .card h3,
+#levelsList .card h3 {
+  letter-spacing: -.25px;
+  line-height: 1.35;
+}
+
+#lessonsList .card p,
+#levelsList .card p {
+  line-height: 1.6;
+}
+
+#lessonsList .card .btn,
+#levelsList .card .btn,
+#lessons .btn {
+  min-height: 42px;
+  border-radius: 13px;
+  font-weight: 750;
+  box-shadow: 0 4px 12px rgba(70, 67, 170, .10);
+  transition: transform .18s ease, box-shadow .18s ease,
+              filter .18s ease;
+}
+
+#lessons .btn:not(.secondary) {
+  background: linear-gradient(110deg, #8064ff, #4779e8);
+  color: #fff;
+  border-color: transparent;
+}
+
+#lessonsList .locked {
+  opacity: .65;
+  filter: saturate(.72);
+}
+
+body:not(.dark) #lessonsList .card,
+body:not(.dark) #levelsList .card {
+  background: linear-gradient(145deg, #fff, #f8f7ff);
+  border-color: #e5e0fb;
+  box-shadow: 0 8px 24px rgba(51, 47, 110, .065);
+}
+
+body.dark #lessonsList .card,
+body.dark #levelsList .card {
+  background: linear-gradient(145deg, #18233b, #111a2e);
+  border-color: #303d60;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, .16);
+}
+
+@media (hover:hover) {
+  #lessonsList .card:hover,
+  #levelsList .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(128, 100, 255, .58);
+    box-shadow: 0 14px 30px rgba(70, 67, 170, .13);
+  }
+
+  #lessonsList .card .btn:hover,
+  #levelsList .card .btn:hover,
+  #lessons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 17px rgba(70, 67, 170, .18);
+    filter: brightness(1.04);
+  }
+}
+
+@media (max-width: 700px) {
+  #lessonsList .lessonCard {
+    gap: 12px;
+    padding: 15px;
+  }
+
+  #lessonsList .lessonNumber {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    font-size: 16px;
+  }
+
+  #lessonsList .card,
+  #levelsList .card {
+    border-radius: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #lessonsList .card,
+  #levelsList .card,
+  #lessonsList .card .btn,
+  #levelsList .card .btn,
+  #lessons .btn {
+    transition: none;
+  }
+
+  #lessonsList .card:hover,
+  #levelsList .card:hover,
+  #lessonsList .card .btn:hover,
+  #levelsList .card .btn:hover,
+  #lessons .btn:hover {
+    transform: none;
+  }
+}
+
+/* FIN ENGLISH WORLD - TARJETAS LECCIONES PREMIUM */
+</style>
+
+
+<style id="ew-profile-premium">
+/* ENGLISH WORLD - PERFIL ESTUDIANTE PREMIUM V1 */
+
+#profile > h1 {
+  margin: 8px 0 22px;
+  font-size: clamp(27px, 5vw, 36px);
+  letter-spacing: -.7px;
+  background: linear-gradient(110deg, #60a5fa, #a78bfa, #34d399);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+#profileContent {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+#profileContent > .card,
+#profileContent .grid > .card {
+  box-sizing: border-box;
+  border: 1px solid rgba(148, 163, 184, .22);
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .07);
+  transition: border-color .2s ease, box-shadow .2s ease,
+              transform .2s ease;
+}
+
+#profileContent > .card {
+  padding: clamp(18px, 4vw, 28px);
+}
+
+#profileContent .grid {
+  gap: 12px;
+}
+
+#profileContent .grid > .card {
+  min-width: 0;
+  padding: 18px 14px;
+  overflow: hidden;
+  background-image: linear-gradient(
+    145deg, rgba(96, 165, 250, .07), transparent 72%
+  );
+}
+
+#profileContent .grid > .card strong {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: clamp(21px, 4vw, 27px) !important;
+  letter-spacing: -.5px;
+}
+
+#profileContent .grid > .card h3 {
+  margin-top: 0;
+}
+
+#profileContent > .card:first-child {
+  position: relative;
+  isolation: isolate;
+  background-image: linear-gradient(
+    145deg, rgba(59, 130, 246, .13), transparent 48%,
+    rgba(167, 139, 250, .10)
+  );
+}
+
+#profileContent > .card:first-child > div > div:first-child {
+  box-shadow: 0 0 0 6px rgba(96, 165, 250, .10),
+              0 10px 28px rgba(59, 130, 246, .17);
+}
+
+#profileContent > .card:first-child h2 {
+  font-size: clamp(25px, 5vw, 32px);
+  overflow-wrap: anywhere;
+}
+
+#profileContent > .card h2 {
+  letter-spacing: -.35px;
+}
+
+#profileContent > .card > div[style*="height:10px"] {
+  height: 12px !important;
+  border: 1px solid rgba(148, 163, 184, .16);
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, .08);
+}
+
+#profileContent > .card > div[style*="height:10px"] > div {
+  border-radius: 999px !important;
+  transition: width .35s ease;
+}
+
+#profileContent button.btn {
+  min-height: 43px;
+  padding: 11px 15px;
+  border-radius: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, .12);
+  transition: transform .18s ease, filter .18s ease,
+              box-shadow .18s ease;
+}
+
+#profileContent button.btn:active {
+  transform: scale(.97);
+}
+
+#profileContent input[type="file"] {
+  max-width: 100%;
+}
+
+#profileContent > .card:last-child {
+  border-color: rgba(239, 68, 68, .4);
+}
+
+body:not(.dark) #profileContent > .card,
+body:not(.dark) #profileContent .grid > .card {
+  background-color: #fff;
+  color: #172033;
+}
+
+body.dark #profileContent > .card,
+body.dark #profileContent .grid > .card {
+  border-color: rgba(148, 163, 184, .18);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .18);
+}
+
+@media (max-width: 480px) {
+  #profileContent > .card {
+    border-radius: 18px;
+    padding: 17px 14px;
+  }
+
+  #profileContent .grid {
+    gap: 9px;
+  }
+
+  #profileContent .grid > .card {
+    border-radius: 16px;
+    padding: 15px 10px;
+  }
+
+  #profileContent button.btn {
+    max-width: 100%;
+    white-space: normal;
+  }
+}
+
+@media (hover: hover) {
+  #profileContent .grid > .card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(96, 165, 250, .45);
+    box-shadow: 0 12px 28px rgba(37, 99, 235, .10);
+  }
+
+  #profileContent button.btn:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 7px 17px rgba(37, 99, 235, .18);
+  }
+}
+</style>
+
 </head>
 
 <body>
+<div id="ewAuthGate" role="dialog" aria-modal="true" aria-labelledby="ewAuthTitle">
+  <div class="ew-auth-card">
+    <div class="ew-auth-logo">🌎</div>
+    <h1 id="ewAuthTitle">English World</h1>
+    <p id="ewAuthDescription">Inicia sesión con Google para guardar tu perfil y sincronizar tu progreso de aprendizaje.</p>
+    <button id="ewGoogleLogin" class="ew-auth-btn" type="button">Continuar con Google</button>
+    <button id="ewGoogleLogout" class="ew-auth-btn secondary" type="button" hidden>Cerrar sesión</button>
+    <div id="ewAuthStatus" class="ew-auth-status" aria-live="polite">Comprobando tu sesión…</div>
+    <div id="ewAuthUser" class="ew-auth-user"></div>
+  </div>
+</div>
 
 <!-- TOPBAR -->
 
@@ -542,7 +1605,12 @@ body.dark .feedback.bad{
 
   <div class="stats">
 
-    <div class="stat profileTop">
+    <div class="stat profileTop"
+      role="button"
+      tabindex="0"
+      title="Abrir mi perfil"
+      onclick="go('profile')"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('profile')}">
       <span id="topAvatar"
         style="
           width:32px;
@@ -606,6 +1674,7 @@ body.dark .feedback.bad{
 
   <h3>Configuración</h3>
 
+  <button class="navBtn" onclick="go('settings')">⚙️ Ajustes</button>
   <button class="navBtn" onclick="toggleTheme()">🌙 Tema</button>
 
 </aside>
@@ -616,80 +1685,86 @@ body.dark .feedback.bad{
 
 <!-- HOME -->
 
+
 <section id="home" class="page active">
+  <div class="ewHome">
 
-  <div class="hero">
+    <div class="ewHero">
+      <div class="ewHeroOrb"></div>
+      <div class="ewEyebrow"><span class="ewLiveDot"></span> TU ESPACIO DE APRENDIZAJE</div>
+      <h1>¡Hola, estudiante!<br><span>Tu inglés empieza aquí.</span></h1>
+      <p>Un poco de práctica cada día te acerca a hablar inglés con confianza.</p>
+      <div class="ewHeroActions">
+        <button class="btn ewMainAction" onclick="go('lessons')">
+          🎓 Continuar aprendiendo <span>→</span>
+        </button>
+        <div class="ewHeroHint">Tu próximo paso te espera</div>
+      </div>
+      <div class="ewHeroDecoration">A B C <span>✦</span></div>
+    </div>
 
-    <h1>🌎 Bienvenido a English World</h1>
+    <div class="ewSectionHeading">
+      <div><span class="ewKicker">TU AVANCE</span><h2>Tu progreso</h2></div>
+      <span class="ewHeadingIcon">✦</span>
+    </div>
 
-    <p>
-      Aprende inglés paso a paso, practica, gana XP
-      y conviértete en un maestro.
-    </p>
+    <div class="ewStats">
+      <article class="ewStatCard ewStreakCard">
+        <div class="ewStatTop"><span class="ewStatIcon">🔥</span><span class="ewStatTag">CONSTANCIA</span></div>
+        <div class="ewStatLabel">Racha actual</div>
+        <strong id="homeStreak">0 días</strong>
+        <small>¡Sigue así cada día!</small>
+      </article>
+      <article class="ewStatCard ewXpCard">
+        <div class="ewStatTop"><span class="ewStatIcon">⚡</span><span class="ewStatTag">EXPERIENCIA</span></div>
+        <div class="ewStatLabel">Experiencia ganada</div>
+        <strong id="homeXP">0 XP</strong>
+        <small>Cada práctica cuenta</small>
+      </article>
+      <article class="ewStatCard ewLessonCard">
+        <div class="ewStatTop"><span class="ewStatIcon">📚</span><span class="ewStatTag">APRENDIZAJE</span></div>
+        <div class="ewStatLabel">Tus lecciones</div>
+        <strong id="homeLessons">0 / 20</strong>
+        <small>Avanza a tu ritmo</small>
+      </article>
+    </div>
 
-    <br>
+    <div class="ewSectionHeading ewPracticeHeading">
+      <div><span class="ewKicker">ELIGE TU RETO</span><h2>Practica a tu ritmo</h2></div>
+      <span class="ewHeadingSub">¿Qué aprenderás hoy?</span>
+    </div>
 
-    <button class="btn" onclick="go('lessons')">
-      🎓 Continuar aprendiendo
-    </button>
+    <div class="ewQuickGrid">
+      <article class="ewQuickCard ewListening">
+        <div class="ewQuickIcon">🎧</div>
+        <div class="ewQuickText"><h3>Listening</h3><p>Entrena tu oído y comprende el inglés hablado.</p></div>
+        <button class="ewQuickButton" onclick="go('listening')">Empezar <span>→</span></button>
+      </article>
+      <article class="ewQuickCard ewWriting">
+        <div class="ewQuickIcon">✍️</div>
+        <div class="ewQuickText"><h3>Writing</h3><p>Practica la escritura y comprueba tus respuestas.</p></div>
+        <button class="ewQuickButton" onclick="go('writing')">Practicar <span>→</span></button>
+      </article>
+      <article class="ewQuickCard ewQuiz">
+        <div class="ewQuickIcon">🧠</div>
+        <div class="ewQuickText"><h3>Quiz</h3><p>Pon a prueba lo que has aprendido jugando.</p></div>
+        <button class="ewQuickButton" onclick="go('quiz')">Jugar ahora <span>→</span></button>
+      </article>
+      <article class="ewQuickCard ewDictionary">
+        <div class="ewQuickIcon">📖</div>
+        <div class="ewQuickText"><h3>Diccionario</h3><p>Descubre palabras y frases útiles en inglés.</p></div>
+        <button class="ewQuickButton" onclick="go('dictionary')">Explorar <span>→</span></button>
+      </article>
+    </div>
+
+    <div class="ewEncouragement">
+      <div class="ewEncouragementIcon">✦</div>
+      <div><strong>El progreso se construye paso a paso.</strong><p>Practica un poco hoy y vuelve mañana para seguir creciendo.</p></div>
+    </div>
 
   </div>
-
-  <h2 class="sectionTitle">Tu día</h2>
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>🔥 Racha</h3>
-      <p>Estudia cada día para mantener tu racha.</p>
-      <br>
-      <strong id="homeStreak">0 días</strong>
-    </div>
-
-    <div class="card">
-      <h3>⭐ XP</h3>
-      <p>Gana experiencia completando actividades.</p>
-      <br>
-      <strong id="homeXP">0 XP</strong>
-    </div>
-
-    <div class="card">
-      <h3>📚 Lecciones</h3>
-      <p>Avanza por las lecciones de inglés.</p>
-      <br>
-      <strong id="homeLessons">0 / 20</strong>
-    </div>
-
-  </div>
-
-  <h2 class="sectionTitle">Acceso rápido</h2>
-
-  <div class="grid">
-
-    <div class="card">
-      <h3>🎧 Listening</h3>
-      <p>Escucha palabras en inglés y demuestra que las entiendes.</p>
-      <br>
-      <button class="btn" onclick="go('listening')">Practicar</button>
-    </div>
-
-    <div class="card">
-      <h3>✍️ Writing</h3>
-      <p>Escribe palabras en inglés y comprueba tus respuestas.</p>
-      <br>
-      <button class="btn" onclick="go('writing')">Practicar</button>
-    </div>
-
-    <div class="card">
-      <h3>🧠 Quiz</h3>
-      <p>Pon a prueba todo lo que has aprendido.</p>
-      <br>
-      <button class="btn" onclick="go('quiz')">Jugar</button>
-    </div>
-
-  </div>
-
 </section>
+
 
 <!-- LEVELS -->
 
@@ -1071,6 +2146,49 @@ body.dark .feedback.bad{
 
 </section>
 
+
+<!-- AJUSTES -->
+<section id="settings" class="page">
+  <h1>⚙️ Ajustes</h1>
+  <p style="color:var(--muted);margin:8px 0 20px">Personaliza tu experiencia en English World.</p>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>🌐 Idioma de la interfaz</h3>
+    <p style="color:var(--muted);font-size:14px">Español está activo. La traducción completa al inglés llegará próximamente.</p>
+    <select id="settingsLanguage" style="width:100%;padding:12px" onchange="changeSettingsLanguage(this.value)">
+      <option value="es">Español</option>
+      <option value="en" disabled>English (próximamente)</option>
+    </select>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>🔊 Volumen y sonido</h3>
+    <label for="settingsVolume">Volumen de pronunciación: <strong id="settingsVolumeValue">100%</strong></label>
+    <input id="settingsVolume" type="range" min="0" max="100" value="100" style="width:100%" oninput="changeSettingsVolume(this.value)">
+    <p style="color:var(--muted);font-size:13px">Controla la voz del diccionario.</p>
+    <button class="btn" onclick="testSettingsSound()">▶️ Probar sonido</button>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>🔄 Restablecer configuración</h3>
+    <p style="color:var(--muted);font-size:14px">Restablece tema y volumen sin borrar tu progreso.</p>
+    <button class="btn" onclick="resetSettingsOnly()">Restablecer configuración</button>
+  </div>
+
+  <div class="card" style="margin-bottom:16px">
+    <h3>🐛 Reportar errores</h3>
+    <p style="color:var(--muted);font-size:14px">Describe el problema para copiar el reporte y enviarlo.</p>
+    <textarea id="settingsErrorReport" rows="4" placeholder="Describe el error y qué estabas haciendo..." style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;background:var(--bg);color:var(--text);border:1px solid var(--border)"></textarea>
+    <button class="btn" onclick="copySettingsErrorReport()">📋 Copiar reporte</button>
+  </div>
+
+  <div class="card" style="margin-bottom:16px;border:1px solid #ef4444">
+    <h3 style="color:#ef4444">🔴 Zona de peligro</h3>
+    <p style="color:var(--muted);font-size:14px">Borra el progreso de este dispositivo. Esta acción no se puede deshacer.</p>
+    <button class="btn" style="background:#dc2626;color:white;width:100%" onclick="resetAllProgress()">🗑️ Reiniciar progreso</button>
+  </div>
+</section>
+
 </main>
 
 <!-- MODAL -->
@@ -1217,6 +2335,7 @@ function go(page){
   if(page==="calendar") renderCalendar();
   if(page==="collection") renderCollection();
   if(page==="review") renderReview();
+    if(page==="settings") renderSettings();
 }
 
 function toggleTheme(){
@@ -4459,97 +5578,69 @@ function renderNormalLessonQuestion(){
 function answerLesson(encoded){
 
   if(currentAnswered) return;
-
   currentAnswered=true;
 
-  const selected=
-    JSON.parse(decodeURIComponent(encoded));
-
+  const selected=JSON.parse(decodeURIComponent(encoded));
   const lesson=lessons[currentLesson];
   const correct=lesson.words[currentQuestion];
 
   speakEnglish(correct[0]);
 
   const buttons=document.querySelectorAll(".choice");
-
-  buttons.forEach(btn=>{
-    btn.disabled=true;
-
-    if(normalizeText(btn.textContent)===
-       normalizeText(correct[1])){
-
-      btn.classList.add("correct");
-
-    }
-  });
-
   const isCorrect=
     normalizeText(selected[1])===
     normalizeText(correct[1]);
 
-  if(isCorrect){
+  buttons.forEach(btn=>{
+    btn.disabled=true;
 
+    const optionText=normalizeText(btn.textContent);
+    const correctText=normalizeText(correct[1]);
+    const selectedText=normalizeText(selected[1]);
+
+    if(optionText===correctText){
+      btn.classList.add("correct");
+      btn.style.backgroundColor="#16a34a";
+      btn.style.color="#ffffff";
+      btn.style.borderColor="#15803d";
+    }else if(!isCorrect && optionText===selectedText){
+      btn.style.backgroundColor="#dc2626";
+      btn.style.color="#ffffff";
+      btn.style.borderColor="#b91c1c";
+    }
+  });
+
+  let delay=650;
+
+  if(isCorrect){
     lessonFirstAttemptCount++;
     lessonCorrectCount++;
-
     registerWordCorrect(correct[0]);
 
-    document.getElementById("lessonFeedback").innerHTML=`
-
-      <div class="feedback good">
-
-        ✅ ¡Correcto!
-
-        <br><br>
-
-        <button
-          class="btn"
-          onclick="nextLessonQuestion()">
-          Siguiente palabra →
-        </button>
-
-      </div>
-
-    `;
-
+    document.getElementById("lessonFeedback").innerHTML="";
   }else{
-
     lessonFirstAttemptCount++;
-
     registerWordWrong(correct[0]);
 
-    if(!lessonMistakes.some(
-      x=>x[0]===correct[0]
-    )){
+    if(!lessonMistakes.some(x=>x[0]===correct[0])){
       lessonMistakes.push(correct);
     }
 
     document.getElementById("lessonFeedback").innerHTML=`
-
-      <div class="feedback bad">
-
-        ❌ Incorrecto.
-
-        <br>
-        La respuesta correcta es:
+      <div class="feedback bad" style="margin-top:12px">
+        Respuesta correcta:
         <strong>${correct[1]}</strong>
-
-        <br><br>
-
-        <button
-          class="btn"
-          onclick="nextLessonQuestion()">
-          Siguiente palabra →
-        </button>
-
       </div>
-
     `;
 
+    delay=1800;
   }
 
   saveLessonPosition();
 
+  setTimeout(()=>{
+    nextLessonQuestion();
+  },delay);
 }
 
 function nextLessonQuestion(){
@@ -5063,6 +6154,7 @@ function renderWords(){
           ${state.favorites.includes(w[0])?"❤️":"🤍"}
         </button>
 
+
       </div>
 
     </div>
@@ -5070,6 +6162,7 @@ function renderWords(){
   `).join("");
 
 }
+
 
 function toggleFavoriteWord(word){
 
@@ -5180,11 +6273,24 @@ function getQuizWords(){
 
 }
 
+function closeQuiz(){
+  go("home");
+}
+
 function renderQuiz(){
 
   document.getElementById("quizContent").innerHTML=`
 
     <div class="card">
+
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+        <button
+          class="closeBtn"
+          onclick="closeQuiz()"
+          aria-label="Salir del Quiz"
+          title="Salir del Quiz">×</button>
+      </div>
+
 
       <h2>🏆 Nivel ${state.quizLevel}</h2>
 
@@ -5251,6 +6357,15 @@ function renderQuizQuestion(){
   document.getElementById("quizContent").innerHTML=`
 
     <div class="card">
+
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+        <button
+          class="closeBtn"
+          onclick="closeQuiz()"
+          aria-label="Salir del Quiz"
+          title="Salir del Quiz">×</button>
+      </div>
+
 
       <div style="display:flex;justify-content:space-between">
 
@@ -7239,40 +8354,7 @@ function renderProfile(){
 
     </div>
 
-    <!-- ZONA DE PELIGRO -->
-
-    <div
-      class="card"
-      style="
-        margin-top:16px;
-        border:1px solid #ef4444;
-      "
-    >
-
-      <h3 style="color:#ef4444">
-        ⚠️ Zona de peligro
-      </h3>
-
-      <p style="
-        color:var(--muted);
-        font-size:14px;
-      ">
-        Borra todo el progreso guardado en este dispositivo.
-      </p>
-
-      <button
-        class="btn"
-        style="
-          background:#dc2626;
-          color:white;
-          width:100%;
-        "
-        onclick="resetAllProgress()"
-      >
-        🗑️ Reiniciar progreso
-      </button>
-
-    </div>
+    
 
   `;
 
@@ -7329,6 +8411,64 @@ function removeProfilePhoto(){
 }
 
 
+
+const EW_SETTINGS_KEY = "englishWorldSettings";
+
+function readEnglishWorldSettings(){
+  try {
+    const s = JSON.parse(localStorage.getItem(EW_SETTINGS_KEY) || "{}");
+    const v = s.volume === undefined ? 100 : Number(s.volume);
+    return {language:"es", volume:Number.isFinite(v) ? Math.max(0,Math.min(100,v)) : 100};
+  } catch(e) { return {language:"es",volume:100}; }
+}
+function saveEnglishWorldSettings(s){
+  localStorage.setItem(EW_SETTINGS_KEY,JSON.stringify(s));
+}
+function renderSettings(){
+  const s=readEnglishWorldSettings();
+  const l=document.getElementById("settingsLanguage");
+  const v=document.getElementById("settingsVolume");
+  const t=document.getElementById("settingsVolumeValue");
+  if(l) l.value="es";
+  if(v) v.value=s.volume;
+  if(t) t.textContent=s.volume+"%";
+}
+function changeSettingsLanguage(value){
+  const s=readEnglishWorldSettings(); s.language="es"; saveEnglishWorldSettings(s);
+  const l=document.getElementById("settingsLanguage"); if(l) l.value="es";
+  toast(value==="en" ? "La traducción al inglés llegará próximamente." : "Idioma: español.");
+}
+function changeSettingsVolume(value){
+  const s=readEnglishWorldSettings(); s.volume=Math.max(0,Math.min(100,Number(value)||0));
+  saveEnglishWorldSettings(s);
+  const t=document.getElementById("settingsVolumeValue"); if(t) t.textContent=s.volume+"%";
+}
+function testSettingsSound(){
+  const v=readEnglishWorldSettings().volume/100;
+  if(!("speechSynthesis" in window)){toast("Este navegador no admite voz.");return;}
+  if(v===0){toast("Sube el volumen para probar la voz.");return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance("Hello! Welcome to English World.");
+  u.lang="en-US"; u.volume=v; speechSynthesis.speak(u);
+}
+function resetSettingsOnly(){
+  if(!confirm("¿Restablecer tema y volumen? Tu progreso no se borrará.")) return;
+  saveEnglishWorldSettings({language:"es",volume:100});
+  state.theme="light"; saveState(); applyTheme(); renderSettings();
+  toast("Configuración restablecida. Tu progreso sigue intacto.");
+}
+async function copySettingsErrorReport(){
+  const field=document.getElementById("settingsErrorReport");
+  const d=field ? field.value.trim() : "";
+  if(!d){toast("Describe primero el error.");return;}
+  const r="Reporte de error - English World\nFecha: "+new Date().toLocaleString()+"\n\nDescripción:\n"+d;
+  try {
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(r); toast("Reporte copiado.");
+    } else { window.prompt("Copia este reporte:",r); }
+  } catch(e) { window.prompt("Copia este reporte:",r); }
+}
+
 function resetAllProgress(){
 
   const first=confirm(
@@ -7375,37 +8515,85 @@ function chooseAvatar(){
   showModal(
     "🎭 Elegir avatar",
     `
+      <p style="color:var(--muted)">
+        Elige uno de tus emojis o prueba tu imagen de anime.
+      </p>
+
+      <h3>😊 Avatares clásicos</h3>
 
       <div class="grid">
-
         ${avatars.map(a=>`
-
           <button
             class="card"
             style="font-size:40px;cursor:pointer"
             onclick="setAvatar('${a}')">
             ${a}
           </button>
-
         `).join("")}
-
       </div>
 
+      <h3 style="margin-top:20px">🌙 Mis personajes de anime</h3>
+
+      <div class="grid">
+        <button
+          class="card"
+          style="cursor:pointer;text-align:center"
+          onclick="setAnimeAvatar('imagenes/anime/anime_01.jpg')">
+
+          <img
+            src="imagenes/anime/anime_01.jpg"
+            alt="Avatar de anime"
+            style="
+              width:100px;
+              height:100px;
+              object-fit:cover;
+              border-radius:50%;
+              border:3px solid var(--accent);
+              display:block;
+              margin:0 auto 10px;
+            "
+          >
+
+          <strong>Anime 01</strong>
+          <small style="display:block;color:var(--muted)">
+            Primer personaje
+          </small>
+        </button>
+      </div>
+
+      <p style="color:var(--muted);font-size:12px;margin-top:12px">
+        Pronto podremos añadir más personajes masculinos,
+        femeninos y chibi.
+      </p>
     `
   );
+
+}
+
+function setAnimeAvatar(src){
+
+  state.avatarImage=src;
+
+  saveState();
+  closeModal();
+  renderProfile();
+  updateStats();
+
+  toast("🎭 ¡Avatar de anime seleccionado!");
 
 }
 
 function setAvatar(avatar){
 
   state.avatar=avatar;
+  state.avatarImage="";
 
   saveState();
   closeModal();
   renderProfile();
+  updateStats();
 
 }
-
 /* =========================
    TIENDA 2.0
 ========================= */
@@ -9974,6 +11162,141 @@ function showDictionaryTab(tab){
   });
 
   window.addEventListener('pagehide', stopCamera);
+})();
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* English World Google login + private cloud progress.
+   Public publishable key only; access is restricted by RLS policies. */
+(function(){
+  const SUPABASE_URL = "https://urkoyauwrdzcfzqzuvyo.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_9BC_jHtOqwEB30Qobm5X6A_GaEaWXeg";
+  const gate = document.getElementById('ewAuthGate');
+  const loginBtn = document.getElementById('ewGoogleLogin');
+  const logoutBtn = document.getElementById('ewGoogleLogout');
+  const statusEl = document.getElementById('ewAuthStatus');
+  const userEl = document.getElementById('ewAuthUser');
+  let client = null, activeUser = null, cloudReady = false, saveTimer = null, syncing = false;
+  const setStatus = (msg) => { statusEl.textContent = msg; };
+  const showGate = (show) => { gate.hidden = !show; document.body.style.overflow = show ? 'hidden' : ''; };
+  function safeCloudState(source){
+    const copy = JSON.parse(JSON.stringify(source || {}));
+    // Custom avatar photos may be large data URLs; keep them locally until Storage is configured.
+    if (typeof copy.avatarImage === 'string' && copy.avatarImage.startsWith('data:')) delete copy.avatarImage;
+    return copy;
+  }
+  async function saveCloudNow(){
+    if(!client || !activeUser || !cloudReady || syncing || typeof state === 'undefined') return;
+    syncing = true;
+    try {
+      const payload = {user_id: activeUser.id, state: safeCloudState(state), updated_at: new Date().toISOString()};
+      const {error} = await client.from('student_progress').upsert(payload, {onConflict:'user_id'});
+      if(error) throw error;
+      setStatus('✓ Progreso guardado en tu cuenta.');
+    } catch(err) {
+      console.error('English World cloud save:', err);
+      setStatus('No se pudo sincronizar. Tu progreso sigue guardado en este dispositivo.');
+    } finally { syncing = false; }
+  }
+  function scheduleCloudSave(){
+    if(!activeUser || !cloudReady) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveCloudNow, 900);
+  }
+  async function startGoogleLogin(){
+    if(!client) { setStatus('No se pudo cargar el servicio de inicio de sesión. Revisa tu conexión.'); return; }
+    loginBtn.disabled = true; setStatus('Abriendo Google…');
+    try {
+      const redirectTo = window.location.href.split('#')[0];
+      const {error} = await client.auth.signInWithOAuth({provider:'google', options:{redirectTo}});
+      if(error) throw error;
+    } catch(err) {
+      console.error(err); setStatus('Error al iniciar sesión: ' + (err.message || 'intenta de nuevo.')); loginBtn.disabled = false;
+    }
+  }
+  async function handleSession(session){
+    activeUser = session && session.user ? session.user : null;
+    cloudReady = false;
+    if(!activeUser){
+      userEl.textContent = '';
+      logoutBtn.hidden = true; loginBtn.hidden = false; loginBtn.disabled = false;
+      document.getElementById('ewAuthDescription').textContent = 'Inicia sesión con Google para guardar tu perfil y sincronizar tu progreso de aprendizaje.';
+      setStatus('Inicia sesión para continuar.'); showGate(true); return;
+    }
+    loginBtn.hidden = true; logoutBtn.hidden = false;
+    userEl.textContent = activeUser.email || '';
+    document.getElementById('ewAuthDescription').textContent = 'Estamos preparando tu perfil y tu progreso.';
+    setStatus('Cargando tu progreso…'); showGate(true);
+    try {
+      const {data, error} = await client.from('student_progress').select('state').eq('user_id', activeUser.id).maybeSingle();
+      if(error) throw error;
+      if(data && data.state && typeof data.state === 'object') {
+        // Cloud state takes priority for an account that already has saved progress.
+        const localBefore = JSON.parse(localStorage.getItem(STORAGE) || 'null');
+        const merged = Object.assign({}, data.state);
+        if(localBefore && typeof localBefore.avatarImage === 'string' && localBefore.avatarImage.startsWith('data:')) merged.avatarImage = localBefore.avatarImage;
+        const stable = value => {
+          if(Array.isArray(value)) return '[' + value.map(stable).join(',') + ']';
+          if(value && typeof value === 'object') return '{' + Object.keys(value).sort().map(k => JSON.stringify(k) + ':' + stable(value[k])).join(',') + '}';
+          return JSON.stringify(value);
+        };
+        if(stable(localBefore) !== stable(merged)) {
+          localStorage.setItem(STORAGE, JSON.stringify(merged));
+          setStatus('Progreso de tu cuenta cargado.');
+          window.location.reload();
+          return;
+        }
+        cloudReady = true;
+        document.getElementById('ewAuthDescription').textContent = 'Sesión iniciada. Tu progreso se sincronizará automáticamente.';
+        setStatus('✓ Progreso de tu cuenta cargado.');
+        showGate(false);
+        return;
+      } else {
+        // First login: use this browser's current progress as the initial account save.
+        const meta = activeUser.user_metadata || {};
+        if(typeof state !== 'undefined' && (!state.name || state.name === 'Estudiante') && meta.full_name) state.name = meta.full_name;
+        cloudReady = true;
+        await saveCloudNow();
+      }
+      cloudReady = true;
+      document.getElementById('ewAuthDescription').textContent = 'Sesión iniciada. Tu progreso se sincronizará automáticamente.';
+      setStatus('✓ Sesión iniciada correctamente.');
+      showGate(false);
+    } catch(err) {
+      console.error('English World load progress:', err);
+      setStatus('No se pudo cargar el progreso. Comprueba que ejecutaste el SQL y las políticas RLS.');
+      // Do not expose app data when account loading failed; user can retry by refreshing.
+      loginBtn.hidden = true; logoutBtn.hidden = false;
+    }
+  }
+  async function boot(){
+    showGate(true);
+    if(!window.supabase || !window.supabase.createClient){ setStatus('No se pudo cargar Supabase. Comprueba tu conexión a internet.'); return; }
+    client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    // Make client available to other future account features, without exposing any secret key.
+    window.englishWorldSupabase = client;
+    loginBtn.addEventListener('click', startGoogleLogin);
+    logoutBtn.addEventListener('click', async()=>{
+      logoutBtn.disabled = true; setStatus('Cerrando sesión…');
+      const {error} = await client.auth.signOut();
+      logoutBtn.disabled = false;
+      if(error) setStatus('No se pudo cerrar sesión: ' + error.message);
+      else { activeUser = null; cloudReady = false; await handleSession(null); }
+    });
+    // Wrap local save so existing app features remain unchanged and signed-in progress syncs.
+    if(typeof window.saveState === 'function'){
+      const originalSaveState = window.saveState;
+      window.saveState = function(){ originalSaveState.apply(this, arguments); scheduleCloudSave(); };
+    }
+    const {data, error} = await client.auth.getSession();
+    if(error) { setStatus('No se pudo verificar la sesión: ' + error.message); return; }
+    await handleSession(data.session);
+    client.auth.onAuthStateChange((_event, session)=>{ handleSession(session); });
+  }
+  window.addEventListener('online', ()=>{ if(activeUser && cloudReady) saveCloudNow(); });
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once:true}); else boot();
 })();
 </script>
 
